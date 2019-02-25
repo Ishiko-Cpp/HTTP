@@ -29,6 +29,12 @@ library IshikoHTTP
 
     headers
     {
+        ../../Include/Ishiko/HTTP/HTTPClient.h
         ../../Include/Ishiko/HTTP/linkoptions.h
+    }
+
+    sources
+    {
+        ../../Source/HTTPClient.cpp
     }
 }
