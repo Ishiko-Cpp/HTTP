@@ -1,0 +1,12 @@
+*.dll
+*.opendb
+*.opensdf
+*.sdf
+*.suo
+*.VC.db
+*.vcxproj.user
+.vs/
+Debug/
+Release/
+/Lib/*
+!/Lib/README.md
