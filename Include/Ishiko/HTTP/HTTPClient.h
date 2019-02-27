@@ -23,4 +23,25 @@
 #ifndef _ISHIKO_HTTP_HTTPCLIENT_H_
 #define _ISHIKO_HTTP_HTTPCLIENT_H_
 
+#include "Ishiko/Errors/Error.h"
+#include <ostream>
+#include <string>
+
+namespace Ishiko
+{
+namespace HTTP
+{
+
+class HTTPClient
+{
+public:
+    void get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
+        Ishiko::Error& error);
+};
+
+}
+}
+
+#include "linkoptions.h"
+
 #endif
