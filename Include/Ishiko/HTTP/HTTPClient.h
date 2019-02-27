@@ -35,7 +35,7 @@ namespace HTTP
 class HTTPClient
 {
 public:
-    void get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
+    static void get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
         Ishiko::Error& error);
 };
 
