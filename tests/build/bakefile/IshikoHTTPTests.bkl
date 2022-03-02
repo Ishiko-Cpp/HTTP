@@ -1,0 +1,26 @@
+ishikopath = envvar("ISHIKO_CPP");
+import $(ishikopath)/tests/include/Ishiko/Tests.bkl;
+
+toolsets = gnu vs2019 vs2017 vs2015 vs2013;
+
+gnu.makefile = ../gnumake/GNUmakefile;
+vs2019.solutionfile = ../vc16/IshikoHTTPTests.sln;
+vs2017.solutionfile = ../vc15/IshikoHTTPTests.sln;
+vs2015.solutionfile = ../vc14/IshikoHTTPTests.sln;
+vs2013.solutionfile = ../vc12/IshikoHTTPTests.sln;
+
+program IshikoHTTPTests : IshikoTests
+{
+    archs = x86 x86_64;
+
+    if ($(toolset) == gnu)
+    {
+        cxx-compiler-options = "-std=c++11";
+        libs += IshikoTestsCore IshikoProcess boost_program_options boost_filesystem;
+    }
+
+    sources
+    {
+        ../../src/main.cpp
+    }
+}
