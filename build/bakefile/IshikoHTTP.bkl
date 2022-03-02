@@ -1,0 +1,47 @@
+ishikopath = envvar("ISHIKO_CPP");
+import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
+import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
+
+toolsets = gnu vs2019 vs2017 vs2015 vs2013;
+
+gnu.makefile = ../gnumake/GNUmakefile;
+vs2019.solutionfile = ../vc16/IshikoHTTP.sln;
+vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
+vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
+vs2013.solutionfile = ../vc12/IshikoHTTP.sln;
+
+library IshikoHTTP : IshikoErrors, Boost
+{
+    archs = x86 x86_64;
+
+    includedirs += ../../include/Ishiko/HTTP;
+
+    if ($(toolset) == gnu)
+    {
+        cxx-compiler-options = "-std=c++11";
+        outputdir = ../../lib;
+    }
+
+    if ($(toolset) != gnu)
+    {
+        outputdir = ../../lib/$(arch);
+    }
+
+    if ($(config) == Debug)
+    {
+        basename = IshikoHTTP-d;
+    }
+
+    headers
+    {
+        ../../include/Ishiko/HTTP/ErrorCategory.hpp
+        ../../include/Ishiko/HTTP/HTTPClient.h
+        ../../include/Ishiko/HTTP/linkoptions.h
+    }
+
+    sources
+    {
+        ../../src/ErrorCategory.cpp
+        ../../src/HTTPClient.cpp
+    }
+}
