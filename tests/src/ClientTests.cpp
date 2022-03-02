@@ -4,7 +4,7 @@
 */
 
 #include "ClientTests.hpp"
-#include "Ishiko/HTTP/HTTPClient.h"
+#include "Ishiko/HTTP/HTTPClient.hpp"
 #include <sstream>
 
 using namespace Ishiko;
