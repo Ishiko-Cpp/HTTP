@@ -1,20 +1,20 @@
-setting ISHIKO_HTTP_ROOT
+setting ISHIKO_CPP_HTTP_ROOT
 {
     help = "Path to the Ishiko HTTP installation";
-    default = '$(ISHIKO)/HTTP';
+    default = '$(ISHIKO_CPP)/http';
 }
 
 template IshikoHTTP
 {
-    includedirs += $(ISHIKO_HTTP_ROOT)/Include;
+    includedirs += $(ISHIKO_CPP_HTTP_ROOT)/include;
 
     if ($(toolset) == gnu)
     {
-        libdirs += $(ISHIKO_HTTP_ROOT)/Lib;
+        libdirs += $(ISHIKO_CPP_HTTP_ROOT)/lib;
     }
 
     if ($(toolset) != gnu)
     {
-        libdirs += $(ISHIKO_HTTP_ROOT)/Lib/$(arch);
+        libdirs += $(ISHIKO_CPP_HTTP_ROOT)/lib/$(arch);
     }
 }
