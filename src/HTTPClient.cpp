@@ -4,7 +4,7 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
-#include "HTTPClient.h"
+#include "HTTPClient.hpp"
 #include "ErrorCategory.hpp"
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>

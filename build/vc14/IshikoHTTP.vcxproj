@@ -154,9 +154,10 @@
     <ClCompile Include="..\..\src\HTTPClient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Ishiko\HTTP.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\ErrorCategory.hpp" />
-    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.h" />
-    <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.h" />
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.hpp" />
+    <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
