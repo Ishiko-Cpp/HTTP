@@ -17,7 +17,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     if ($(toolset) == gnu)
     {
         cxx-compiler-options = "-std=c++11";
-        libs += IshikoTestsCore IshikoProcess boost_program_options boost_filesystem;
+        libs += IshikoHTTP IshikoTestsCore IshikoProcess IshikoErrors boost_program_options boost_filesystem;
     }
 
     headers
