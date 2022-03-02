@@ -34,12 +34,14 @@ library IshikoHTTP : IshikoErrors, Boost
 
     headers
     {
+        ../../include/Ishiko/HTTP/ErrorCategory.hpp
         ../../include/Ishiko/HTTP/HTTPClient.h
         ../../include/Ishiko/HTTP/linkoptions.h
     }
 
     sources
     {
+        ../../src/ErrorCategory.cpp
         ../../src/HTTPClient.cpp
     }
 }

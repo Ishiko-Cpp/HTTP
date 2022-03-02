@@ -74,9 +74,12 @@ ISHIKO_CPP_BOOST_ROOT ?= $(ISHIKO_CPP_THIRD_PARTY_BOOST)
 
 all: ../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
 
-../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPClient.o
-	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPClient.o
+../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_ErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o
+	$(AR) rc $@ $(_builddir)IshikoHTTP_ErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o
 	$(RANLIB) $@
+
+$(_builddir)IshikoHTTP_ErrorCategory.o: ../../src/ErrorCategory.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/ErrorCategory.cpp
 
 $(_builddir)IshikoHTTP_HTTPClient.o: ../../src/HTTPClient.cpp
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPClient.cpp

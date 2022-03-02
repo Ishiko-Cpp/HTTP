@@ -1,0 +1,39 @@
+/*
+    Copyright (c) 2022 Xavier Leclercq
+    Released under the MIT License
+    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
+*/
+
+#ifndef _ISHIKO_CPP_HTTP_ERRORCATEGORY_HPP_
+#define _ISHIKO_CPP_HTTP_ERRORCATEGORY_HPP_
+
+#include <Ishiko/Errors.hpp>
+
+namespace Ishiko
+{
+namespace HTTP
+{
+
+class ErrorCategory : public Ishiko::ErrorCategory
+{
+public:
+    enum EErrorValues
+    {
+        eGeneric = -1
+    };
+
+    static const ErrorCategory& Get() noexcept;
+
+    const char* name() const noexcept override;
+
+private:
+    ErrorCategory() noexcept = default;
+};
+
+void Fail(Error& error, ErrorCategory::EErrorValues value, const std::string& message, const char* file,
+    int line) noexcept;
+
+}
+}
+
+#endif

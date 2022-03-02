@@ -150,9 +150,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ErrorCategory.cpp" />
     <ClCompile Include="..\..\src\HTTPClient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\Ishiko\HTTP\ErrorCategory.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.h" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.h" />
   </ItemGroup>
