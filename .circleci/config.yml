@@ -13,6 +13,9 @@ jobs:
           name: Build
           command: cd /projects/ishiko/cpp/http/build/gnumake && make
       - run:
+          name: "Install test dependency: Ishiko/C++ Tests/Core"
+          command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/tests.git && cd tests/core/build/gnumake && make
+      - run:
           name: Test build
           command: cd /projects/ishiko/cpp/http/tests/build/gnumake && make
       - run:
