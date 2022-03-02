@@ -19,8 +19,14 @@ program IshikoHTTPTests : IshikoTests
         libs += IshikoTestsCore IshikoProcess boost_program_options boost_filesystem;
     }
 
+    headers
+    {
+        ../../src/ClientTests.hpp
+    }
+
     sources
     {
+        ../../src/ClientTests.cpp
         ../../src/main.cpp
     }
 }
