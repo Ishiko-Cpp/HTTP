@@ -53,13 +53,13 @@ void HTTPClient::get(const std::string& address, unsigned short port, const std:
         if (ec)
         {
             // TODO : proper error message
-            Fail(error, ErrorCategory::eGeneric, "", __FILE__, __LINE__);
+            Fail(error, ErrorCategory::Value::generic, "", __FILE__, __LINE__);
         }
     }
     catch (...)
     {
         // TODO : proper error message
-        Fail(error, ErrorCategory::eGeneric, "", __FILE__, __LINE__);
+        Fail(error, ErrorCategory::Value::generic, "", __FILE__, __LINE__);
     }
 }
 

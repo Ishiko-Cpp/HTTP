@@ -17,9 +17,9 @@ namespace HTTP
 class ErrorCategory : public Ishiko::ErrorCategory
 {
 public:
-    enum EErrorValues
+    enum class Value
     {
-        eGeneric = -1
+        generic = -1
     };
 
     static const ErrorCategory& Get() noexcept;
@@ -30,8 +30,7 @@ private:
     ErrorCategory() noexcept = default;
 };
 
-void Fail(Error& error, ErrorCategory::EErrorValues value, const std::string& message, const char* file,
-    int line) noexcept;
+void Fail(Error& error, ErrorCategory::Value value, const std::string& message, const char* file, int line) noexcept;
 
 }
 }

@@ -22,10 +22,9 @@ const char* ErrorCategory::name() const noexcept
     return "Ishiko::HTTP::ErrorCategory";
 }
 
-void Fail(Error& error, ErrorCategory::EErrorValues value, const std::string& message, const char* file,
-    int line) noexcept
+void Fail(Error& error, ErrorCategory::Value value, const std::string& message, const char* file, int line) noexcept
 {
-    error.fail(value, ErrorCategory::Get(), message, file, line);
+    error.fail(static_cast<int>(value), ErrorCategory::Get(), message, file, line);
 }
 
 }
