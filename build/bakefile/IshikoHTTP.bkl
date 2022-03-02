@@ -1,29 +1,30 @@
-ishikopath = envvar("ISHIKO");
-import $(ishikopath)/Errors/Include/Ishiko/Errors.bkl;
-import $(ishikopath)/ThirdPartyGlue/Include/Ishiko/Boost.bkl;
+ishikopath = envvar("ISHIKO_CPP");
+import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
+import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
 
-toolsets = gnu vs2017 vs2015 vs2013;
+toolsets = gnu vs2019 vs2017 vs2015 vs2013;
 
-gnu.makefile = ../GNUmakefile/GNUmakefile;
-vs2017.solutionfile = ../VC15/IshikoHTTP.sln;
-vs2015.solutionfile = ../VC14/IshikoHTTP.sln;
-vs2013.solutionfile = ../VC12/IshikoHTTP.sln;
+gnu.makefile = ../gnumake/GNUmakefile;
+vs2019.solutionfile = ../vc16/IshikoHTTP.sln;
+vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
+vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
+vs2013.solutionfile = ../vc12/IshikoHTTP.sln;
 
 library IshikoHTTP : IshikoErrors, Boost
 {
     archs = x86 x86_64;
 
-    includedirs += ../../Include/Ishiko/HTTP;
+    includedirs += ../../include/Ishiko/HTTP;
 
     if ($(toolset) == gnu)
     {
         cxx-compiler-options = "-std=c++11";
-        outputdir = ../../Lib;
+        outputdir = ../../lib;
     }
 
     if ($(toolset) != gnu)
     {
-        outputdir = ../../Lib/$(arch);
+        outputdir = ../../lib/$(arch);
     }
 
     if ($(config) == Debug)
@@ -33,12 +34,12 @@ library IshikoHTTP : IshikoErrors, Boost
 
     headers
     {
-        ../../Include/Ishiko/HTTP/HTTPClient.h
-        ../../Include/Ishiko/HTTP/linkoptions.h
+        ../../include/Ishiko/HTTP/HTTPClient.h
+        ../../include/Ishiko/HTTP/linkoptions.h
     }
 
     sources
     {
-        ../../Source/HTTPClient.cpp
+        ../../src/HTTPClient.cpp
     }
 }
