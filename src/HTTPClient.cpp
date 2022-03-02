@@ -18,7 +18,7 @@ namespace Ishiko
 namespace HTTP
 {
 
-void HTTPClient::get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
+void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
     Ishiko::Error& error)
 {
     try

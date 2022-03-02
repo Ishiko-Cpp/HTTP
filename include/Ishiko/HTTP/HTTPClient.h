@@ -35,13 +35,11 @@ namespace HTTP
 class HTTPClient
 {
 public:
-    static void get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
+    static void Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
         Ishiko::Error& error);
 };
 
 }
 }
-
-#include "linkoptions.h"
 
 #endif
