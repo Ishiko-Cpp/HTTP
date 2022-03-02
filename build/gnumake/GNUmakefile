@@ -37,8 +37,8 @@ endif
 # Additionally, this makefile is customizable with the following
 # settings:
 #
-#      ISHIKO_ERRORS_ROOT  Path to the Ishiko Errors installation
-#      BOOST_ROOT          Path to the Boost installation
+#      ISHIKO_CPP_ERRORS_ROOT  Path to the Ishiko Errors installation
+#      ISHIKO_CPP_BOOST_ROOT   Path to the Boost installation
 
 # Use "make RANLIB=''" for platforms without ranlib.
 RANLIB ?= ranlib
@@ -56,7 +56,7 @@ _equal  = $(and $(findstring $(1),$(2)),$(findstring $(2),$(1)))
 builddir = .
 
 ifneq ($(builddir),.)
-_builddir := $(if $(findstring $(abspath $(builddir)),$(builddir)),,../../)$(builddir)/../GNUmakefile/
+_builddir := $(if $(findstring $(abspath $(builddir)),$(builddir)),,../../)$(builddir)/../gnumake/
 _builddir_error := $(shell mkdir -p $(_builddir) 2>&1)
 $(if $(_builddir_error),$(error Failed to create build directory: $(_builddir_error)))
 endif
@@ -66,25 +66,28 @@ endif
 # 
 
 # Path to the Ishiko Errors installation
-ISHIKO_ERRORS_ROOT ?= $(ISHIKO)/Errors
+ISHIKO_CPP_ERRORS_ROOT ?= $(ISHIKO_CPP)/errors
 # Path to the Boost installation
-BOOST_ROOT ?= $(BOOST)
+ISHIKO_CPP_BOOST_ROOT ?= $(ISHIKO_CPP_THIRD_PARTY_BOOST)
 
 # ------------
 
-all: ../Bakefile/../../Lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
+all: ../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
 
-../Bakefile/../../Lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPClient.o
-	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPClient.o
+../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_ErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o
+	$(AR) rc $@ $(_builddir)IshikoHTTP_ErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o
 	$(RANLIB) $@
 
-$(_builddir)IshikoHTTP_HTTPClient.o: ../../Source/HTTPClient.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_ERRORS_ROOT)/Include -I$(BOOST_ROOT)/include -I../../Include/Ishiko/HTTP -std=c++11 ../../Source/HTTPClient.cpp
+$(_builddir)IshikoHTTP_ErrorCategory.o: ../../src/ErrorCategory.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/ErrorCategory.cpp
+
+$(_builddir)IshikoHTTP_HTTPClient.o: ../../src/HTTPClient.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPClient.cpp
 
 clean:
 	rm -f $(_builddir)*.o
 	rm -f $(_builddir)*.d
-	rm -f ../Bakefile/../../Lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
+	rm -f ../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
 
 .PHONY: all clean
 

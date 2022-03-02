@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2019 Xavier Leclercq
+    Copyright (c) 2019-2022 Xavier Leclercq
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 #ifndef _ISHIKO_HTTP_HTTPCLIENT_H_
 #define _ISHIKO_HTTP_HTTPCLIENT_H_
 
-#include "Ishiko/Errors/Error.h"
+#include "Ishiko/Errors.hpp"
 #include <ostream>
 #include <string>
 

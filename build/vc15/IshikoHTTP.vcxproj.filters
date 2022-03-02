@@ -17,15 +17,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\Ishiko\HTTP\HTTPClient.h">
+    <ClInclude Include="..\..\include\Ishiko\HTTP\ErrorCategory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\Ishiko\HTTP\linkoptions.h">
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\HTTPClient.cpp">
+    <ClCompile Include="..\..\src\ErrorCategory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
