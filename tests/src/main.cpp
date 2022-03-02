@@ -4,6 +4,7 @@
 */
 
 #include "ClientTests.hpp"
+#include "Ishiko/HTTP/linkoptions.h"
 #include <Ishiko/Tests.hpp>
 
 using namespace Ishiko::Tests;
