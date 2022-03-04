@@ -7,9 +7,9 @@
 #ifndef _ISHIKO_CPP_HTTP_HPP_
 #define _ISHIKO_CPP_HTTP_HPP_
 
-#include "ErrorCategory.hpp"
-#include "HTTPClient.hpp"
+#include "HTTP/ErrorCategory.hpp"
+#include "HTTP/HTTPClient.hpp"
 
-#include "linkoptions.hpp"
+#include "HTTP/linkoptions.hpp"
 
 #endif
