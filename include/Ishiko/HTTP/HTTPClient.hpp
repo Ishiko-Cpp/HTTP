@@ -13,8 +13,6 @@
 
 namespace Ishiko
 {
-namespace HTTP
-{
 
 class HTTPClient
 {
@@ -23,7 +21,6 @@ public:
         Ishiko::Error& error);
 };
 
-}
 }
 
 #endif

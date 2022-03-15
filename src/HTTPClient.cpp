@@ -5,21 +5,19 @@
 */
 
 #include "HTTPClient.hpp"
-#include "ErrorCategory.hpp"
+#include "HTTPErrorCategory.hpp"
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
 using namespace boost;
+using namespace std;
 
 namespace Ishiko
 {
-namespace HTTP
-{
 
-void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
-    Ishiko::Error& error)
+void HTTPClient::Get(const string& address, unsigned short port, const string& uri, ostream& response, Error& error)
 {
     try
     {
@@ -53,15 +51,14 @@ void HTTPClient::Get(const std::string& address, unsigned short port, const std:
         if (ec)
         {
             // TODO : proper error message
-            Fail(error, ErrorCategory::Value::generic, "", __FILE__, __LINE__);
+            Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
         }
     }
     catch (...)
     {
         // TODO : proper error message
-        Fail(error, ErrorCategory::Value::generic, "", __FILE__, __LINE__);
+        Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
     }
 }
 
-}
 }
