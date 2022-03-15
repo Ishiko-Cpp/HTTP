@@ -7,4 +7,13 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPMESSAGEPARSER_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPMESSAGEPARSER_HPP_
 
+namespace Ishiko
+{
+
+class HTTPMessageParser
+{
+};
+
+}
+
 #endif

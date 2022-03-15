@@ -9,6 +9,7 @@
 
 #include "HTTP/ErrorCategory.hpp"
 #include "HTTP/HTTPClient.hpp"
+#include "HTTP/HTTPMessageParser.hpp"
 
 #include "HTTP/linkoptions.hpp"
 
