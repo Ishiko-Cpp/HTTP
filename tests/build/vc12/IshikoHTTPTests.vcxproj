@@ -153,12 +153,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\HTTPClientTests.cpp" />
-    <ClCompile Include="..\..\src\HTTPMessageParserTests.cpp" />
+    <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\HTTPClientTests.hpp" />
-    <ClInclude Include="..\..\src\HTTPMessageParserTests.hpp" />
+    <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

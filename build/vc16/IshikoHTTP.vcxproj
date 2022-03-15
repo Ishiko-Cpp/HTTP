@@ -152,13 +152,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\HTTPErrorCategory.cpp" />
     <ClCompile Include="..\..\src\HTTPClient.cpp" />
-    <ClCompile Include="..\..\src\HTTPMessageParser.cpp" />
+    <ClCompile Include="..\..\src\HTTPMessagePushParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Ishiko\HTTP.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPErrorCategory.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.hpp" />
-    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessageParser.hpp" />
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessagePushParser.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
