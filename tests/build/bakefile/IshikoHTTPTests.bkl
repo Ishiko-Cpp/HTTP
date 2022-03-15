@@ -23,11 +23,13 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     headers
     {
         ../../src/ClientTests.hpp
+        ../../src/HTTPMessageParserTests.hpp
     }
 
     sources
     {
         ../../src/ClientTests.cpp
+        ../../src/HTTPMessageParserTests.cpp
         ../../src/main.cpp
     }
 }
