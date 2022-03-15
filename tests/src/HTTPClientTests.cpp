@@ -3,7 +3,7 @@
     All rights reserved.
 */
 
-#include "ClientTests.hpp"
+#include "HTTPClientTests.hpp"
 #include "Ishiko/HTTP/HTTPClient.hpp"
 #include <sstream>
 
@@ -12,13 +12,13 @@ using namespace Ishiko::HTTP;
 using namespace Ishiko::Tests;
 using namespace std;
 
-ClientTests::ClientTests(const TestNumber& number, const TestContext& context)
+HTTPClientTests::HTTPClientTests(const TestNumber& number, const TestContext& context)
     : TestSequence(number, "Client tests", context)
 {
     append<HeapAllocationErrorsTest>("Get test 1", GetTest1);
 }
 
-void ClientTests::GetTest1(Test& test)
+void HTTPClientTests::GetTest1(Test& test)
 {
     Error error;
 

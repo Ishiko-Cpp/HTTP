@@ -20,7 +20,7 @@
     <ClInclude Include="..\..\include\Ishiko\HTTP.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Ishiko\HTTP\ErrorCategory.hpp">
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPErrorCategory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.hpp">
@@ -34,7 +34,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ErrorCategory.cpp">
+    <ClCompile Include="..\..\src\HTTPErrorCategory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HTTPClient.cpp">

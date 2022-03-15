@@ -150,13 +150,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ErrorCategory.cpp" />
+    <ClCompile Include="..\..\src\HTTPErrorCategory.cpp" />
     <ClCompile Include="..\..\src\HTTPClient.cpp" />
     <ClCompile Include="..\..\src\HTTPMessageParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Ishiko\HTTP.hpp" />
-    <ClInclude Include="..\..\include\Ishiko\HTTP\ErrorCategory.hpp" />
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPErrorCategory.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessageParser.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.hpp" />

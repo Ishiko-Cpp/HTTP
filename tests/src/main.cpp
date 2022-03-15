@@ -3,7 +3,7 @@
     All rights reserved.
 */
 
-#include "ClientTests.hpp"
+#include "HTTPClientTests.hpp"
 #include "HTTPMessageParserTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/Tests.hpp>
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
     TestSequence& theTests = theTestHarness.tests();
     theTests.append<HTTPMessageParserTests>();
-    theTests.append<ClientTests>();
+    theTests.append<HTTPClientTests>();
 
     return theTestHarness.run();
 }
