@@ -8,7 +8,6 @@
 #include <sstream>
 
 using namespace Ishiko;
-using namespace Ishiko::HTTP;
 using namespace Ishiko::Tests;
 using namespace std;
 
