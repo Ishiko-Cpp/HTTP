@@ -29,7 +29,7 @@ public:
 
     HTTPMessagePushParser(Callbacks& callbacks);
 
-    void onData(boost::string_view data);
+    bool onData(boost::string_view data);
 
 private:
     enum class ParsingMode
@@ -37,9 +37,10 @@ private:
         method,
         requestURI,
         httpVersion,
-        headers,
+        headerOrSeparator,
         headerName,
         headerValue,
+        separator,
         body
     };
 

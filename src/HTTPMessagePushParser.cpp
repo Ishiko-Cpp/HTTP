@@ -36,7 +36,8 @@ HTTPMessagePushParser::HTTPMessagePushParser(Callbacks& callbacks)
 {
 }
 
-void HTTPMessagePushParser::onData(string_view data)
+// TODO: if pipelining is used then returning bool is not enough since we may have unused bytes at the end of data
+bool HTTPMessagePushParser::onData(string_view data)
 {
     const char* previous = data.data();
     const char* current = previous;
@@ -127,7 +128,7 @@ void HTTPMessagePushParser::onData(string_view data)
                 }
                 else if (*current == '\n')
                 {
-                    m_parsingMode = ParsingMode::headers;
+                    m_parsingMode = ParsingMode::headerOrSeparator;
                     break;
                 }
                 ++current;
@@ -148,10 +149,11 @@ void HTTPMessagePushParser::onData(string_view data)
             }
             break;
 
-        case ParsingMode::headers:
+        case ParsingMode::headerOrSeparator:
             if (*current == '\r')
             {
-                m_parsingMode = ParsingMode::body;
+                m_parsingMode = ParsingMode::separator;
+                ++current;
             }
             else if (*current != '\r')
             {
@@ -221,18 +223,37 @@ void HTTPMessagePushParser::onData(string_view data)
                 }
                 else if (*current == '\n')
                 {
-                    m_parsingMode = ParsingMode::headers;
-                    ++current;
+                    m_parsingMode = ParsingMode::headerOrSeparator;
                     break;
                 }
                 ++current;
             }
             if (current == end)
             {
-                m_fragmentedData2.append(previous, (current - previous));
+                // TODO: handle case where data size is 0
+                const char* adjustedCurrent = current;
+                if (*(current - 1) == '\r')
+                {
+                    --adjustedCurrent;
+                }
+                m_fragmentedData2.append(previous, (adjustedCurrent - previous));
             }
             else
             {
+                ++current;
+            }
+            break;
+
+        case ParsingMode::separator:
+            if ((current != end) && (*current == '\n'))
+            {
+                ++current;
+                // TODO: handle the case where there is a body
+                return true;
+            }
+            else
+            {
+                // TODO: error
                 ++current;
             }
             break;
@@ -244,7 +265,10 @@ void HTTPMessagePushParser::onData(string_view data)
             }
             break;
         }
+
+        // TODO: add an end state and error if trying to push more data
     }
+    return false;
 }
 
 void HTTPMessagePushParser::notifyHeader()
