@@ -95,8 +95,8 @@ ISHIKO_CPP_TESTS_ROOT ?= $(ISHIKO_CPP)/tests
 
 all: $(_builddir)IshikoHTTPTests
 
-$(_builddir)IshikoHTTPTests: $(_builddir)IshikoHTTPTests_HTTPClientTests.o $(_builddir)IshikoHTTPTests_HTTPMessagePushParserTests.o $(_builddir)IshikoHTTPTests_HTTPRequestTests.o $(_builddir)IshikoHTTPTests_main.o
-	$(CXX) -o $@ $(LDFLAGS) $(_builddir)IshikoHTTPTests_HTTPClientTests.o $(_builddir)IshikoHTTPTests_HTTPMessagePushParserTests.o $(_builddir)IshikoHTTPTests_HTTPRequestTests.o $(_builddir)IshikoHTTPTests_main.o -L$(ISHIKO_CPP_BOOST_ROOT)/lib -L$(ISHIKO_CPP_TYPES_ROOT)/lib -L$(ISHIKO_CPP_ERRORS_ROOT)/lib -L$(ISHIKO_CPP_HTTP_ROOT)/lib -L$(ISHIKO_CPP_FILESYSTEM_ROOT)/lib -L$(ISHIKO_CPP_TEXT_ROOT)/lib -L$(ISHIKO_CPP_DIFF_ROOT)/lib -L$(ISHIKO_CPP_PROCESS_ROOT)/lib -L$(ISHIKO_CPP_TESTFRAMEWORK_ROOT)/lib -L$(ISHIKO_CPP_TESTS_ROOT)/lib -lIshikoHTTP -lIshikoTestsCore -lIshikoDiff -lIshikoFileSystem -lIshikoProcess -lIshikoText -lIshikoTypes -lIshikoErrors -lboost_program_options -lboost_filesystem -pthread
+$(_builddir)IshikoHTTPTests: $(_builddir)IshikoHTTPTests_HTTPClientTests.o $(_builddir)IshikoHTTPTests_HTTPMessagePushParserTests.o $(_builddir)IshikoHTTPTests_HTTPRequestTests.o $(_builddir)IshikoHTTPTests_main.o $(_builddir)IshikoHTTPTests_HTTPMessagePushParserTestCallbacks.o
+	$(CXX) -o $@ $(LDFLAGS) $(_builddir)IshikoHTTPTests_HTTPClientTests.o $(_builddir)IshikoHTTPTests_HTTPMessagePushParserTests.o $(_builddir)IshikoHTTPTests_HTTPRequestTests.o $(_builddir)IshikoHTTPTests_main.o $(_builddir)IshikoHTTPTests_HTTPMessagePushParserTestCallbacks.o -L$(ISHIKO_CPP_BOOST_ROOT)/lib -L$(ISHIKO_CPP_TYPES_ROOT)/lib -L$(ISHIKO_CPP_ERRORS_ROOT)/lib -L$(ISHIKO_CPP_HTTP_ROOT)/lib -L$(ISHIKO_CPP_FILESYSTEM_ROOT)/lib -L$(ISHIKO_CPP_TEXT_ROOT)/lib -L$(ISHIKO_CPP_DIFF_ROOT)/lib -L$(ISHIKO_CPP_PROCESS_ROOT)/lib -L$(ISHIKO_CPP_TESTFRAMEWORK_ROOT)/lib -L$(ISHIKO_CPP_TESTS_ROOT)/lib -lIshikoHTTP -lIshikoTestsCore -lIshikoDiff -lIshikoFileSystem -lIshikoProcess -lIshikoText -lIshikoTypes -lIshikoErrors -lboost_program_options -lboost_filesystem -pthread
 
 $(_builddir)IshikoHTTPTests_HTTPClientTests.o: ../../src/HTTPClientTests.cpp
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_HTTP_ROOT)/include -I$(ISHIKO_CPP_BASEPLATFORM_ROOT)/include -I$(ISHIKO_CPP_FILESYSTEM_ROOT)/include -I$(ISHIKO_CPP_TEXT_ROOT)/include -I$(ISHIKO_CPP_DIFF_ROOT)/include -I$(ISHIKO_CPP_PROCESS_ROOT)/include -I$(ISHIKO_CPP_TESTFRAMEWORK_ROOT)/include -I$(ISHIKO_CPP_TESTS_ROOT)/include -std=c++11 ../../src/HTTPClientTests.cpp
@@ -109,6 +109,9 @@ $(_builddir)IshikoHTTPTests_HTTPRequestTests.o: ../../src/HTTPRequestTests.cpp
 
 $(_builddir)IshikoHTTPTests_main.o: ../../src/main.cpp
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_HTTP_ROOT)/include -I$(ISHIKO_CPP_BASEPLATFORM_ROOT)/include -I$(ISHIKO_CPP_FILESYSTEM_ROOT)/include -I$(ISHIKO_CPP_TEXT_ROOT)/include -I$(ISHIKO_CPP_DIFF_ROOT)/include -I$(ISHIKO_CPP_PROCESS_ROOT)/include -I$(ISHIKO_CPP_TESTFRAMEWORK_ROOT)/include -I$(ISHIKO_CPP_TESTS_ROOT)/include -std=c++11 ../../src/main.cpp
+
+$(_builddir)IshikoHTTPTests_HTTPMessagePushParserTestCallbacks.o: ../../src/helpers/HTTPMessagePushParserTestCallbacks.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_HTTP_ROOT)/include -I$(ISHIKO_CPP_BASEPLATFORM_ROOT)/include -I$(ISHIKO_CPP_FILESYSTEM_ROOT)/include -I$(ISHIKO_CPP_TEXT_ROOT)/include -I$(ISHIKO_CPP_DIFF_ROOT)/include -I$(ISHIKO_CPP_PROCESS_ROOT)/include -I$(ISHIKO_CPP_TESTFRAMEWORK_ROOT)/include -I$(ISHIKO_CPP_TESTS_ROOT)/include -std=c++11 ../../src/helpers/HTTPMessagePushParserTestCallbacks.cpp
 
 clean:
 	rm -f $(_builddir)*.o

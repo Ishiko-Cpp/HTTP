@@ -15,6 +15,7 @@ public:
 
 private:
     static void ConstructorTest1(Ishiko::Tests::Test& test);
+    static void OnDataTest1(Ishiko::Tests::Test& test);
 };
 
 #endif

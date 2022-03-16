@@ -25,6 +25,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
         ../../src/HTTPClientTests.hpp
         ../../src/HTTPMessagePushParserTests.hpp
         ../../src/HTTPRequestTests.hpp
+        ../../src/helpers/HTTPMessagePushParserTestCallbacks.hpp
     }
 
     sources
@@ -33,5 +34,6 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
         ../../src/HTTPMessagePushParserTests.cpp
         ../../src/HTTPRequestTests.cpp
         ../../src/main.cpp
+        ../../src/helpers/HTTPMessagePushParserTestCallbacks.cpp
     }
 }

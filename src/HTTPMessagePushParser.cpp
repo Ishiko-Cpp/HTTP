@@ -39,11 +39,7 @@ HTTPMessagePushParser::HTTPMessagePushParser(Callbacks& callbacks)
 void HTTPMessagePushParser::onData(string_view data)
 {
     const char* previous = data.data();
-    if (!m_fragmentedData.empty())
-    {
-        previous = m_fragmentedData.data();
-    }
-    const char* current = data.data();
+    const char* current = previous;
     const char* end = current + data.length();
     while (current < end)
     {
@@ -65,6 +61,7 @@ void HTTPMessagePushParser::onData(string_view data)
                         m_fragmentedData.clear();
                     }
                     ++current;
+                    previous = current;
                     m_parsingMode = ParsingMode::requestURI;
                     break;
                 }
@@ -88,6 +85,7 @@ void HTTPMessagePushParser::onData(string_view data)
                         m_fragmentedData.clear();
                     }
                     ++current;
+                    previous = current;
                     m_parsingMode = ParsingMode::httpVersion;
                     break;
                 }
@@ -115,6 +113,7 @@ void HTTPMessagePushParser::onData(string_view data)
                 {
                     m_parsingMode = ParsingMode::headers;
                     ++current;
+                    previous = current;
                     break;
                 }
                 ++current;

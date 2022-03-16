@@ -156,11 +156,13 @@
     <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp" />
     <ClCompile Include="..\..\src\HTTPRequestTests.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\HTTPClientTests.hpp" />
     <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp" />
     <ClInclude Include="..\..\src\HTTPRequestTests.hpp" />
+    <ClInclude Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
