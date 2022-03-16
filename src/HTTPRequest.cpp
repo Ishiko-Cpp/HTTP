@@ -5,3 +5,18 @@
 */
 
 #include "HTTPRequest.hpp"
+
+namespace Ishiko
+{
+
+HTTPRequest::HTTPRequest(Method method)
+    : m_method(method)
+{
+}
+
+HTTPRequest::Method HTTPRequest::method() const
+{
+    return m_method;
+}
+
+}

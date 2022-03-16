@@ -17,7 +17,8 @@ HTTPRequestTests::HTTPRequestTests(const TestNumber& number, const TestContext& 
 
 void HTTPRequestTests::ConstructorTest1(Test& test)
 {
-    HTTPRequest request;
+    HTTPRequest request(HTTPRequest::Method::get);
 
+    ISHIKO_FAIL_IF_NEQ(request.method(), HTTPRequest::Method::get);
     ISHIKO_PASS();
 }

@@ -12,6 +12,18 @@ namespace Ishiko
 
 class HTTPRequest
 {
+public:
+    enum class Method
+    {
+        get
+    };
+
+    HTTPRequest(Method method);
+
+    Method method() const;
+
+private:
+    Method m_method;
 };
 
 }
