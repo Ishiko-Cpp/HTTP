@@ -4,7 +4,8 @@
 */
 
 #include "HTTPClientTests.hpp"
-#include "HTTPMessageParserTests.hpp"
+#include "HTTPMessagePushParserTests.hpp"
+#include "HTTPRequestTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/Tests.hpp>
 
@@ -14,8 +15,13 @@ int main(int argc, char* argv[])
 {
     TestHarness theTestHarness("IshikoHTTP");
 
+    theTestHarness.context().setTestDataDirectory("../../data");
+    theTestHarness.context().setTestOutputDirectory("../../output");
+    theTestHarness.context().setReferenceDataDirectory("../../reference");
+
     TestSequence& theTests = theTestHarness.tests();
-    theTests.append<HTTPMessageParserTests>();
+    theTests.append<HTTPRequestTests>();
+    theTests.append<HTTPMessagePushParserTests>();
     theTests.append<HTTPClientTests>();
 
     return theTestHarness.run();

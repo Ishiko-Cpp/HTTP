@@ -26,7 +26,13 @@
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessageParser.hpp">
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessagePushParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMethod.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPRequest.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Ishiko\HTTP\linkoptions.hpp">
@@ -40,7 +46,13 @@
     <ClCompile Include="..\..\src\HTTPClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\HTTPMessageParser.cpp">
+    <ClCompile Include="..\..\src\HTTPMessagePushParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPMethod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

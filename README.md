@@ -1,14 +1,14 @@
-# Ishiko/C++ - HTTP
+# Ishiko/C++ HTTP
 
 Classes to work with the HTTP and HTTPS protocols.
 
 # Contents
 
-- Include - Directory containing the public headers for the project.
+- include: directory containing the public headers for the project.
 
 # Project Status
 
-This project is intended for use by its author only.
+This project is in early development and not ready for public use yet.
 
 # Usage
 
