@@ -1,10 +1,15 @@
+ishikopath = envvar("ISHIKO_CPP");
+import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
+import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
+import $(ishikopath)/types/include/Ishiko/Types.bkl;
+
 setting ISHIKO_CPP_HTTP_ROOT
 {
     help = "Path to the Ishiko HTTP installation";
     default = '$(ISHIKO_CPP)/http';
 }
 
-template IshikoHTTP
+template IshikoHTTP : IshikoTypes, IshikoErrors, Boost
 {
     includedirs += $(ISHIKO_CPP_HTTP_ROOT)/include;
 

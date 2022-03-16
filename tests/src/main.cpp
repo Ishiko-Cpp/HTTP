@@ -15,6 +15,10 @@ int main(int argc, char* argv[])
 {
     TestHarness theTestHarness("IshikoHTTP");
 
+    theTestHarness.context().setTestDataDirectory("../../data");
+    theTestHarness.context().setTestOutputDirectory("../../output");
+    theTestHarness.context().setReferenceDataDirectory("../../reference");
+
     TestSequence& theTests = theTestHarness.tests();
     theTests.append<HTTPRequestTests>();
     theTests.append<HTTPMessagePushParserTests>();

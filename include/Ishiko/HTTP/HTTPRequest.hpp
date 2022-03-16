@@ -7,23 +7,27 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPREQUEST_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPREQUEST_HPP_
 
+#include "HTTPMethod.hpp"
+#include <Ishiko/Types.hpp>
+#include <string>
+
 namespace Ishiko
 {
 
 class HTTPRequest
 {
 public:
-    enum class Method
-    {
-        get
-    };
+    // TODO: what if the scheme of the uri is not http(s)
+    HTTPRequest(HTTPMethod method, URL requestURI);
 
-    HTTPRequest(Method method);
+    HTTPMethod method() const;
+    const URL& requestURI() const;
 
-    Method method() const;
+    std::string toString() const;
 
 private:
-    Method m_method;
+    HTTPMethod m_method;
+    URL m_requestURI;
 };
 
 }

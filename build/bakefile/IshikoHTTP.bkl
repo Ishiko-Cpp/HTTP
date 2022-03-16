@@ -1,6 +1,7 @@
 ishikopath = envvar("ISHIKO_CPP");
 import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
 import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
+import $(ishikopath)/types/include/Ishiko/Types.bkl;
 
 toolsets = gnu vs2019 vs2017 vs2015 vs2013;
 
@@ -10,7 +11,7 @@ vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
 vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
 vs2013.solutionfile = ../vc12/IshikoHTTP.sln;
 
-library IshikoHTTP : IshikoErrors, Boost
+library IshikoHTTP : IshikoTypes, IshikoErrors, Boost
 {
     archs = x86 x86_64;
 
@@ -38,6 +39,7 @@ library IshikoHTTP : IshikoErrors, Boost
         ../../include/Ishiko/HTTP/HTTPErrorCategory.hpp
         ../../include/Ishiko/HTTP/HTTPClient.hpp
         ../../include/Ishiko/HTTP/HTTPMessagePushParser.hpp
+        ../../include/Ishiko/HTTP/HTTPMethod.hpp
         ../../include/Ishiko/HTTP/HTTPRequest.hpp
         ../../include/Ishiko/HTTP/linkoptions.hpp
     }
@@ -47,6 +49,7 @@ library IshikoHTTP : IshikoErrors, Boost
         ../../src/HTTPErrorCategory.cpp
         ../../src/HTTPClient.cpp
         ../../src/HTTPMessagePushParser.cpp
+        ../../src/HTTPMethod.cpp
         ../../src/HTTPRequest.cpp
     }
 }
