@@ -23,7 +23,7 @@ public:
         virtual void onMethod(boost::string_view data);
         virtual void onRequestURI(boost::string_view data);
         virtual void onHTTPVersion(boost::string_view data);
-        virtual void onHeader(boost::string_view data);
+        virtual void onHeader(boost::string_view name, boost::string_view value);
         virtual void onBody(boost::string_view data);
     };
 

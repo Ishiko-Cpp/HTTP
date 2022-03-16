@@ -23,7 +23,7 @@ void HTTPMessagePushParser::Callbacks::onHTTPVersion(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onHeader(boost::string_view data)
+void HTTPMessagePushParser::Callbacks::onHeader(boost::string_view name, boost::string_view value)
 {
 }
 
@@ -41,6 +41,8 @@ void HTTPMessagePushParser::onData(string_view data)
     const char* previous = data.data();
     const char* current = previous;
     const char* end = current + data.length();
+    const char* headerNameBegin = nullptr;
+    const char* headerNameEnd = nullptr;
     while (current < end)
     {
         switch (m_parsingMode)
@@ -61,7 +63,6 @@ void HTTPMessagePushParser::onData(string_view data)
                         m_fragmentedData.clear();
                     }
                     ++current;
-                    previous = current;
                     m_parsingMode = ParsingMode::requestURI;
                     break;
                 }
@@ -70,6 +71,7 @@ void HTTPMessagePushParser::onData(string_view data)
             break;
 
         case ParsingMode::requestURI:
+            previous = current;
             while (current < end)
             {
                 if (*current == ' ')
@@ -85,7 +87,6 @@ void HTTPMessagePushParser::onData(string_view data)
                         m_fragmentedData.clear();
                     }
                     ++current;
-                    previous = current;
                     m_parsingMode = ParsingMode::httpVersion;
                     break;
                 }
@@ -94,6 +95,7 @@ void HTTPMessagePushParser::onData(string_view data)
             break;
 
         case ParsingMode::httpVersion:
+            previous = current;
             while (current < end)
             {
                 if (*current == '\r')
@@ -113,7 +115,6 @@ void HTTPMessagePushParser::onData(string_view data)
                 {
                     m_parsingMode = ParsingMode::headers;
                     ++current;
-                    previous = current;
                     break;
                 }
                 ++current;
@@ -128,20 +129,19 @@ void HTTPMessagePushParser::onData(string_view data)
             else if (*current != '\r')
             {
                 m_parsingMode = ParsingMode::headerName;
-                // TODO
-                //m_headerName = current;
             }
             break;
 
         case ParsingMode::headerName:
+            previous = current;
             while (current < end)
             {
                 if (*current == ':')
                 {
+                    headerNameBegin = previous;
+                    headerNameEnd = current;
                     ++current;
                     m_parsingMode = ParsingMode::headerValue;
-                    // TODO
-                    //m_headerValue = current;
                     break;
                 }
                 ++current;
@@ -151,11 +151,24 @@ void HTTPMessagePushParser::onData(string_view data)
         case ParsingMode::headerValue:
             while (current < end)
             {
+                if (*current == ' ')
+                {
+                    ++current;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            previous = current;
+            while (current < end)
+            {
                 if (*current == '\r')
                 {
+                    m_callbacks.onHeader(
+                        string_view(headerNameBegin, (headerNameEnd - headerNameBegin)),
+                        string_view(previous, (current - previous)));
                     notifyHeader();
-                    // TODO
-                    //*current = 0;
                 }
                 else if (*current == '\n')
                 {
