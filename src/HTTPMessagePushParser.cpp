@@ -62,10 +62,17 @@ void HTTPMessagePushParser::onData(string_view data)
                         m_callbacks.onMethod(m_fragmentedData);
                         m_fragmentedData.clear();
                     }
-                    ++current;
                     m_parsingMode = ParsingMode::requestURI;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData.append(previous, (current - previous));
+            }
+            else
+            {
                 ++current;
             }
             break;
@@ -86,10 +93,17 @@ void HTTPMessagePushParser::onData(string_view data)
                         m_callbacks.onRequestURI(m_fragmentedData);
                         m_fragmentedData.clear();
                     }
-                    ++current;
                     m_parsingMode = ParsingMode::httpVersion;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData.append(previous, (current - previous));
+            }
+            else
+            {
                 ++current;
             }
             break;
@@ -114,9 +128,16 @@ void HTTPMessagePushParser::onData(string_view data)
                 else if (*current == '\n')
                 {
                     m_parsingMode = ParsingMode::headers;
-                    ++current;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData.append(previous, (current - previous));
+            }
+            else
+            {
                 ++current;
             }
             break;
