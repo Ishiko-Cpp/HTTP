@@ -4,7 +4,7 @@
 */
 
 #include "HTTPClientTests.hpp"
-#include "HTTPMessageParserTests.hpp"
+#include "HTTPMessagePushParserTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/Tests.hpp>
 
@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     TestHarness theTestHarness("IshikoHTTP");
 
     TestSequence& theTests = theTestHarness.tests();
-    theTests.append<HTTPMessageParserTests>();
+    theTests.append<HTTPMessagePushParserTests>();
     theTests.append<HTTPClientTests>();
 
     return theTestHarness.run();

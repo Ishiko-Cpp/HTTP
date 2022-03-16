@@ -4,7 +4,7 @@
 */
 
 #include "HTTPMessagePushParserTests.hpp"
-#include "Ishiko/HTTP/HTTPMessageParser.hpp"
+#include "Ishiko/HTTP/HTTPMessagePushParser.hpp"
 
 using namespace Ishiko;
 using namespace Ishiko::Tests;
@@ -17,7 +17,8 @@ HTTPMessagePushParserTests::HTTPMessagePushParserTests(const TestNumber& number,
 
 void HTTPMessagePushParserTests::ConstructorTest1(Test& test)
 {
-    HTTPMessagePushParser parser;
+    HTTPMessagePushParser::Callbacks callbacks;
+    HTTPMessagePushParser parser(callbacks);
      
     ISHIKO_PASS();
 }
