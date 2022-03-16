@@ -46,7 +46,8 @@ private:
     void notifyHeader();
 
     ParsingMode m_parsingMode = ParsingMode::method;
-    std::string m_fragmentedData;
+    std::string m_fragmentedData1;
+    std::string m_fragmentedData2;
     Callbacks& m_callbacks;
 };
 

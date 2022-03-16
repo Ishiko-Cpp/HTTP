@@ -18,6 +18,7 @@ private:
     static void OnDataTest1(Ishiko::Tests::Test& test);
     static void OnDataTest2(Ishiko::Tests::Test& test);
     static void OnDataTest3(Ishiko::Tests::Test& test);
+    static void OnDataTest4(Ishiko::Tests::Test& test);
 };
 
 #endif

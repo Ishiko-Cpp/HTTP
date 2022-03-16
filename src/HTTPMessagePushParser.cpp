@@ -52,15 +52,15 @@ void HTTPMessagePushParser::onData(string_view data)
             {
                 if (*current == ' ')
                 {
-                    if (m_fragmentedData.empty())
+                    if (m_fragmentedData1.empty())
                     {
                         m_callbacks.onMethod(string_view(previous, (current - previous)));
                     }
                     else
                     {
-                        m_fragmentedData.append(data.data(), current - data.data());
-                        m_callbacks.onMethod(m_fragmentedData);
-                        m_fragmentedData.clear();
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onMethod(m_fragmentedData1);
+                        m_fragmentedData1.clear();
                     }
                     m_parsingMode = ParsingMode::requestURI;
                     break;
@@ -69,7 +69,7 @@ void HTTPMessagePushParser::onData(string_view data)
             }
             if (current == end)
             {
-                m_fragmentedData.append(previous, (current - previous));
+                m_fragmentedData1.append(previous, (current - previous));
             }
             else
             {
@@ -83,15 +83,15 @@ void HTTPMessagePushParser::onData(string_view data)
             {
                 if (*current == ' ')
                 {
-                    if (m_fragmentedData.empty())
+                    if (m_fragmentedData1.empty())
                     {
                         m_callbacks.onRequestURI(string_view(previous, (current - previous)));
                     }
                     else
                     {
-                        m_fragmentedData.append(data.data(), current - data.data());
-                        m_callbacks.onRequestURI(m_fragmentedData);
-                        m_fragmentedData.clear();
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onRequestURI(m_fragmentedData1);
+                        m_fragmentedData1.clear();
                     }
                     m_parsingMode = ParsingMode::httpVersion;
                     break;
@@ -100,7 +100,7 @@ void HTTPMessagePushParser::onData(string_view data)
             }
             if (current == end)
             {
-                m_fragmentedData.append(previous, (current - previous));
+                m_fragmentedData1.append(previous, (current - previous));
             }
             else
             {
@@ -114,15 +114,15 @@ void HTTPMessagePushParser::onData(string_view data)
             {
                 if (*current == '\r')
                 {
-                    if (m_fragmentedData.empty())
+                    if (m_fragmentedData1.empty())
                     {
                         m_callbacks.onHTTPVersion(string_view(previous, (current - previous)));
                     }
                     else
                     {
-                        m_fragmentedData.append(data.data(), current - data.data());
-                        m_callbacks.onHTTPVersion(m_fragmentedData);
-                        m_fragmentedData.clear();
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onHTTPVersion(m_fragmentedData1);
+                        m_fragmentedData1.clear();
                     }
                 }
                 else if (*current == '\n')
@@ -134,7 +134,13 @@ void HTTPMessagePushParser::onData(string_view data)
             }
             if (current == end)
             {
-                m_fragmentedData.append(previous, (current - previous));
+                // TODO: handle case where data size is 0
+                const char* adjustedCurrent = current;
+                if (*(current - 1) == '\r')
+                {
+                    --adjustedCurrent;
+                }
+                m_fragmentedData1.append(previous, (adjustedCurrent - previous));
             }
             else
             {
@@ -161,10 +167,17 @@ void HTTPMessagePushParser::onData(string_view data)
                 {
                     headerNameBegin = previous;
                     headerNameEnd = current;
-                    ++current;
                     m_parsingMode = ParsingMode::headerValue;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData1.append(previous, (current - previous));
+            }
+            else
+            {
                 ++current;
             }
             break;
@@ -186,9 +199,24 @@ void HTTPMessagePushParser::onData(string_view data)
             {
                 if (*current == '\r')
                 {
-                    m_callbacks.onHeader(
-                        string_view(headerNameBegin, (headerNameEnd - headerNameBegin)),
-                        string_view(previous, (current - previous)));
+                    if (m_fragmentedData1.empty() && m_fragmentedData2.empty())
+                    {
+                        m_callbacks.onHeader(string_view(headerNameBegin, (headerNameEnd - headerNameBegin)),
+                            string_view(previous, (current - previous)));
+                    }
+                    else if (!m_fragmentedData1.empty() && m_fragmentedData2.empty())
+                    {
+                        m_callbacks.onHeader(m_fragmentedData1, string_view(previous, (current - previous)));
+                        m_fragmentedData1.clear();
+                    }
+                    else
+                    {
+                        m_fragmentedData2.append(data.data(), current - data.data());
+                        m_callbacks.onHeader(m_fragmentedData1, m_fragmentedData2);
+                        m_fragmentedData1.clear();
+                        m_fragmentedData2.clear();
+                    }
+                    
                     notifyHeader();
                 }
                 else if (*current == '\n')
@@ -197,6 +225,14 @@ void HTTPMessagePushParser::onData(string_view data)
                     ++current;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData2.append(previous, (current - previous));
+            }
+            else
+            {
                 ++current;
             }
             break;
