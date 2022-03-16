@@ -23,7 +23,7 @@ void HTTPMessagePushParser::Callbacks::onHTTPVersion(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onHeader(boost::string_view data)
+void HTTPMessagePushParser::Callbacks::onHeader(boost::string_view name, boost::string_view value)
 {
 }
 
@@ -36,11 +36,14 @@ HTTPMessagePushParser::HTTPMessagePushParser(Callbacks& callbacks)
 {
 }
 
-void HTTPMessagePushParser::onData(string_view data)
+// TODO: if pipelining is used then returning bool is not enough since we may have unused bytes at the end of data
+bool HTTPMessagePushParser::onData(string_view data)
 {
     const char* previous = data.data();
     const char* current = previous;
     const char* end = current + data.length();
+    const char* headerNameBegin = nullptr;
+    const char* headerNameEnd = nullptr;
     while (current < end)
     {
         switch (m_parsingMode)
@@ -50,100 +53,133 @@ void HTTPMessagePushParser::onData(string_view data)
             {
                 if (*current == ' ')
                 {
-                    if (m_fragmentedData.empty())
+                    if (m_fragmentedData1.empty())
                     {
                         m_callbacks.onMethod(string_view(previous, (current - previous)));
                     }
                     else
                     {
-                        m_fragmentedData.append(data.data(), current - data.data());
-                        m_callbacks.onMethod(m_fragmentedData);
-                        m_fragmentedData.clear();
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onMethod(m_fragmentedData1);
+                        m_fragmentedData1.clear();
                     }
-                    ++current;
-                    previous = current;
                     m_parsingMode = ParsingMode::requestURI;
                     break;
                 }
                 ++current;
             }
+            if (current == end)
+            {
+                m_fragmentedData1.append(previous, (current - previous));
+            }
+            else
+            {
+                ++current;
+            }
             break;
 
         case ParsingMode::requestURI:
+            previous = current;
             while (current < end)
             {
                 if (*current == ' ')
                 {
-                    if (m_fragmentedData.empty())
+                    if (m_fragmentedData1.empty())
                     {
                         m_callbacks.onRequestURI(string_view(previous, (current - previous)));
                     }
                     else
                     {
-                        m_fragmentedData.append(data.data(), current - data.data());
-                        m_callbacks.onRequestURI(m_fragmentedData);
-                        m_fragmentedData.clear();
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onRequestURI(m_fragmentedData1);
+                        m_fragmentedData1.clear();
                     }
-                    ++current;
-                    previous = current;
                     m_parsingMode = ParsingMode::httpVersion;
                     break;
                 }
                 ++current;
             }
+            if (current == end)
+            {
+                m_fragmentedData1.append(previous, (current - previous));
+            }
+            else
+            {
+                ++current;
+            }
             break;
 
         case ParsingMode::httpVersion:
+            previous = current;
             while (current < end)
             {
                 if (*current == '\r')
                 {
-                    if (m_fragmentedData.empty())
+                    if (m_fragmentedData1.empty())
                     {
                         m_callbacks.onHTTPVersion(string_view(previous, (current - previous)));
                     }
                     else
                     {
-                        m_fragmentedData.append(data.data(), current - data.data());
-                        m_callbacks.onHTTPVersion(m_fragmentedData);
-                        m_fragmentedData.clear();
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onHTTPVersion(m_fragmentedData1);
+                        m_fragmentedData1.clear();
                     }
                 }
                 else if (*current == '\n')
                 {
-                    m_parsingMode = ParsingMode::headers;
-                    ++current;
-                    previous = current;
+                    m_parsingMode = ParsingMode::headerOrSeparator;
                     break;
                 }
                 ++current;
             }
+            if (current == end)
+            {
+                // TODO: handle case where data size is 0
+                const char* adjustedCurrent = current;
+                if (*(current - 1) == '\r')
+                {
+                    --adjustedCurrent;
+                }
+                m_fragmentedData1.append(previous, (adjustedCurrent - previous));
+            }
+            else
+            {
+                ++current;
+            }
             break;
 
-        case ParsingMode::headers:
+        case ParsingMode::headerOrSeparator:
             if (*current == '\r')
             {
-                m_parsingMode = ParsingMode::body;
+                m_parsingMode = ParsingMode::separator;
+                ++current;
             }
             else if (*current != '\r')
             {
                 m_parsingMode = ParsingMode::headerName;
-                // TODO
-                //m_headerName = current;
             }
             break;
 
         case ParsingMode::headerName:
+            previous = current;
             while (current < end)
             {
                 if (*current == ':')
                 {
-                    ++current;
+                    headerNameBegin = previous;
+                    headerNameEnd = current;
                     m_parsingMode = ParsingMode::headerValue;
-                    // TODO
-                    //m_headerValue = current;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData1.append(previous, (current - previous));
+            }
+            else
+            {
                 ++current;
             }
             break;
@@ -151,18 +187,73 @@ void HTTPMessagePushParser::onData(string_view data)
         case ParsingMode::headerValue:
             while (current < end)
             {
+                if (*current == ' ')
+                {
+                    ++current;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            previous = current;
+            while (current < end)
+            {
                 if (*current == '\r')
                 {
+                    if (m_fragmentedData1.empty() && m_fragmentedData2.empty())
+                    {
+                        m_callbacks.onHeader(string_view(headerNameBegin, (headerNameEnd - headerNameBegin)),
+                            string_view(previous, (current - previous)));
+                    }
+                    else if (!m_fragmentedData1.empty() && m_fragmentedData2.empty())
+                    {
+                        m_callbacks.onHeader(m_fragmentedData1, string_view(previous, (current - previous)));
+                        m_fragmentedData1.clear();
+                    }
+                    else
+                    {
+                        m_fragmentedData2.append(data.data(), current - data.data());
+                        m_callbacks.onHeader(m_fragmentedData1, m_fragmentedData2);
+                        m_fragmentedData1.clear();
+                        m_fragmentedData2.clear();
+                    }
+                    
                     notifyHeader();
-                    // TODO
-                    //*current = 0;
                 }
                 else if (*current == '\n')
                 {
-                    m_parsingMode = ParsingMode::headers;
-                    ++current;
+                    m_parsingMode = ParsingMode::headerOrSeparator;
                     break;
                 }
+                ++current;
+            }
+            if (current == end)
+            {
+                // TODO: handle case where data size is 0
+                const char* adjustedCurrent = current;
+                if (*(current - 1) == '\r')
+                {
+                    --adjustedCurrent;
+                }
+                m_fragmentedData2.append(previous, (adjustedCurrent - previous));
+            }
+            else
+            {
+                ++current;
+            }
+            break;
+
+        case ParsingMode::separator:
+            if ((current != end) && (*current == '\n'))
+            {
+                ++current;
+                // TODO: handle the case where there is a body
+                return true;
+            }
+            else
+            {
+                // TODO: error
                 ++current;
             }
             break;
@@ -174,7 +265,10 @@ void HTTPMessagePushParser::onData(string_view data)
             }
             break;
         }
+
+        // TODO: add an end state and error if trying to push more data
     }
+    return false;
 }
 
 void HTTPMessagePushParser::notifyHeader()

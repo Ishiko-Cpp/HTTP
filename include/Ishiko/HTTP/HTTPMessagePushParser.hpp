@@ -23,13 +23,13 @@ public:
         virtual void onMethod(boost::string_view data);
         virtual void onRequestURI(boost::string_view data);
         virtual void onHTTPVersion(boost::string_view data);
-        virtual void onHeader(boost::string_view data);
+        virtual void onHeader(boost::string_view name, boost::string_view value);
         virtual void onBody(boost::string_view data);
     };
 
     HTTPMessagePushParser(Callbacks& callbacks);
 
-    void onData(boost::string_view data);
+    bool onData(boost::string_view data);
 
 private:
     enum class ParsingMode
@@ -37,16 +37,18 @@ private:
         method,
         requestURI,
         httpVersion,
-        headers,
+        headerOrSeparator,
         headerName,
         headerValue,
+        separator,
         body
     };
 
     void notifyHeader();
 
     ParsingMode m_parsingMode = ParsingMode::method;
-    std::string m_fragmentedData;
+    std::string m_fragmentedData1;
+    std::string m_fragmentedData2;
     Callbacks& m_callbacks;
 };
 
