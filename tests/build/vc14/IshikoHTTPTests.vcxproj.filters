@@ -20,7 +20,13 @@
     <ClInclude Include="..\..\src\HTTPClientTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\HTTPMessageParserTests.hpp">
+    <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HTTPRequestTests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -28,10 +34,16 @@
     <ClCompile Include="..\..\src\HTTPClientTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\HTTPMessageParserTests.cpp">
+    <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPRequestTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
