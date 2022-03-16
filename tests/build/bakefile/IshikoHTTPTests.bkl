@@ -24,12 +24,14 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     {
         ../../src/HTTPClientTests.hpp
         ../../src/HTTPMessagePushParserTests.hpp
+        ../../src/HTTPRequestTests.hpp
     }
 
     sources
     {
         ../../src/HTTPClientTests.cpp
         ../../src/HTTPMessagePushParserTests.cpp
+        ../../src/HTTPRequestTests.cpp
         ../../src/main.cpp
     }
 }

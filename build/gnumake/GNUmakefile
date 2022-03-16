@@ -74,8 +74,8 @@ ISHIKO_CPP_BOOST_ROOT ?= $(ISHIKO_CPP_THIRD_PARTY_BOOST)
 
 all: ../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
 
-../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o
-	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o
+../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPRequest.o
+	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPRequest.o
 	$(RANLIB) $@
 
 $(_builddir)IshikoHTTP_HTTPErrorCategory.o: ../../src/HTTPErrorCategory.cpp
@@ -86,6 +86,9 @@ $(_builddir)IshikoHTTP_HTTPClient.o: ../../src/HTTPClient.cpp
 
 $(_builddir)IshikoHTTP_HTTPMessagePushParser.o: ../../src/HTTPMessagePushParser.cpp
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPMessagePushParser.cpp
+
+$(_builddir)IshikoHTTP_HTTPRequest.o: ../../src/HTTPRequest.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPRequest.cpp
 
 clean:
 	rm -f $(_builddir)*.o
