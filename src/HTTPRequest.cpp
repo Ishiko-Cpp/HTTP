@@ -43,7 +43,6 @@ string HTTPRequest::toString() const
     result.append("\r\n\r\n");
 
     return result;
-
 }
 
 }

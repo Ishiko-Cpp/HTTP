@@ -12,6 +12,7 @@
 #include "HTTP/HTTPMessagePushParser.hpp"
 #include "HTTP/HTTPMethod.hpp"
 #include "HTTP/HTTPRequest.hpp"
+#include "HTTP/HTTPResponse.hpp"
 
 #include "HTTP/linkoptions.hpp"
 
