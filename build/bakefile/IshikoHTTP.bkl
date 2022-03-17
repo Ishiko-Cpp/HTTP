@@ -42,6 +42,8 @@ library IshikoHTTP : IshikoTypes, IshikoErrors, Boost
         ../../include/Ishiko/HTTP/HTTPMethod.hpp
         ../../include/Ishiko/HTTP/HTTPRequest.hpp
         ../../include/Ishiko/HTTP/HTTPResponse.hpp
+        ../../include/Ishiko/HTTP/HTTPStatusCode.hpp
+        ../../include/Ishiko/HTTP/HTTPVersion.hpp
         ../../include/Ishiko/HTTP/linkoptions.hpp
     }
 
@@ -53,5 +55,7 @@ library IshikoHTTP : IshikoTypes, IshikoErrors, Boost
         ../../src/HTTPMethod.cpp
         ../../src/HTTPRequest.cpp
         ../../src/HTTPResponse.cpp
+        ../../src/HTTPStatusCode.cpp
+        ../../src/HTTPVersion.cpp
     }
 }
