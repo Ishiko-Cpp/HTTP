@@ -77,24 +77,27 @@ ISHIKO_CPP_TYPES_ROOT ?= $(ISHIKO_CPP)/types
 
 all: ../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
 
-../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o
-	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o
+../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o $(_builddir)IshikoHTTP_HTTPResponse.o
+	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o $(_builddir)IshikoHTTP_HTTPResponse.o
 	$(RANLIB) $@
 
 $(_builddir)IshikoHTTP_HTTPErrorCategory.o: ../../src/HTTPErrorCategory.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPErrorCategory.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPErrorCategory.cpp
 
 $(_builddir)IshikoHTTP_HTTPClient.o: ../../src/HTTPClient.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPClient.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPClient.cpp
 
 $(_builddir)IshikoHTTP_HTTPMessagePushParser.o: ../../src/HTTPMessagePushParser.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPMessagePushParser.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPMessagePushParser.cpp
 
 $(_builddir)IshikoHTTP_HTTPMethod.o: ../../src/HTTPMethod.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPMethod.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPMethod.cpp
 
 $(_builddir)IshikoHTTP_HTTPRequest.o: ../../src/HTTPRequest.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPRequest.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPRequest.cpp
+
+$(_builddir)IshikoHTTP_HTTPResponse.o: ../../src/HTTPResponse.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPResponse.cpp
 
 clean:
 	rm -f $(_builddir)*.o
