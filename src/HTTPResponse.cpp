@@ -11,6 +11,11 @@ using namespace std;
 namespace Ishiko
 {
 
+void HTTPResponse::setBody(const string& body)
+{
+    m_body = body;
+}
+
 string HTTPResponse::toString() const
 {
     string result;
@@ -25,6 +30,7 @@ string HTTPResponse::toString() const
     result.append(to_string(m_body.size()));
     result.append("\r\n\r\n");
     result.append(m_body);
+
     return result;
 }
 

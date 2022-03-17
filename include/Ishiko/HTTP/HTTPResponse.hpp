@@ -17,6 +17,8 @@ namespace Ishiko
 class HTTPResponse
 {
 public:
+    void setBody(const std::string& body);
+
     // TODO: this is a naive way to create a response as it could be very large. Some form of streaming, especially of
     // the body is required but it'll do for now
     std::string toString() const;

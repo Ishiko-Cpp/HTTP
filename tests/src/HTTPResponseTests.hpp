@@ -16,6 +16,7 @@ public:
 private:
     static void ConstructorTest1(Ishiko::Tests::Test& test);
     static void ToStringTest1(Ishiko::Tests::FileComparisonTest& test);
+    static void ToStringTest2(Ishiko::Tests::FileComparisonTest& test);
 };
 
 #endif
