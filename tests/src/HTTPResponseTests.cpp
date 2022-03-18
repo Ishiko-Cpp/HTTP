@@ -24,7 +24,7 @@ void HTTPResponseTests::ConstructorTest1(Test& test)
 {
     HTTPResponse response;
 
-    ISHIKO_PASS();
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPResponseTests::ToStringTest1(FileComparisonTest& test)
@@ -38,14 +38,14 @@ void HTTPResponseTests::ToStringTest1(FileComparisonTest& test)
     // TODO: should just throw an exception
     BinaryFile file = BinaryFile::Create(outputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     file.write(responseString.c_str(), responseString.length());
 
     test.setOutputFilePath(outputPath);
     test.setReferenceFilePath(test.context().getReferenceDataPath("HTTPResponseTests_ToStringTest1.bin"));
 
-    ISHIKO_PASS();
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPResponseTests::ToStringTest2(FileComparisonTest& test)
@@ -60,12 +60,12 @@ void HTTPResponseTests::ToStringTest2(FileComparisonTest& test)
     // TODO: should just throw an exception
     BinaryFile file = BinaryFile::Create(outputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     file.write(responseString.c_str(), responseString.length());
 
     test.setOutputFilePath(outputPath);
     test.setReferenceFilePath(test.context().getReferenceDataPath("HTTPResponseTests_ToStringTest2.bin"));
 
-    ISHIKO_PASS();
+    ISHIKO_TEST_PASS();
 }

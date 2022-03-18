@@ -33,7 +33,7 @@ void HTTPMessagePushParserTests::ConstructorTest1(Test& test)
     HTTPMessagePushParser::Callbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
      
-    ISHIKO_PASS();
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPMessagePushParserTests::OnDataTest1(Test& test)
@@ -43,18 +43,18 @@ void HTTPMessagePushParserTests::OnDataTest1(Test& test)
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     HTTPMessagePushParserTestCallbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
     bool complete = parser.onData(message);
 
-    ISHIKO_FAIL_IF_NOT(complete);
-    ISHIKO_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers().size(), 0);
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers().size(), 0);
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPMessagePushParserTests::OnDataTest2(Test& test)
@@ -64,20 +64,20 @@ void HTTPMessagePushParserTests::OnDataTest2(Test& test)
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     HTTPMessagePushParserTestCallbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
     bool complete = parser.onData(message);
 
-    ISHIKO_FAIL_IF_NOT(complete);
-    ISHIKO_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_ABORT_IF_NEQ(callbacks.headers().size(), 1);
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 1);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPMessagePushParserTests::OnDataTest3(Test& test)
@@ -87,22 +87,22 @@ void HTTPMessagePushParserTests::OnDataTest3(Test& test)
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     HTTPMessagePushParserTestCallbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
     bool complete = parser.onData(message);
 
-    ISHIKO_FAIL_IF_NOT(complete);
-    ISHIKO_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_ABORT_IF_NEQ(callbacks.headers().size(), 2);
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[1].first, "Connection");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[1].second, "keep-alive");
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 2);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].first, "Connection");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].second, "keep-alive");
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPMessagePushParserTests::OnDataTest4(Test& test)
@@ -112,7 +112,7 @@ void HTTPMessagePushParserTests::OnDataTest4(Test& test)
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     HTTPMessagePushParserTestCallbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
@@ -123,11 +123,11 @@ void HTTPMessagePushParserTests::OnDataTest4(Test& test)
         parser.onData(string_view(&message[i], 1));
     }
 
-    ISHIKO_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers().size(), 0);
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers().size(), 0);
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPMessagePushParserTests::OnDataTest5(Test& test)
@@ -137,7 +137,7 @@ void HTTPMessagePushParserTests::OnDataTest5(Test& test)
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     HTTPMessagePushParserTestCallbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
@@ -148,13 +148,13 @@ void HTTPMessagePushParserTests::OnDataTest5(Test& test)
         parser.onData(string_view(&message[i], 1));
     }
 
-    ISHIKO_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_ABORT_IF_NEQ(callbacks.headers().size(), 1);
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 1);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPMessagePushParserTests::OnDataTest6(Test& test)
@@ -164,7 +164,7 @@ void HTTPMessagePushParserTests::OnDataTest6(Test& test)
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     HTTPMessagePushParserTestCallbacks callbacks;
     HTTPMessagePushParser parser(callbacks);
@@ -175,13 +175,13 @@ void HTTPMessagePushParserTests::OnDataTest6(Test& test)
         parser.onData(string_view(&message[i], 1));
     }
 
-    ISHIKO_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_ABORT_IF_NEQ(callbacks.headers().size(), 2);
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[1].first, "Connection");
-    ISHIKO_FAIL_IF_NEQ(callbacks.headers()[1].second, "keep-alive");
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 2);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].first, "Connection");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].second, "keep-alive");
+    ISHIKO_TEST_PASS();
 }
