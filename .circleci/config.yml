@@ -13,6 +13,9 @@ jobs:
       - run:
           name: "Install build dependency: Ishiko/C++ Types"
           command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/types.git && cd types/build/gnumake && make
+      - run:
+          name: "Install build dependency: Ishiko/C++ Networking"
+          command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/networking.git && cd networking/build/gnumake && make
       - checkout:
           path: /projects/ishiko/cpp/http
       - run:
