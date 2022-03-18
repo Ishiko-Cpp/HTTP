@@ -8,15 +8,15 @@
 
 #include <Ishiko/Tests/Core.hpp>
 
-class HTTPResponseTests : public Ishiko::Tests::TestSequence
+class HTTPResponseTests : public Ishiko::TestSequence
 {
 public:
-    HTTPResponseTests(const Ishiko::Tests::TestNumber& number, const Ishiko::Tests::TestContext& context);
+    HTTPResponseTests(const Ishiko::TestNumber& number, const Ishiko::TestContext& context);
 
 private:
-    static void ConstructorTest1(Ishiko::Tests::Test& test);
-    static void ToStringTest1(Ishiko::Tests::FileComparisonTest& test);
-    static void ToStringTest2(Ishiko::Tests::FileComparisonTest& test);
+    static void ConstructorTest1(Ishiko::Test& test);
+    static void ToStringTest1(Ishiko::FileComparisonTest& test);
+    static void ToStringTest2(Ishiko::FileComparisonTest& test);
 };
 
 #endif

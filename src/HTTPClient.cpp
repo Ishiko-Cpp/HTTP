@@ -17,6 +17,11 @@ using namespace std;
 namespace Ishiko
 {
 
+void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std::ostream& response, Error& error)
+{
+    Get(address.toString(), port.number(), uri, response, error);
+}
+
 void HTTPClient::Get(const string& address, unsigned short port, const string& uri, ostream& response, Error& error)
 {
     try

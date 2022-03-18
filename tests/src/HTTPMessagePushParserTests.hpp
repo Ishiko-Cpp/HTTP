@@ -8,19 +8,19 @@
 
 #include <Ishiko/Tests/Core.hpp>
 
-class HTTPMessagePushParserTests : public Ishiko::Tests::TestSequence
+class HTTPMessagePushParserTests : public Ishiko::TestSequence
 {
 public:
-    HTTPMessagePushParserTests(const Ishiko::Tests::TestNumber& number, const Ishiko::Tests::TestContext& context);
+    HTTPMessagePushParserTests(const Ishiko::TestNumber& number, const Ishiko::TestContext& context);
 
 private:
-    static void ConstructorTest1(Ishiko::Tests::Test& test);
-    static void OnDataTest1(Ishiko::Tests::Test& test);
-    static void OnDataTest2(Ishiko::Tests::Test& test);
-    static void OnDataTest3(Ishiko::Tests::Test& test);
-    static void OnDataTest4(Ishiko::Tests::Test& test);
-    static void OnDataTest5(Ishiko::Tests::Test& test);
-    static void OnDataTest6(Ishiko::Tests::Test& test);
+    static void ConstructorTest1(Ishiko::Test& test);
+    static void OnDataTest1(Ishiko::Test& test);
+    static void OnDataTest2(Ishiko::Test& test);
+    static void OnDataTest3(Ishiko::Test& test);
+    static void OnDataTest4(Ishiko::Test& test);
+    static void OnDataTest5(Ishiko::Test& test);
+    static void OnDataTest6(Ishiko::Test& test);
 };
 
 #endif
