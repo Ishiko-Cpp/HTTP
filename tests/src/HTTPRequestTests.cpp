@@ -24,9 +24,9 @@ void HTTPRequestTests::ConstructorTest1(Test& test)
 {
     HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
 
-    ISHIKO_FAIL_IF_NEQ(request.method(), HTTPMethod::get);
-    ISHIKO_FAIL_IF_NEQ(request.requestURI(), "http://example.org");
-    ISHIKO_PASS();
+    ISHIKO_TEST_FAIL_IF_NEQ(request.method(), HTTPMethod::get);
+    ISHIKO_TEST_FAIL_IF_NEQ(request.requestURI(), "http://example.org");
+    ISHIKO_TEST_PASS();
 }
 
 void HTTPRequestTests::ToStringTest1(FileComparisonTest& test)
@@ -40,12 +40,12 @@ void HTTPRequestTests::ToStringTest1(FileComparisonTest& test)
     // TODO: should just throw an exception
     BinaryFile file = BinaryFile::Create(outputPath, error);
 
-    ISHIKO_ABORT_IF(error);
+    ISHIKO_TEST_ABORT_IF(error);
 
     file.write(requestString.c_str(), requestString.length());
 
     test.setOutputFilePath(outputPath);
     test.setReferenceFilePath(test.context().getReferenceDataPath("HTTPRequestTests_ToStringTest1.bin"));
 
-    ISHIKO_PASS();
+    ISHIKO_TEST_PASS();
 }

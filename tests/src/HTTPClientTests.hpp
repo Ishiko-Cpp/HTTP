@@ -8,13 +8,14 @@
 
 #include <Ishiko/Tests/Core.hpp>
 
-class HTTPClientTests : public Ishiko::Tests::TestSequence
+class HTTPClientTests : public Ishiko::TestSequence
 {
 public:
-    HTTPClientTests(const Ishiko::Tests::TestNumber& number, const Ishiko::Tests::TestContext& context);
+    HTTPClientTests(const Ishiko::TestNumber& number, const Ishiko::TestContext& context);
 
 private:
-    static void GetTest1(Ishiko::Tests::Test& test);
+    static void GetTest1(Ishiko::Test& test);
+    static void GetTest2(Ishiko::Test& test);
 };
 
 #endif
