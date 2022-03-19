@@ -5,6 +5,7 @@
 */
 
 #include "HTTPHeader.hpp"
+#include <boost/date_time.hpp>
 
 using namespace std;
 
@@ -16,6 +17,11 @@ HTTPHeader::HTTPHeader(string name, string value)
 {
 }
 
+HTTPHeader HTTPHeader::Date(const TimePoint& time)
+{
+    return HTTPHeader("Date", time.toRFC7231String());
+}
+
 const string& HTTPHeader::name() const
 {
     return m_name;
@@ -24,6 +30,11 @@ const string& HTTPHeader::name() const
 const string& HTTPHeader::value() const
 {
     return m_value;
+}
+
+string HTTPHeader::toString() const
+{
+    return (m_name + ": " + m_value);
 }
 
 }
