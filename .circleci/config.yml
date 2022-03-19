@@ -8,6 +8,9 @@ jobs:
           name: "Set ISHIKO_CPP environment variable and create workspace directory"
           command: mkdir -p /projects/ishiko/cpp && echo 'export ISHIKO_CPP="/projects/ishiko/cpp"' >> $BASH_ENV
       - run:
+          name: "Install build dependency: Ishiko/C++ fmt"
+          command: cd /projects/ishiko/cpp && mkdir fmtlib && git clone https://github.com/ishiko-cpp/fmtlib_fmt.git fmt && cd fmt && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/projects/ishiko/cpp .. && make && make install && echo 'export ISHIKO_CPP_THIRD_PARTY_FMT="/projects/ishiko/cpp"' >> $BASH_ENV
+      - run:
           name: "Install build dependency: Ishiko/C++ BasePlatform"
           command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/base-platform.git && cd base-platform/build/gnumake && make
       - run:
@@ -19,6 +22,9 @@ jobs:
       - run:
           name: "Install build dependency: Ishiko/C++ Text"
           command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/text.git && cd text/build/gnumake && make
+      - run:
+          name: "Install build dependency: Ishiko/C++ Time"
+          command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/time.git && cd time/build/gnumake && make
       - run:
           name: "Install build dependency: Ishiko/C++ Networking"
           command: cd /projects/ishiko/cpp && git clone https://github.com/ishiko-cpp/networking.git && cd networking/build/gnumake && make

@@ -17,12 +17,13 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     if ($(toolset) == gnu)
     {
         cxx-compiler-options = "-std=c++11";
-        libs += IshikoHTTP IshikoNetworking IshikoTestsCore IshikoDiff IshikoFileSystem IshikoProcess IshikoText IshikoTypes IshikoErrors boost_program_options boost_filesystem;
+        libs += IshikoHTTP IshikoNetworking IshikoTestsCore IshikoDiff IshikoFileSystem IshikoProcess IshikoTime IshikoText IshikoTypes IshikoErrors fmt boost_program_options boost_filesystem;
     }
 
     headers
     {
         ../../src/HTTPClientTests.hpp
+        ../../src/HTTPHeaderTests.hpp
         ../../src/HTTPMessagePushParserTests.hpp
         ../../src/HTTPRequestTests.hpp
         ../../src/HTTPResponseTests.hpp
@@ -32,6 +33,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     sources
     {
         ../../src/HTTPClientTests.cpp
+        ../../src/HTTPHeaderTests.cpp
         ../../src/HTTPMessagePushParserTests.cpp
         ../../src/HTTPRequestTests.cpp
         ../../src/HTTPResponseTests.cpp

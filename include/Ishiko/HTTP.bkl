@@ -2,6 +2,7 @@ ishikopath = envvar("ISHIKO_CPP");
 import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
 import $(ishikopath)/networking/include/Ishiko/Networking.bkl;
 import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
+import $(ishikopath)/time/include/Ishiko/Time.bkl;
 import $(ishikopath)/types/include/Ishiko/Types.bkl;
 
 setting ISHIKO_CPP_HTTP_ROOT
@@ -10,7 +11,7 @@ setting ISHIKO_CPP_HTTP_ROOT
     default = '$(ISHIKO_CPP)/http';
 }
 
-template IshikoHTTP : IshikoNetworking, IshikoTypes, IshikoErrors, Boost
+template IshikoHTTP : IshikoNetworking, IshikoTime, IshikoTypes, IshikoErrors, Boost
 {
     includedirs += $(ISHIKO_CPP_HTTP_ROOT)/include;
 
