@@ -8,6 +8,7 @@
 #define _ISHIKO_CPP_HTTP_HTTPHEADER_HPP_
 
 #include <Ishiko/Time.hpp>
+#include <Ishiko/Types.hpp>
 #include <string>
 
 namespace Ishiko
@@ -18,6 +19,7 @@ class HTTPHeader
 public:
     HTTPHeader(std::string name, std::string value);
     static HTTPHeader Date(const TimePoint& time);
+    static HTTPHeader Location(const URL& locationn);
 
     const std::string& name() const;
     const std::string& value() const;

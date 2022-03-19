@@ -18,22 +18,31 @@ HTTPResponse::HTTPResponse(HTTPStatusCode statusCode)
 
 HTTPResponse HTTPResponse::OK()
 {
-    return HTTPResponse(HTTPStatusCode::ok);
+    HTTPResponse result(HTTPStatusCode::ok);
+    result.setDateHeader(TimePoint::Now());
+    return result;
 }
 
-HTTPResponse HTTPResponse::MovedPermanently()
+HTTPResponse HTTPResponse::MovedPermanently(const URL& newLocation)
 {
-    return HTTPResponse(HTTPStatusCode::movedPermanently);
+    HTTPResponse result(HTTPStatusCode::movedPermanently);
+    result.setDateHeader(TimePoint::Now());
+    result.setLocation(newLocation);
+    return result;
 }
 
 HTTPResponse HTTPResponse::BadRequest()
 {
-    return HTTPResponse(HTTPStatusCode::badRequest);
+    HTTPResponse result(HTTPStatusCode::badRequest);
+    result.setDateHeader(TimePoint::Now());
+    return result;
 }
 
 HTTPResponse HTTPResponse::NotFound()
 {
-    return HTTPResponse(HTTPStatusCode::notFound);
+    HTTPResponse result(HTTPStatusCode::notFound);
+    result.setDateHeader(TimePoint::Now());
+    return result;
 }
 
 HTTPResponse HTTPResponse::InternalServerError()
@@ -44,6 +53,18 @@ HTTPResponse HTTPResponse::InternalServerError()
 HTTPStatusCode HTTPResponse::statusCode() const
 {
     return m_statusCode;
+}
+
+void HTTPResponse::setDateHeader(const TimePoint& time)
+{
+    // TODO: check if need to replace an existing header
+    m_headers.emplace_back(HTTPHeader::Date(time));
+}
+
+void HTTPResponse::setLocation(const URL& newLocation)
+{
+    // TODO: check if need to replace an existing header
+    m_headers.emplace_back(HTTPHeader::Location(newLocation));
 }
 
 void HTTPResponse::setBody(const string& body)
@@ -61,6 +82,13 @@ string HTTPResponse::toString() const
     result.append(" ");
     result.append(m_statusCode.getReasonPhrase());
     result.append("\r\n");
+
+    for (const HTTPHeader& header : m_headers)
+    {
+        result.append(header.toString());
+        result.append("\r\n");
+    }
+
     result.append("Content-Length: ");
     result.append(to_string(m_body.size()));
     result.append("\r\n\r\n");

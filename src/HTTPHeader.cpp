@@ -22,6 +22,11 @@ HTTPHeader HTTPHeader::Date(const TimePoint& time)
     return HTTPHeader("Date", time.toRFC7231String());
 }
 
+HTTPHeader HTTPHeader::Location(const URL& locationn)
+{
+    return HTTPHeader("Location", locationn.str());
+}
+
 const string& HTTPHeader::name() const
 {
     return m_name;

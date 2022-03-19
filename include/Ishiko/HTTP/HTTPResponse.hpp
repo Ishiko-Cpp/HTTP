@@ -7,9 +7,13 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP_
 
+#include "HTTPHeader.hpp"
 #include "HTTPStatusCode.hpp"
 #include "HTTPVersion.hpp"
+#include <Ishiko/Time.hpp>
+#include <Ishiko/Types.hpp>
 #include <string>
+#include <vector>
 
 namespace Ishiko
 {
@@ -19,13 +23,15 @@ class HTTPResponse
 public:
     HTTPResponse(HTTPStatusCode statusCode);
     static HTTPResponse OK();
-    static HTTPResponse MovedPermanently();
+    static HTTPResponse MovedPermanently(const URL& newLocation);
     static HTTPResponse BadRequest();
     static HTTPResponse NotFound();
     static HTTPResponse InternalServerError();
 
     HTTPStatusCode statusCode() const;
 
+    void setDateHeader(const TimePoint& time);
+    void setLocation(const URL& newLocation);
     void setBody(const std::string& body);
 
     // TODO: this is a naive way to create a response as it could be very large. Some form of streaming, especially of
@@ -35,6 +41,7 @@ public:
 private:
     HTTPVersion m_version;
     HTTPStatusCode m_statusCode;
+    std::vector<HTTPHeader> m_headers;
     std::string m_body;
 };
 
