@@ -86,8 +86,8 @@ ISHIKO_CPP_TYPES_ROOT ?= $(ISHIKO_CPP)/types
 
 all: ../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a
 
-../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o $(_builddir)IshikoHTTP_HTTPResponse.o $(_builddir)IshikoHTTP_HTTPStatusCode.o $(_builddir)IshikoHTTP_HTTPVersion.o
-	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o $(_builddir)IshikoHTTP_HTTPResponse.o $(_builddir)IshikoHTTP_HTTPStatusCode.o $(_builddir)IshikoHTTP_HTTPVersion.o
+../bakefile/../../lib/lib$(if $(call _equal,$(config),Debug),IshikoHTTP-d,IshikoHTTP).a: $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPHeader.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o $(_builddir)IshikoHTTP_HTTPResponse.o $(_builddir)IshikoHTTP_HTTPStatusCode.o $(_builddir)IshikoHTTP_HTTPVersion.o
+	$(AR) rc $@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o $(_builddir)IshikoHTTP_HTTPClient.o $(_builddir)IshikoHTTP_HTTPHeader.o $(_builddir)IshikoHTTP_HTTPMessagePushParser.o $(_builddir)IshikoHTTP_HTTPMethod.o $(_builddir)IshikoHTTP_HTTPRequest.o $(_builddir)IshikoHTTP_HTTPResponse.o $(_builddir)IshikoHTTP_HTTPStatusCode.o $(_builddir)IshikoHTTP_HTTPVersion.o
 	$(RANLIB) $@
 
 $(_builddir)IshikoHTTP_HTTPErrorCategory.o: ../../src/HTTPErrorCategory.cpp
@@ -95,6 +95,9 @@ $(_builddir)IshikoHTTP_HTTPErrorCategory.o: ../../src/HTTPErrorCategory.cpp
 
 $(_builddir)IshikoHTTP_HTTPClient.o: ../../src/HTTPClient.cpp
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BASEPLATFORM_ROOT)/include -I$(ISHIKO_CPP_TEXT_ROOT)/include -I$(ISHIKO_CPP_NETWORKING_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPClient.cpp
+
+$(_builddir)IshikoHTTP_HTTPHeader.o: ../../src/HTTPHeader.cpp
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BASEPLATFORM_ROOT)/include -I$(ISHIKO_CPP_TEXT_ROOT)/include -I$(ISHIKO_CPP_NETWORKING_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPHeader.cpp
 
 $(_builddir)IshikoHTTP_HTTPMessagePushParser.o: ../../src/HTTPMessagePushParser.cpp
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) -MD -MP -fPIC -DPIC -pthread -I$(ISHIKO_CPP_ERRORS_ROOT)/include -I$(ISHIKO_CPP_BASEPLATFORM_ROOT)/include -I$(ISHIKO_CPP_TEXT_ROOT)/include -I$(ISHIKO_CPP_NETWORKING_ROOT)/include -I$(ISHIKO_CPP_BOOST_ROOT)/include -I$(ISHIKO_CPP_TYPES_ROOT)/include -I../../include/Ishiko/HTTP -std=c++11 ../../src/HTTPMessagePushParser.cpp

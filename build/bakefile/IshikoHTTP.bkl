@@ -39,6 +39,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTypes, IshikoErrors, Boost
         ../../include/Ishiko/HTTP.hpp
         ../../include/Ishiko/HTTP/HTTPErrorCategory.hpp
         ../../include/Ishiko/HTTP/HTTPClient.hpp
+        ../../include/Ishiko/HTTP/HTTPHeader.hpp
         ../../include/Ishiko/HTTP/HTTPMessagePushParser.hpp
         ../../include/Ishiko/HTTP/HTTPMethod.hpp
         ../../include/Ishiko/HTTP/HTTPRequest.hpp
@@ -52,6 +53,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTypes, IshikoErrors, Boost
     {
         ../../src/HTTPErrorCategory.cpp
         ../../src/HTTPClient.cpp
+        ../../src/HTTPHeader.cpp
         ../../src/HTTPMessagePushParser.cpp
         ../../src/HTTPMethod.cpp
         ../../src/HTTPRequest.cpp

@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\HTTPErrorCategory.cpp" />
     <ClCompile Include="..\..\src\HTTPClient.cpp" />
+    <ClCompile Include="..\..\src\HTTPHeader.cpp" />
     <ClCompile Include="..\..\src\HTTPMessagePushParser.cpp" />
     <ClCompile Include="..\..\src\HTTPMethod.cpp" />
     <ClCompile Include="..\..\src\HTTPRequest.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\..\include\Ishiko\HTTP.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPErrorCategory.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPClient.hpp" />
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPHeader.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessagePushParser.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMethod.hpp" />
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPRequest.hpp" />

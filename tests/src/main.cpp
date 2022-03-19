@@ -4,6 +4,7 @@
 */
 
 #include "HTTPClientTests.hpp"
+#include "HTTPHeaderTests.hpp"
 #include "HTTPMessagePushParserTests.hpp"
 #include "HTTPRequestTests.hpp"
 #include "HTTPResponseTests.hpp"
@@ -21,6 +22,7 @@ int main(int argc, char* argv[])
     theTestHarness.context().setReferenceDataDirectory("../../reference");
 
     TestSequence& theTests = theTestHarness.tests();
+    theTests.append<HTTPHeaderTests>();
     theTests.append<HTTPRequestTests>();
     theTests.append<HTTPResponseTests>();
     theTests.append<HTTPMessagePushParserTests>();

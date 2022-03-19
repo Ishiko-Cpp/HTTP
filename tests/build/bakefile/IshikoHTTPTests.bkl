@@ -23,6 +23,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     headers
     {
         ../../src/HTTPClientTests.hpp
+        ../../src/HTTPHeaderTests.hpp
         ../../src/HTTPMessagePushParserTests.hpp
         ../../src/HTTPRequestTests.hpp
         ../../src/HTTPResponseTests.hpp
@@ -32,6 +33,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTests
     sources
     {
         ../../src/HTTPClientTests.cpp
+        ../../src/HTTPHeaderTests.cpp
         ../../src/HTTPMessagePushParserTests.cpp
         ../../src/HTTPRequestTests.cpp
         ../../src/HTTPResponseTests.cpp

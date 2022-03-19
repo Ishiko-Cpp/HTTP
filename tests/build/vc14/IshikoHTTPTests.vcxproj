@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\HTTPClientTests.cpp" />
+    <ClCompile Include="..\..\src\HTTPHeaderTests.cpp" />
     <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp" />
     <ClCompile Include="..\..\src\HTTPRequestTests.cpp" />
     <ClCompile Include="..\..\src\HTTPResponseTests.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\HTTPClientTests.hpp" />
+    <ClInclude Include="..\..\src\HTTPHeaderTests.hpp" />
     <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp" />
     <ClInclude Include="..\..\src\HTTPRequestTests.hpp" />
     <ClInclude Include="..\..\src\HTTPResponseTests.hpp" />
