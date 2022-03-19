@@ -11,6 +11,41 @@ using namespace std;
 namespace Ishiko
 {
 
+HTTPResponse::HTTPResponse(HTTPStatusCode statusCode)
+    : m_statusCode(statusCode)
+{
+}
+
+HTTPResponse HTTPResponse::OK()
+{
+    return HTTPResponse(HTTPStatusCode::ok);
+}
+
+HTTPResponse HTTPResponse::MovedPermanently()
+{
+    return HTTPResponse(HTTPStatusCode::movedPermanently);
+}
+
+HTTPResponse HTTPResponse::BadRequest()
+{
+    return HTTPResponse(HTTPStatusCode::badRequest);
+}
+
+HTTPResponse HTTPResponse::NotFound()
+{
+    return HTTPResponse(HTTPStatusCode::notFound);
+}
+
+HTTPResponse HTTPResponse::InternalServerError()
+{
+    return HTTPResponse(HTTPStatusCode::internalServerError);
+}
+
+HTTPStatusCode HTTPResponse::statusCode() const
+{
+    return m_statusCode;
+}
+
 void HTTPResponse::setBody(const string& body)
 {
     m_body = body;

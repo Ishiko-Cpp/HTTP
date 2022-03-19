@@ -17,6 +17,15 @@ namespace Ishiko
 class HTTPResponse
 {
 public:
+    HTTPResponse(HTTPStatusCode statusCode);
+    static HTTPResponse OK();
+    static HTTPResponse MovedPermanently();
+    static HTTPResponse BadRequest();
+    static HTTPResponse NotFound();
+    static HTTPResponse InternalServerError();
+
+    HTTPStatusCode statusCode() const;
+
     void setBody(const std::string& body);
 
     // TODO: this is a naive way to create a response as it could be very large. Some form of streaming, especially of
