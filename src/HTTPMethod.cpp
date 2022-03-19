@@ -32,11 +32,10 @@ string HTTPMethod::toString() const
     {
     case get:
         return "GET";
-        break;
 
     default:
         // TODO
-        break;
+        return "";
     }
 }
 

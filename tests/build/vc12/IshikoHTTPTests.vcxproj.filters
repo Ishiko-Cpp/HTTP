@@ -20,6 +20,9 @@
     <ClInclude Include="..\..\src\HTTPClientTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\HTTPHeaderTests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -35,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\HTTPClientTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPHeaderTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp">

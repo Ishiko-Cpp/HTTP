@@ -10,7 +10,6 @@
 
 using namespace boost::filesystem;
 using namespace Ishiko;
-using namespace Ishiko::Tests;
 using namespace std;
 
 HTTPRequestTests::HTTPRequestTests(const TestNumber& number, const TestContext& context)
