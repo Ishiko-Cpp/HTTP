@@ -16,6 +16,11 @@ HTTPStatusCode::HTTPStatusCode(Value value)
 {
 }
 
+HTTPStatusCode::HTTPStatusCode(unsigned short value)
+    : m_value(value)
+{
+}
+
 string HTTPStatusCode::getReasonPhrase() const
 {
     switch (m_value)
