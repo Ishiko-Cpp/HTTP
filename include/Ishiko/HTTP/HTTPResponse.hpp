@@ -30,6 +30,7 @@ public:
 
     HTTPStatusCode statusCode() const;
 
+    void setStatusCode(HTTPStatusCode statusCode);
     void setDateHeader(const TimePoint& time);
     void setLocation(const URL& newLocation);
     void setBody(const std::string& body);

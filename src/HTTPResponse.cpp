@@ -55,6 +55,11 @@ HTTPStatusCode HTTPResponse::statusCode() const
     return m_statusCode;
 }
 
+void HTTPResponse::setStatusCode(HTTPStatusCode statusCode)
+{
+    m_statusCode = statusCode;
+}
+
 void HTTPResponse::setDateHeader(const TimePoint& time)
 {
     // TODO: check if need to replace an existing header

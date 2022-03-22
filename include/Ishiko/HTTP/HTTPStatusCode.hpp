@@ -25,7 +25,9 @@ public:
     };
 
     HTTPStatusCode(Value value);
+    HTTPStatusCode(unsigned short value);
 
+    // TODO: this doesn't work as status code can be extended (can they?)
     std::string getReasonPhrase() const;
 
     bool operator==(unsigned int value) const;
@@ -34,7 +36,7 @@ public:
     std::string toString() const;
 
 private:
-    Value m_value;
+    unsigned short m_value;
 };
 
 }
