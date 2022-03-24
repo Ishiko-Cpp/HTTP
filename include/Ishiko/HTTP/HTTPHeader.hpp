@@ -18,7 +18,7 @@ class HTTPHeader
 {
 public:
     HTTPHeader(std::string name, std::string value);
-    static HTTPHeader Date(const TimePoint& time);
+    static HTTPHeader Date(const UTCTime& time);
     static HTTPHeader Location(const URL& locationn);
 
     const std::string& name() const;

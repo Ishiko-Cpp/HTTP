@@ -17,7 +17,7 @@ HTTPHeader::HTTPHeader(string name, string value)
 {
 }
 
-HTTPHeader HTTPHeader::Date(const TimePoint& time)
+HTTPHeader HTTPHeader::Date(const UTCTime& time)
 {
     return HTTPHeader("Date", time.toRFC7231String());
 }
