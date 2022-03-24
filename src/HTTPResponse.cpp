@@ -19,14 +19,14 @@ HTTPResponse::HTTPResponse(HTTPStatusCode statusCode)
 HTTPResponse HTTPResponse::OK()
 {
     HTTPResponse result(HTTPStatusCode::ok);
-    result.setDateHeader(TimePoint::Now());
+    result.setDateHeader(UTCTime::Now());
     return result;
 }
 
 HTTPResponse HTTPResponse::MovedPermanently(const URL& newLocation)
 {
     HTTPResponse result(HTTPStatusCode::movedPermanently);
-    result.setDateHeader(TimePoint::Now());
+    result.setDateHeader(UTCTime::Now());
     result.setLocation(newLocation);
     return result;
 }
@@ -34,14 +34,14 @@ HTTPResponse HTTPResponse::MovedPermanently(const URL& newLocation)
 HTTPResponse HTTPResponse::BadRequest()
 {
     HTTPResponse result(HTTPStatusCode::badRequest);
-    result.setDateHeader(TimePoint::Now());
+    result.setDateHeader(UTCTime::Now());
     return result;
 }
 
 HTTPResponse HTTPResponse::NotFound()
 {
     HTTPResponse result(HTTPStatusCode::notFound);
-    result.setDateHeader(TimePoint::Now());
+    result.setDateHeader(UTCTime::Now());
     return result;
 }
 
@@ -60,7 +60,7 @@ void HTTPResponse::setStatusCode(HTTPStatusCode statusCode)
     m_statusCode = statusCode;
 }
 
-void HTTPResponse::setDateHeader(const TimePoint& time)
+void HTTPResponse::setDateHeader(const UTCTime& time)
 {
     // TODO: check if need to replace an existing header
     m_headers.emplace_back(HTTPHeader::Date(time));

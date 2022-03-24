@@ -26,7 +26,7 @@ void HTTPHeaderTests::ConstructorTest1(Test& test)
 
 void HTTPHeaderTests::DateTest1(Test& test)
 {
-    HTTPHeader header = HTTPHeader::Date(TimePoint(Date(2022, 3, 19), TimeOfDay(19, 56, 02)));
+    HTTPHeader header = HTTPHeader::Date(UTCTime(Date(2022, 3, 19), TimeOfDay(19, 56, 02)));
 
     ISHIKO_TEST_FAIL_IF_NEQ(header.name(), "Date");
     ISHIKO_TEST_FAIL_IF_NEQ(header.value(), "Sat, 19 Mar 2022 19:56:02 GMT");
