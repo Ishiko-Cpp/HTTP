@@ -6,7 +6,7 @@
 #ifndef _ISHIKO_CPP_HTTP_TESTS_HTTPREQUESTTESTS_HPP_
 #define _ISHIKO_CPP_HTTP_TESTS_HTTPREQUESTTESTS_HPP_
 
-#include <Ishiko/Tests/Core.hpp>
+#include <Ishiko/TestFramework/Core.hpp>
 
 class HTTPRequestTests : public Ishiko::TestSequence
 {
