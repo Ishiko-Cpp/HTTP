@@ -6,7 +6,7 @@
 #ifndef _ISHIKO_CPP_HTTP_TESTS_HTTPHEADERTESTS_HPP_
 #define _ISHIKO_CPP_HTTP_TESTS_HTTPHEADERTESTS_HPP_
 
-#include <Ishiko/Tests/Core.hpp>
+#include <Ishiko/TestFramework/Core.hpp>
 
 class HTTPHeaderTests : public Ishiko::TestSequence
 {

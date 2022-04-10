@@ -9,7 +9,7 @@
 #include "HTTPRequestTests.hpp"
 #include "HTTPResponseTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
-#include <Ishiko/Tests.hpp>
+#include <Ishiko/TestFramework.hpp>
 
 using namespace Ishiko;
 

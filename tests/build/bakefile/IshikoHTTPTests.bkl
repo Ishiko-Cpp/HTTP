@@ -1,6 +1,6 @@
 ishikopath = envvar("ISHIKO_CPP");
 import $(ishikopath)/http/include/Ishiko/HTTP.bkl;
-import $(ishikopath)/test-framework/include/Ishiko/Tests.bkl;
+import $(ishikopath)/test-framework/include/Ishiko/TestFramework.bkl;
 
 toolsets = gnu vs2019 vs2017 vs2015 vs2013;
 
@@ -10,14 +10,14 @@ vs2017.solutionfile = ../vc15/IshikoHTTPTests.sln;
 vs2015.solutionfile = ../vc14/IshikoHTTPTests.sln;
 vs2013.solutionfile = ../vc12/IshikoHTTPTests.sln;
 
-program IshikoHTTPTests : IshikoHTTP, IshikoTests
+program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
 {
     archs = x86 x86_64;
 
     if ($(toolset) == gnu)
     {
         cxx-compiler-options = "-std=c++11";
-        libs += IshikoHTTP IshikoNetworking IshikoTestsCore IshikoDiff IshikoFileSystem IshikoProcess IshikoTime IshikoText IshikoTypes IshikoErrors fmt boost_program_options boost_filesystem;
+        libs += IshikoHTTP IshikoNetworking IshikoTestFrameworkCore IshikoDiff IshikoFileSystem IshikoProcess IshikoTime IshikoText IshikoTypes IshikoErrors fmt boost_program_options boost_filesystem;
     }
 
     headers
