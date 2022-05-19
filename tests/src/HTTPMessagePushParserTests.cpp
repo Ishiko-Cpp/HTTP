@@ -38,7 +38,7 @@ void HTTPMessagePushParserTests::ConstructorTest1(Test& test)
 
 void HTTPMessagePushParserTests::OnDataRequestTest1(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest1.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest1.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
@@ -59,7 +59,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest1(Test& test)
 
 void HTTPMessagePushParserTests::OnDataRequestTest2(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest2.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest2.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
@@ -82,7 +82,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest2(Test& test)
 
 void HTTPMessagePushParserTests::OnDataRequestTest3(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest3.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest3.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
@@ -107,7 +107,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest3(Test& test)
 
 void HTTPMessagePushParserTests::OnDataRequestTest4(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest1.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest1.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
@@ -132,7 +132,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest4(Test& test)
 
 void HTTPMessagePushParserTests::OnDataRequestTest5(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest2.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest2.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
@@ -159,7 +159,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest5(Test& test)
 
 void HTTPMessagePushParserTests::OnDataRequestTest6(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest3.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest3.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
