@@ -27,6 +27,7 @@ HTTPMessagePushParserTests::HTTPMessagePushParserTests(const TestNumber& number,
     append<HeapAllocationErrorsTest>("onData request test 5", OnDataRequestTest5);
     append<HeapAllocationErrorsTest>("onData request test 6", OnDataRequestTest6);
     append<HeapAllocationErrorsTest>("onData response test 1", OnDataResponseTest1);
+    append<HeapAllocationErrorsTest>("onData response test 2", OnDataResponseTest2);
 }
 
 void HTTPMessagePushParserTests::ConstructorTest1(Test& test)
@@ -212,5 +213,29 @@ void HTTPMessagePushParserTests::OnDataResponseTest1(Test& test)
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.statusCode(), "200");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.reasonPhrase(), "OK");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers().size(), 0);
+    ISHIKO_TEST_PASS();
+}
+
+void HTTPMessagePushParserTests::OnDataResponseTest2(Test& test)
+{
+    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataResponseTest2.bin"));
+
+    Error error;
+    string message = FileSystem::ReadFile(inputPath, error);
+
+    ISHIKO_TEST_ABORT_IF(error);
+
+    HTTPMessagePushParserTestCallbacks callbacks;
+    HTTPMessagePushParser parser(callbacks);
+    bool complete = parser.onData(message);
+
+    ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::response);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.statusCode(), "200");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.reasonPhrase(), "OK");
+    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 1);
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Content-Length");
+    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "0");
     ISHIKO_TEST_PASS();
 }
