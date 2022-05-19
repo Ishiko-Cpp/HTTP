@@ -20,12 +20,12 @@ HTTPMessagePushParserTests::HTTPMessagePushParserTests(const TestNumber& number,
     : TestSequence(number, "HTTPMessagePushParser tests", context)
 {
     append<HeapAllocationErrorsTest>("Constructor test 1", ConstructorTest1);
-    append<HeapAllocationErrorsTest>("onData test 1", OnDataTest1);
-    append<HeapAllocationErrorsTest>("onData test 2", OnDataTest2);
-    append<HeapAllocationErrorsTest>("onData test 3", OnDataTest3);
-    append<HeapAllocationErrorsTest>("onData test 4", OnDataTest4);
-    append<HeapAllocationErrorsTest>("onData test 5", OnDataTest5);
-    append<HeapAllocationErrorsTest>("onData test 6", OnDataTest6);
+    append<HeapAllocationErrorsTest>("onData test 1", OnDataRequestTest1);
+    append<HeapAllocationErrorsTest>("onData test 2", OnDataRequestTest2);
+    append<HeapAllocationErrorsTest>("onData test 3", OnDataRequestTest3);
+    append<HeapAllocationErrorsTest>("onData test 4", OnDataRequestTest4);
+    append<HeapAllocationErrorsTest>("onData test 5", OnDataRequestTest5);
+    append<HeapAllocationErrorsTest>("onData test 6", OnDataRequestTest6);
 }
 
 void HTTPMessagePushParserTests::ConstructorTest1(Test& test)
@@ -36,7 +36,7 @@ void HTTPMessagePushParserTests::ConstructorTest1(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPMessagePushParserTests::OnDataTest1(Test& test)
+void HTTPMessagePushParserTests::OnDataRequestTest1(Test& test)
 {
     path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest1.bin"));
 
@@ -57,7 +57,7 @@ void HTTPMessagePushParserTests::OnDataTest1(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPMessagePushParserTests::OnDataTest2(Test& test)
+void HTTPMessagePushParserTests::OnDataRequestTest2(Test& test)
 {
     path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest2.bin"));
 
@@ -80,7 +80,7 @@ void HTTPMessagePushParserTests::OnDataTest2(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPMessagePushParserTests::OnDataTest3(Test& test)
+void HTTPMessagePushParserTests::OnDataRequestTest3(Test& test)
 {
     path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest3.bin"));
 
@@ -105,7 +105,7 @@ void HTTPMessagePushParserTests::OnDataTest3(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPMessagePushParserTests::OnDataTest4(Test& test)
+void HTTPMessagePushParserTests::OnDataRequestTest4(Test& test)
 {
     path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest1.bin"));
 
@@ -130,7 +130,7 @@ void HTTPMessagePushParserTests::OnDataTest4(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPMessagePushParserTests::OnDataTest5(Test& test)
+void HTTPMessagePushParserTests::OnDataRequestTest5(Test& test)
 {
     path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest2.bin"));
 
@@ -157,7 +157,7 @@ void HTTPMessagePushParserTests::OnDataTest5(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPMessagePushParserTests::OnDataTest6(Test& test)
+void HTTPMessagePushParserTests::OnDataRequestTest6(Test& test)
 {
     path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataTest3.bin"));
 
