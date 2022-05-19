@@ -7,10 +7,12 @@
 
 void HTTPMessagePushParserTestCallbacks::onRequest()
 {
+    m_messageType = MessageType::request;
 }
 
 void HTTPMessagePushParserTestCallbacks::onResponse()
 {
+    m_messageType = MessageType::response;
 }
 
 void HTTPMessagePushParserTestCallbacks::onMethod(boost::string_view data)
@@ -31,6 +33,11 @@ void HTTPMessagePushParserTestCallbacks::onHTTPVersion(boost::string_view data)
 void HTTPMessagePushParserTestCallbacks::onHeader(boost::string_view name, boost::string_view value)
 {
     m_headers.emplace_back(std::make_pair<std::string, std::string>(name.to_string(), value.to_string()));
+}
+
+HTTPMessagePushParserTestCallbacks::MessageType HTTPMessagePushParserTestCallbacks::messageType() const
+{
+    return m_messageType;
 }
 
 const std::string& HTTPMessagePushParserTestCallbacks::method() const

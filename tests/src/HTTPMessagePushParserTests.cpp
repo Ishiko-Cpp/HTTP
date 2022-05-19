@@ -50,6 +50,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest1(Test& test)
     bool complete = parser.onData(message);
 
     ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NOT(callbacks.messageType() == HTTPMessagePushParserTestCallbacks::MessageType::request);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
@@ -71,6 +72,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest2(Test& test)
     bool complete = parser.onData(message);
 
     ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NOT(callbacks.messageType() == HTTPMessagePushParserTestCallbacks::MessageType::request);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
@@ -94,6 +96,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest3(Test& test)
     bool complete = parser.onData(message);
 
     ISHIKO_TEST_FAIL_IF_NOT(complete);
+    ISHIKO_TEST_FAIL_IF_NOT(callbacks.messageType() == HTTPMessagePushParserTestCallbacks::MessageType::request);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
@@ -123,6 +126,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest4(Test& test)
         parser.onData(string_view(&message[i], 1));
     }
 
+    ISHIKO_TEST_FAIL_IF_NOT(callbacks.messageType() == HTTPMessagePushParserTestCallbacks::MessageType::request);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
@@ -148,6 +152,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest5(Test& test)
         parser.onData(string_view(&message[i], 1));
     }
 
+    ISHIKO_TEST_FAIL_IF_NOT(callbacks.messageType() == HTTPMessagePushParserTestCallbacks::MessageType::request);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
@@ -175,6 +180,7 @@ void HTTPMessagePushParserTests::OnDataRequestTest6(Test& test)
         parser.onData(string_view(&message[i], 1));
     }
 
+    ISHIKO_TEST_FAIL_IF_NOT(callbacks.messageType() == HTTPMessagePushParserTestCallbacks::MessageType::request);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
