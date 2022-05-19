@@ -6,12 +6,17 @@
 
 #include "HTTPMessagePushParser.hpp"
 
-using namespace boost;
+using namespace Ishiko;
 
-namespace Ishiko
+void HTTPMessagePushParser::Callbacks::onRequest()
 {
+}
 
-void HTTPMessagePushParser::Callbacks::onMethod(string_view data)
+void HTTPMessagePushParser::Callbacks::onResponse()
+{
+}
+
+void HTTPMessagePushParser::Callbacks::onMethod(boost::string_view data)
 {
 }
 
@@ -37,7 +42,7 @@ HTTPMessagePushParser::HTTPMessagePushParser(Callbacks& callbacks)
 }
 
 // TODO: if pipelining is used then returning bool is not enough since we may have unused bytes at the end of data
-bool HTTPMessagePushParser::onData(string_view data)
+bool HTTPMessagePushParser::onData(boost::string_view data)
 {
     const char* previous = data.data();
     const char* current = previous;
@@ -48,14 +53,17 @@ bool HTTPMessagePushParser::onData(string_view data)
     {
         switch (m_parsingMode)
         {
-        case ParsingMode::method:
+        case ParsingMode::methodOrHTTPVersion:
             while (current < end)
             {
                 if (*current == ' ')
                 {
+                    // We have reached the end of the token without encountering a '/' so this a method and we are
+                    // parsing a request
+                    m_callbacks.onRequest();
                     if (m_fragmentedData1.empty())
                     {
-                        m_callbacks.onMethod(string_view(previous, (current - previous)));
+                        m_callbacks.onMethod(boost::string_view(previous, (current - previous)));
                     }
                     else
                     {
@@ -64,6 +72,13 @@ bool HTTPMessagePushParser::onData(string_view data)
                         m_fragmentedData1.clear();
                     }
                     m_parsingMode = ParsingMode::requestURI;
+                    break;
+                } 
+                else if (*current == '/')
+                {
+                    // Methods can't have a '/' in them so this is a protocol version and hence we are parsing a response
+                    m_callbacks.onResponse();
+                    m_parsingMode = ParsingMode::httpVersion;
                     break;
                 }
                 ++current;
@@ -86,7 +101,7 @@ bool HTTPMessagePushParser::onData(string_view data)
                 {
                     if (m_fragmentedData1.empty())
                     {
-                        m_callbacks.onRequestURI(string_view(previous, (current - previous)));
+                        m_callbacks.onRequestURI(boost::string_view(previous, (current - previous)));
                     }
                     else
                     {
@@ -117,7 +132,7 @@ bool HTTPMessagePushParser::onData(string_view data)
                 {
                     if (m_fragmentedData1.empty())
                     {
-                        m_callbacks.onHTTPVersion(string_view(previous, (current - previous)));
+                        m_callbacks.onHTTPVersion(boost::string_view(previous, (current - previous)));
                     }
                     else
                     {
@@ -203,12 +218,12 @@ bool HTTPMessagePushParser::onData(string_view data)
                 {
                     if (m_fragmentedData1.empty() && m_fragmentedData2.empty())
                     {
-                        m_callbacks.onHeader(string_view(headerNameBegin, (headerNameEnd - headerNameBegin)),
-                            string_view(previous, (current - previous)));
+                        m_callbacks.onHeader(boost::string_view(headerNameBegin, (headerNameEnd - headerNameBegin)),
+                            boost::string_view(previous, (current - previous)));
                     }
                     else if (!m_fragmentedData1.empty() && m_fragmentedData2.empty())
                     {
-                        m_callbacks.onHeader(m_fragmentedData1, string_view(previous, (current - previous)));
+                        m_callbacks.onHeader(m_fragmentedData1, boost::string_view(previous, (current - previous)));
                         m_fragmentedData1.clear();
                     }
                     else
@@ -330,6 +345,4 @@ void HTTPMessagePushParser::notifyHeader()
             ++m_transferEncoding;
         }
     }*/
-}
-
 }

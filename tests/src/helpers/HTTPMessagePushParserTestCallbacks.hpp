@@ -14,14 +14,16 @@
 class HTTPMessagePushParserTestCallbacks : public Ishiko::HTTPMessagePushParser::Callbacks
 {
 public:
+    void onRequest() override;
+    void onResponse() override;
     void onMethod(boost::string_view data) override;
     void onRequestURI(boost::string_view data) override;
     void onHTTPVersion(boost::string_view data) override;
     void onHeader(boost::string_view name, boost::string_view value) override;
 
-    const std::string method() const;
-    const std::string requestURI() const;
-    const std::string httpVersion() const;
+    const std::string& method() const;
+    const std::string& requestURI() const;
+    const std::string& httpVersion() const;
     const std::vector<std::pair<std::string, std::string>>& headers() const;
 
 private:

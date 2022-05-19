@@ -20,6 +20,8 @@ public:
     public:
         virtual ~Callbacks() = default;
 
+        virtual void onRequest();
+        virtual void onResponse();
         virtual void onMethod(boost::string_view data);
         virtual void onRequestURI(boost::string_view data);
         virtual void onHTTPVersion(boost::string_view data);
@@ -34,7 +36,7 @@ public:
 private:
     enum class ParsingMode
     {
-        method,
+        methodOrHTTPVersion, // We do not know whether we are parsing a request or a response yet
         requestURI,
         httpVersion,
         headerOrSeparator,
@@ -46,7 +48,7 @@ private:
 
     void notifyHeader();
 
-    ParsingMode m_parsingMode = ParsingMode::method;
+    ParsingMode m_parsingMode = ParsingMode::methodOrHTTPVersion;
     std::string m_fragmentedData1;
     std::string m_fragmentedData2;
     Callbacks& m_callbacks;
