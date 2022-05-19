@@ -7,6 +7,7 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPMESSAGEPUSHPARSER_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPMESSAGEPUSHPARSER_HPP_
 
+#include <boost/optional.hpp>
 #include <boost/utility/string_view.hpp>
 
 namespace Ishiko
@@ -28,7 +29,8 @@ public:
         virtual void onStatusCode(boost::string_view data);
         virtual void onReasonPhrase(boost::string_view data);
         virtual void onHeader(boost::string_view name, boost::string_view value);
-        virtual void onBody(boost::string_view data);
+        // TODO: we don't wait for the complete body as it could be very large
+        virtual void onBodyFragment(boost::string_view data);
     };
 
     HTTPMessagePushParser(Callbacks& callbacks);
@@ -54,9 +56,10 @@ private:
 
     void notifyHeader();
 
-    ParsingMode m_parsingMode = ParsingMode::methodOrHTTPVersion;
+    ParsingMode m_parsingMode;
     std::string m_fragmentedData1;
     std::string m_fragmentedData2;
+    boost::optional<size_t> m_remainingContentLength;
     Callbacks& m_callbacks;
 };
 

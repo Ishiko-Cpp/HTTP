@@ -29,6 +29,7 @@ public:
     void onStatusCode(boost::string_view data) override;
     void onReasonPhrase(boost::string_view data) override;
     void onHeader(boost::string_view name, boost::string_view value) override;
+    void onBodyFragment(boost::string_view data) override;
 
     MessageType messageType() const;
     const std::string& method() const;
@@ -37,6 +38,7 @@ public:
     const std::string& statusCode() const;
     const std::string& reasonPhrase() const;
     const std::vector<std::pair<std::string, std::string>>& headers() const;
+    const std::string& body() const;
 
 private:
     MessageType m_messageType = MessageType::uninitialized;
@@ -46,6 +48,7 @@ private:
     std::string m_statusCode;
     std::string m_reasonPhrase;
     std::vector<std::pair<std::string, std::string>> m_headers;
+    std::string m_body;
 };
 
 #endif

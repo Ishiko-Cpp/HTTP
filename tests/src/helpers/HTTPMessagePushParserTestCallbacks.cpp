@@ -45,6 +45,11 @@ void HTTPMessagePushParserTestCallbacks::onHeader(boost::string_view name, boost
     m_headers.emplace_back(std::make_pair<std::string, std::string>(name.to_string(), value.to_string()));
 }
 
+void HTTPMessagePushParserTestCallbacks::onBodyFragment(boost::string_view data)
+{
+    m_body.append(data.to_string());
+}
+
 HTTPMessagePushParserTestCallbacks::MessageType HTTPMessagePushParserTestCallbacks::messageType() const
 {
     return m_messageType;
@@ -78,4 +83,9 @@ const std::string& HTTPMessagePushParserTestCallbacks::reasonPhrase() const
 const std::vector<std::pair<std::string, std::string>>& HTTPMessagePushParserTestCallbacks::headers() const
 {
     return m_headers;
+}
+
+const std::string& HTTPMessagePushParserTestCallbacks::body() const
+{
+    return m_body;
 }

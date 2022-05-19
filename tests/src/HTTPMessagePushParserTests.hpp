@@ -23,6 +23,7 @@ private:
     static void OnDataRequestTest6(Ishiko::Test& test);
     static void OnDataResponseTest1(Ishiko::Test& test);
     static void OnDataResponseTest2(Ishiko::Test& test);
+    static void OnDataResponseTest3(Ishiko::Test& test);
 };
 
 #endif
