@@ -21,6 +21,7 @@ private:
     static void OnDataRequestTest4(Ishiko::Test& test);
     static void OnDataRequestTest5(Ishiko::Test& test);
     static void OnDataRequestTest6(Ishiko::Test& test);
+    static void OnDataResponseTest1(Ishiko::Test& test);
 };
 
 #endif

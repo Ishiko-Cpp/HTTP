@@ -28,6 +28,14 @@ void HTTPMessagePushParser::Callbacks::onHTTPVersion(boost::string_view data)
 {
 }
 
+void HTTPMessagePushParser::Callbacks::onStatusCode(boost::string_view data)
+{
+}
+
+void HTTPMessagePushParser::Callbacks::onReasonPhrase(boost::string_view data)
+{
+}
+
 void HTTPMessagePushParser::Callbacks::onHeader(boost::string_view name, boost::string_view value)
 {
 }
@@ -78,7 +86,7 @@ bool HTTPMessagePushParser::onData(boost::string_view data)
                 {
                     // Methods can't have a '/' in them so this is a protocol version and hence we are parsing a response
                     m_callbacks.onResponse();
-                    m_parsingMode = ParsingMode::httpVersion;
+                    m_parsingMode = ParsingMode::responseHTTPVersion;
                     break;
                 }
                 ++current;
@@ -109,7 +117,7 @@ bool HTTPMessagePushParser::onData(boost::string_view data)
                         m_callbacks.onRequestURI(m_fragmentedData1);
                         m_fragmentedData1.clear();
                     }
-                    m_parsingMode = ParsingMode::httpVersion;
+                    m_parsingMode = ParsingMode::requestHTTPVersion;
                     break;
                 }
                 ++current;
@@ -124,7 +132,7 @@ bool HTTPMessagePushParser::onData(boost::string_view data)
             }
             break;
 
-        case ParsingMode::httpVersion:
+        case ParsingMode::requestHTTPVersion:
             previous = current;
             while (current < end)
             {
@@ -138,6 +146,109 @@ bool HTTPMessagePushParser::onData(boost::string_view data)
                     {
                         m_fragmentedData1.append(data.data(), current - data.data());
                         m_callbacks.onHTTPVersion(m_fragmentedData1);
+                        m_fragmentedData1.clear();
+                    }
+                }
+                else if (*current == '\n')
+                {
+                    m_parsingMode = ParsingMode::headerOrSeparator;
+                    break;
+                }
+                ++current;
+            }
+            if (current == end)
+            {
+                // TODO: handle case where data size is 0
+                const char* adjustedCurrent = current;
+                if (*(current - 1) == '\r')
+                {
+                    --adjustedCurrent;
+                }
+                m_fragmentedData1.append(previous, (adjustedCurrent - previous));
+            }
+            else
+            {
+                ++current;
+            }
+            break;
+
+        case ParsingMode::responseHTTPVersion:
+            // We do not set the previous pointer here as the ParsingMode::methodOrHTTPVersion state handler has
+            // partially processed it
+            while (current < end)
+            {
+                if (*current == ' ')
+                {
+                    if (m_fragmentedData1.empty())
+                    {
+                        m_callbacks.onHTTPVersion(boost::string_view(previous, (current - previous)));
+                    }
+                    else
+                    {
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onHTTPVersion(m_fragmentedData1);
+                        m_fragmentedData1.clear();
+                    }
+                    m_parsingMode = ParsingMode::statusCode;
+                    break;
+                }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData1.append(previous, (current - previous));
+            }
+            else
+            {
+                ++current;
+            }
+            break;
+
+        case ParsingMode::statusCode:
+            previous = current;
+            while (current < end)
+            {
+                if (*current == ' ')
+                {
+                    if (m_fragmentedData1.empty())
+                    {
+                        m_callbacks.onStatusCode(boost::string_view(previous, (current - previous)));
+                    }
+                    else
+                    {
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onStatusCode(m_fragmentedData1);
+                        m_fragmentedData1.clear();
+                    }
+                    m_parsingMode = ParsingMode::reasonPhrase;
+                    break;
+                }
+                ++current;
+            }
+            if (current == end)
+            {
+                m_fragmentedData1.append(previous, (current - previous));
+            }
+            else
+            {
+                ++current;
+            }
+            break;
+
+        case ParsingMode::reasonPhrase:
+            previous = current;
+            while (current < end)
+            {
+                if (*current == '\r')
+                {
+                    if (m_fragmentedData1.empty())
+                    {
+                        m_callbacks.onReasonPhrase(boost::string_view(previous, (current - previous)));
+                    }
+                    else
+                    {
+                        m_fragmentedData1.append(data.data(), current - data.data());
+                        m_callbacks.onReasonPhrase(m_fragmentedData1);
                         m_fragmentedData1.clear();
                     }
                 }

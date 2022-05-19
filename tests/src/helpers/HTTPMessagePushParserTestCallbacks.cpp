@@ -30,6 +30,16 @@ void HTTPMessagePushParserTestCallbacks::onHTTPVersion(boost::string_view data)
     m_httpVersion = data.to_string();
 }
 
+void HTTPMessagePushParserTestCallbacks::onStatusCode(boost::string_view data)
+{
+    m_statusCode = data.to_string();
+}
+
+void HTTPMessagePushParserTestCallbacks::onReasonPhrase(boost::string_view data)
+{
+    m_reasonPhrase = data.to_string();
+}
+
 void HTTPMessagePushParserTestCallbacks::onHeader(boost::string_view name, boost::string_view value)
 {
     m_headers.emplace_back(std::make_pair<std::string, std::string>(name.to_string(), value.to_string()));
@@ -53,6 +63,16 @@ const std::string& HTTPMessagePushParserTestCallbacks::requestURI() const
 const std::string& HTTPMessagePushParserTestCallbacks::httpVersion() const
 {
     return m_httpVersion;
+}
+
+const std::string& HTTPMessagePushParserTestCallbacks::statusCode() const
+{
+    return m_statusCode;
+}
+
+const std::string& HTTPMessagePushParserTestCallbacks::reasonPhrase() const
+{
+    return m_reasonPhrase;
 }
 
 const std::vector<std::pair<std::string, std::string>>& HTTPMessagePushParserTestCallbacks::headers() const

@@ -26,12 +26,16 @@ public:
     void onMethod(boost::string_view data) override;
     void onRequestURI(boost::string_view data) override;
     void onHTTPVersion(boost::string_view data) override;
+    void onStatusCode(boost::string_view data) override;
+    void onReasonPhrase(boost::string_view data) override;
     void onHeader(boost::string_view name, boost::string_view value) override;
 
     MessageType messageType() const;
     const std::string& method() const;
     const std::string& requestURI() const;
     const std::string& httpVersion() const;
+    const std::string& statusCode() const;
+    const std::string& reasonPhrase() const;
     const std::vector<std::pair<std::string, std::string>>& headers() const;
 
 private:
@@ -39,6 +43,8 @@ private:
     std::string m_method;
     std::string m_requestURI;
     std::string m_httpVersion;
+    std::string m_statusCode;
+    std::string m_reasonPhrase;
     std::vector<std::pair<std::string, std::string>> m_headers;
 };
 

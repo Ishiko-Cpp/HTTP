@@ -25,6 +25,8 @@ public:
         virtual void onMethod(boost::string_view data);
         virtual void onRequestURI(boost::string_view data);
         virtual void onHTTPVersion(boost::string_view data);
+        virtual void onStatusCode(boost::string_view data);
+        virtual void onReasonPhrase(boost::string_view data);
         virtual void onHeader(boost::string_view name, boost::string_view value);
         virtual void onBody(boost::string_view data);
     };
@@ -38,7 +40,11 @@ private:
     {
         methodOrHTTPVersion, // We do not know whether we are parsing a request or a response yet
         requestURI,
-        httpVersion,
+        // The HTTP version can appear in the request or response so we need 2 different states to distinguish them
+        requestHTTPVersion,
+        responseHTTPVersion,
+        statusCode,
+        reasonPhrase,
         headerOrSeparator,
         headerName,
         headerValue,
