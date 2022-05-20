@@ -55,9 +55,19 @@ HTTPStatusCode HTTPResponse::statusCode() const
     return m_statusCode;
 }
 
+const std::vector<HTTPHeader>& HTTPResponse::headers() const
+{
+    return m_headers;
+}
+
 void HTTPResponse::setStatusCode(HTTPStatusCode statusCode)
 {
     m_statusCode = statusCode;
+}
+
+void HTTPResponse::appendHeader(const std::string& name, const std::string& value)
+{
+    m_headers.emplace_back(name, value);
 }
 
 void HTTPResponse::setDateHeader(const UTCTime& time)

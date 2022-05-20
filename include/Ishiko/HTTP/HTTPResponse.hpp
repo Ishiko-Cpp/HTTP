@@ -29,10 +29,14 @@ public:
     static HTTPResponse InternalServerError();
 
     HTTPStatusCode statusCode() const;
+    const std::vector<HTTPHeader>& headers() const;
 
     void setStatusCode(HTTPStatusCode statusCode);
+
     void setDateHeader(const UTCTime& time);
     void setLocation(const URL& newLocation);
+    void appendHeader(const std::string& name, const std::string& value);
+
     void setBody(const std::string& body);
 
     // TODO: this is a naive way to create a response as it could be very large. Some form of streaming, especially of

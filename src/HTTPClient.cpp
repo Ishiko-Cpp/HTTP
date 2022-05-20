@@ -25,6 +25,8 @@ public:
     HTTPClientResponseParserCallbacks(HTTPResponse& response);
 
     void onStatusCode(boost::string_view data) override;
+    void onReasonPhrase(boost::string_view data) override;
+    void onHeader(boost::string_view name, boost::string_view value) override;
 
 private:
     HTTPResponse& m_response;
@@ -41,6 +43,16 @@ void HTTPClientResponseParserCallbacks::onStatusCode(boost::string_view data)
     Error error;
     HTTPStatusCode statusCode(data.to_string(), error); // TODO: avoid to_string
     m_response.setStatusCode(statusCode);
+}
+
+void HTTPClientResponseParserCallbacks::onReasonPhrase(boost::string_view data)
+{
+    // TODO: do I store this only if it is different from the default?
+}
+
+void HTTPClientResponseParserCallbacks::onHeader(boost::string_view name, boost::string_view value)
+{
+    m_response.appendHeader(name.to_string(), value.to_string());   // TODO: avoid to_string.
 }
 
 }

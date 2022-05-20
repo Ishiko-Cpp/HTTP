@@ -32,6 +32,7 @@ void HTTPClientTests::GetTest1(Test& test)
     HTTPClient::Get(address, Port::http, "http://needfulsoftware.com", response, error);
 
     ISHIKO_TEST_FAIL_IF_NEQ(response.statusCode(), 301);
+    ISHIKO_TEST_ABORT_IF_NEQ(response.headers().size(), 11);
     ISHIKO_TEST_PASS();
 }
 
@@ -44,6 +45,7 @@ void HTTPClientTests::GetTest2(Test& test)
     HTTPClient::Get("188.114.97.0", 80, "http://needfulsoftware.com", response, error);
 
     ISHIKO_TEST_FAIL_IF_NEQ(response.statusCode(), 301);
+    ISHIKO_TEST_ABORT_IF_NEQ(response.headers().size(), 11);
     ISHIKO_TEST_PASS();
 }
 
