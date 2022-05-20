@@ -1,7 +1,9 @@
 ishikopath = envvar("ISHIKO_CPP");
 import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
 import $(ishikopath)/networking/include/Ishiko/Networking.bkl;
+import $(ishikopath)/text/include/Ishiko/Text.bkl;
 import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
+import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Botan.bkl;
 import $(ishikopath)/time/include/Ishiko/Time.bkl;
 import $(ishikopath)/types/include/Ishiko/Types.bkl;
 
@@ -13,7 +15,7 @@ vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
 vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
 vs2013.solutionfile = ../vc12/IshikoHTTP.sln;
 
-library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoTypes, IshikoErrors, Boost
+library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, IshikoErrors, Botan, Boost
 {
     archs = x86 x86_64;
 
@@ -46,6 +48,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoTypes, IshikoErrors, Bo
         ../../include/Ishiko/HTTP/HTTPMethod.hpp
         ../../include/Ishiko/HTTP/HTTPRequest.hpp
         ../../include/Ishiko/HTTP/HTTPResponse.hpp
+        ../../include/Ishiko/HTTP/HTTPSClient.hpp
         ../../include/Ishiko/HTTP/HTTPStatusCode.hpp
         ../../include/Ishiko/HTTP/HTTPVersion.hpp
         ../../include/Ishiko/HTTP/linkoptions.hpp
@@ -61,6 +64,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoTypes, IshikoErrors, Bo
         ../../src/HTTPMethod.cpp
         ../../src/HTTPRequest.cpp
         ../../src/HTTPResponse.cpp
+        ../../src/HTTPSClient.cpp
         ../../src/HTTPStatusCode.cpp
         ../../src/HTTPVersion.cpp
     }
