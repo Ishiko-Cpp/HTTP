@@ -5,11 +5,10 @@
 */
 
 #include "HTTPStatusCode.hpp"
+#include "HTTPErrorCategory.hpp"
+#include <Ishiko/Text.hpp>
 
-using namespace std;
-
-namespace Ishiko
-{
+using namespace Ishiko;
 
 HTTPStatusCode::HTTPStatusCode(Value value)
     : m_value(value)
@@ -21,7 +20,21 @@ HTTPStatusCode::HTTPStatusCode(unsigned short value)
 {
 }
 
-string HTTPStatusCode::getReasonPhrase() const
+HTTPStatusCode::HTTPStatusCode(const std::string& value, Error& error)
+{
+    ASCII::Convert(value, m_value, error);
+    if (!error)
+    {
+        // HTTP status code are three-digit integers
+        if (m_value > 999)
+        {
+            // TODO : proper error message
+            Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
+        }
+    }
+}
+
+std::string HTTPStatusCode::getReasonPhrase() const
 {
     switch (m_value)
     {
@@ -56,7 +69,7 @@ bool HTTPStatusCode::operator!=(unsigned int value) const
     return (m_value != value);
 }
 
-string HTTPStatusCode::toString() const
+std::string HTTPStatusCode::toString() const
 {
     switch (m_value)
     {
@@ -79,6 +92,4 @@ string HTTPStatusCode::toString() const
         // TODO
         return "";
     }
-}
-
 }

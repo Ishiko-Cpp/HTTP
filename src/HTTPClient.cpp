@@ -6,6 +6,7 @@
 
 #include "HTTPClient.hpp"
 #include "HTTPErrorCategory.hpp"
+#include "HTTPMessagePushParser.hpp"
 #include "HTTPRequest.hpp"
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>
@@ -13,6 +14,80 @@
 #include <boost/asio/ip/tcp.hpp>
 
 using namespace Ishiko;
+
+namespace
+{
+
+// TODO: this seems generic enough for it to be a public API
+class HTTPClientResponseParserCallbacks : public HTTPMessagePushParser::Callbacks
+{
+public:
+    HTTPClientResponseParserCallbacks(HTTPResponse& response);
+
+    void onStatusCode(boost::string_view data) override;
+
+private:
+    HTTPResponse& m_response;
+};
+
+HTTPClientResponseParserCallbacks::HTTPClientResponseParserCallbacks(HTTPResponse& response)
+    : m_response(response)
+{
+}
+
+void HTTPClientResponseParserCallbacks::onStatusCode(boost::string_view data)
+{
+    // TODO: handle error
+    Error error;
+    HTTPStatusCode statusCode(data.to_string(), error); // TODO: avoid to_string
+    m_response.setStatusCode(statusCode);
+}
+
+}
+
+void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
+{
+    TCPClientSocket socket(error);
+    if (error)
+    {
+        return;
+    }
+
+    socket.connect(address, port, error);
+    if (error)
+    {
+        return;
+    }
+
+    HTTPRequest request(HTTPMethod::get, uri);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+    std::string requestStr = request.toString();
+    socket.write(requestStr.c_str(), requestStr.size(), error);
+    if (error)
+    {
+        return;
+    }
+
+    HTTPClientResponseParserCallbacks callbacks(response);
+    HTTPMessagePushParser parser(callbacks);
+
+    // TODO: buffer size and handle bigger responses
+    // TODO: this only works if the server closes the connection after the response is sent. We do set the close header
+    // but since we are parsing already can we double check stuff and also create APIs that support connection re-use.
+    char buffer[10 * 1024];
+    size_t offset = 0;
+    int n = 0;
+    do
+    {
+        n = socket.read(buffer, sizeof(buffer), error);
+        parser.onData(boost::string_view(buffer, n));
+    } while ((n != 0) && !error);
+
+    // TODO: is this the correct way to shutdown here?
+    // TODO: need to implement these functions in TCPClientSocket
+    socket.shutdown(error);
+    socket.close();
+}
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std::ostream& response, Error& error)
 {
@@ -38,6 +113,8 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std
     }
 
     // TODO: buffer size and handle bigger responses
+    // TODO: this only works if the server closes the connection after the response is sent. We do set the close header
+    // but do we need to be more robust and parse some of the headers.
     char buffer[10 * 1024];
     size_t offset = 0;
     int n = 0;
@@ -51,6 +128,16 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std
     // TODO: need to implement these functions in TCPClientSocket
     socket.shutdown(error);
     socket.close();
+}
+
+void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, HTTPResponse& response,
+    Error& error)
+{
+    IPv4Address ipv4Address(address, error);
+    if (!error)
+    {
+        Get(ipv4Address, port, uri, response, error);
+    }
 }
 
 void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
