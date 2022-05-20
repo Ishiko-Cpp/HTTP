@@ -49,8 +49,8 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std
 
     // TODO: is this the correct way to shutdown here?
     // TODO: need to implement these functions in TCPClientSocket
-    //socket.shutdown();
-    //socket.close();
+    socket.shutdown(error);
+    socket.close();
 }
 
 void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
