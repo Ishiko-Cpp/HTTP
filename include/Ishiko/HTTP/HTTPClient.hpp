@@ -7,6 +7,7 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPCLIENT_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPCLIENT_HPP_
 
+#include "HTTPResponse.hpp"
 #include <Ishiko/Networking.hpp>
 #include <Ishiko/Errors.hpp>
 #include <ostream>
@@ -18,7 +19,10 @@ namespace Ishiko
 class HTTPClient
 {
 public:
+    static void Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error);
     static void Get(IPv4Address address, Port port, const std::string& uri, std::ostream& response, Error& error);
+    static void Get(const std::string& address, unsigned short port, const std::string& uri, HTTPResponse& response,
+        Error& error);
     static void Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
         Error& error);
 };

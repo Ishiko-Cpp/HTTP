@@ -55,21 +55,31 @@ HTTPStatusCode HTTPResponse::statusCode() const
     return m_statusCode;
 }
 
+const HTTPHeaders& HTTPResponse::headers() const
+{
+    return m_headers;
+}
+
 void HTTPResponse::setStatusCode(HTTPStatusCode statusCode)
 {
     m_statusCode = statusCode;
 }
 
+void HTTPResponse::appendHeader(const std::string& name, const std::string& value)
+{
+    m_headers.pushBack(name, value);
+}
+
 void HTTPResponse::setDateHeader(const UTCTime& time)
 {
     // TODO: check if need to replace an existing header
-    m_headers.emplace_back(HTTPHeader::Date(time));
+    m_headers.pushBack(HTTPHeader::Date(time));
 }
 
 void HTTPResponse::setLocation(const URL& newLocation)
 {
     // TODO: check if need to replace an existing header
-    m_headers.emplace_back(HTTPHeader::Location(newLocation));
+    m_headers.pushBack(HTTPHeader::Location(newLocation));
 }
 
 void HTTPResponse::setBody(const string& body)
