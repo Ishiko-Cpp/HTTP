@@ -12,18 +12,9 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
-using namespace boost;
-using namespace std;
-
-namespace Ishiko
-{
+using namespace Ishiko;
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std::ostream& response, Error& error)
-{
-    Get(address.toString(), port.number(), uri, response, error);
-}
-
-void HTTPClient::Get(const string& address, unsigned short port, const string& uri, ostream& response, Error& error)
 {
     TCPClientSocket socket(error);
     if (error)
@@ -31,7 +22,7 @@ void HTTPClient::Get(const string& address, unsigned short port, const string& u
         return;
     }
 
-    socket.connect(IPv4Address(address, error), port, error);
+    socket.connect(address, port, error);
     if (error)
     {
         return;
@@ -47,16 +38,31 @@ void HTTPClient::Get(const string& address, unsigned short port, const string& u
     }
 
     // TODO: buffer size and handle bigger responses
-    char buffer[10* 1024];
-    int n = socket.read(buffer, sizeof(buffer), error);
-    if (error)
+    char buffer[10 * 1024];
+    size_t offset = 0;
+    int n = 0;
+    do
     {
-        return;
+        n = socket.read(buffer, sizeof(buffer), error);
+        response.write(buffer, n);
+    } while ((n != 0) && !error);
+
+    // TODO: is this the correct way to shutdown here?
+    // TODO: need to implement these functions in TCPClientSocket
+    //socket.shutdown();
+    //socket.close();
+}
+
+void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
+    Error& error)
+{
+    IPv4Address ipv4Address(address, error);
+    if (!error)
+    {
+        Get(ipv4Address, port, uri, response, error);
     }
-
-    response.write(buffer, n);
-
-    // TODO
+    
+    // TODO: keep this for now because I want to keep this as a tutorial somewhere
 #if 0
     try
     {
@@ -99,6 +105,4 @@ void HTTPClient::Get(const string& address, unsigned short port, const string& u
         Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
     }
 #endif
-}
-
 }
