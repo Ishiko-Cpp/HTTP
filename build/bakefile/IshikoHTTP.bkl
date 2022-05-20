@@ -41,6 +41,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoTypes, IshikoErrors, Bo
         ../../include/Ishiko/HTTP/HTTPErrorCategory.hpp
         ../../include/Ishiko/HTTP/HTTPClient.hpp
         ../../include/Ishiko/HTTP/HTTPHeader.hpp
+        ../../include/Ishiko/HTTP/HTTPHeaders.hpp
         ../../include/Ishiko/HTTP/HTTPMessagePushParser.hpp
         ../../include/Ishiko/HTTP/HTTPMethod.hpp
         ../../include/Ishiko/HTTP/HTTPRequest.hpp
@@ -55,6 +56,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoTypes, IshikoErrors, Bo
         ../../src/HTTPErrorCategory.cpp
         ../../src/HTTPClient.cpp
         ../../src/HTTPHeader.cpp
+        ../../src/HTTPHeaders.cpp
         ../../src/HTTPMessagePushParser.cpp
         ../../src/HTTPMethod.cpp
         ../../src/HTTPRequest.cpp

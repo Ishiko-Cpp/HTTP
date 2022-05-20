@@ -29,6 +29,9 @@
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPHeader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPHeaders.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\Ishiko\HTTP\HTTPMessagePushParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,6 +62,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HTTPHeader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPHeaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HTTPMessagePushParser.cpp">
