@@ -7,4 +7,15 @@
 #ifndef _ISHIKO_CPP_HTTP_HEADERS_HPP_
 #define _ISHIKO_CPP_HTTP_HEADERS_HPP_
 
+namespace Ishiko
+{
+
+class HTTPHeaders
+{
+public:
+    size_t size() const noexcept;
+};
+
+}
+
 #endif

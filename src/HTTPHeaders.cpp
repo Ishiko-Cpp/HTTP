@@ -5,3 +5,10 @@
 */
 
 #include "HTTPHeaders.hpp"
+
+using namespace Ishiko;
+
+size_t HTTPHeaders::size() const noexcept
+{
+    return 0;
+}
