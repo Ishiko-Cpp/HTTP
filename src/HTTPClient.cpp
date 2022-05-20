@@ -6,24 +6,64 @@
 
 #include "HTTPClient.hpp"
 #include "HTTPErrorCategory.hpp"
+#include "HTTPRequest.hpp"
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
-using namespace boost;
-using namespace std;
-
-namespace Ishiko
-{
+using namespace Ishiko;
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std::ostream& response, Error& error)
 {
-    Get(address.toString(), port.number(), uri, response, error);
+    TCPClientSocket socket(error);
+    if (error)
+    {
+        return;
+    }
+
+    socket.connect(address, port, error);
+    if (error)
+    {
+        return;
+    }
+
+    HTTPRequest request(HTTPMethod::get, uri);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+    std::string requestStr = request.toString();
+    socket.write(requestStr.c_str(), requestStr.size(), error);
+    if (error)
+    {
+        return;
+    }
+
+    // TODO: buffer size and handle bigger responses
+    char buffer[10 * 1024];
+    size_t offset = 0;
+    int n = 0;
+    do
+    {
+        n = socket.read(buffer, sizeof(buffer), error);
+        response.write(buffer, n);
+    } while ((n != 0) && !error);
+
+    // TODO: is this the correct way to shutdown here?
+    // TODO: need to implement these functions in TCPClientSocket
+    socket.shutdown(error);
+    socket.close();
 }
 
-void HTTPClient::Get(const string& address, unsigned short port, const string& uri, ostream& response, Error& error)
+void HTTPClient::Get(const std::string& address, unsigned short port, const std::string& uri, std::ostream& response,
+    Error& error)
 {
+    IPv4Address ipv4Address(address, error);
+    if (!error)
+    {
+        Get(ipv4Address, port, uri, response, error);
+    }
+    
+    // TODO: keep this for now because I want to keep this as a tutorial somewhere
+#if 0
     try
     {
         asio::io_context ioContext;
@@ -64,6 +104,5 @@ void HTTPClient::Get(const string& address, unsigned short port, const string& u
         // TODO : proper error message
         Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
     }
-}
-
+#endif
 }
