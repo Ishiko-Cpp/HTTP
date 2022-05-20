@@ -23,8 +23,8 @@ public:
 
     const HTTPHeader& at(const std::string& name) const;
 
-    void push_back(const HTTPHeader& header);
-    void push_back(const std::string& name, const std::string& value);
+    void pushBack(const HTTPHeader& header);
+    void pushBack(const std::string& name, const std::string& value);
 
     const_iterator begin() const noexcept;
     iterator begin() noexcept;

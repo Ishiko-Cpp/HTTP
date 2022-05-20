@@ -8,6 +8,7 @@
 #define _ISHIKO_CPP_HTTP_HTTPREQUEST_HPP_
 
 #include "HTTPHeader.hpp"
+#include "HTTPHeaders.hpp"
 #include "HTTPMethod.hpp"
 #include <Ishiko/Types.hpp>
 #include <string>
@@ -32,7 +33,7 @@ public:
 private:
     HTTPMethod m_method;
     URL m_requestURI;
-    std::vector<HTTPHeader> m_headers;
+    HTTPHeaders m_headers;
 };
 
 }

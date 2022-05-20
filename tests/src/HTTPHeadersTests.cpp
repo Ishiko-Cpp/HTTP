@@ -30,7 +30,7 @@ void HTTPHeadersTests::PushBackTest1(Test& test)
 {
     HTTPHeaders headers;
 
-    headers.push_back(HTTPHeader("name", "value"));
+    headers.pushBack(HTTPHeader("name", "value"));
 
     ISHIKO_TEST_FAIL_IF_NEQ(headers.size(), 1);
     ISHIKO_TEST_FAIL_IF_NEQ(headers.at("name").value(), "value");
@@ -44,8 +44,8 @@ void HTTPHeadersTests::PushBackTest2(Test& test)
 {
     HTTPHeaders headers;
 
-    headers.push_back(HTTPHeader("name1", "value1"));
-    headers.push_back(HTTPHeader("name2", "value2"));
+    headers.pushBack(HTTPHeader("name1", "value1"));
+    headers.pushBack(HTTPHeader("name2", "value2"));
 
     ISHIKO_TEST_FAIL_IF_NEQ(headers.size(), 2);
     ISHIKO_TEST_FAIL_IF_NEQ(headers.at("name1").value(), "value1");
@@ -69,7 +69,7 @@ void HTTPHeadersTests::PushBackTest3(Test& test)
 {
     HTTPHeaders headers;
 
-    headers.push_back("name", "value");
+    headers.pushBack("name", "value");
 
     ISHIKO_TEST_FAIL_IF_NEQ(headers.size(), 1);
     ISHIKO_TEST_FAIL_IF_NEQ(headers.at("name").value(), "value");

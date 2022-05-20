@@ -28,12 +28,12 @@ const HTTPHeader& HTTPHeaders::at(const std::string& name) const
     throw std::range_error("");
 }
 
-void HTTPHeaders::push_back(const HTTPHeader& header)
+void HTTPHeaders::pushBack(const HTTPHeader& header)
 {
     m_headers.push_back(header);
 }
 
-void HTTPHeaders::push_back(const std::string& name, const std::string& value)
+void HTTPHeaders::pushBack(const std::string& name, const std::string& value)
 {
     m_headers.emplace_back(name, value);
 }

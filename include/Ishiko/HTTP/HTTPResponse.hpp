@@ -8,6 +8,7 @@
 #define _ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP_
 
 #include "HTTPHeader.hpp"
+#include "HTTPHeaders.hpp"
 #include "HTTPStatusCode.hpp"
 #include "HTTPVersion.hpp"
 #include <Ishiko/Time.hpp>
@@ -29,7 +30,7 @@ public:
     static HTTPResponse InternalServerError();
 
     HTTPStatusCode statusCode() const;
-    const std::vector<HTTPHeader>& headers() const;
+    const HTTPHeaders& headers() const;
 
     void setStatusCode(HTTPStatusCode statusCode);
 
@@ -46,7 +47,7 @@ public:
 private:
     HTTPVersion m_version;
     HTTPStatusCode m_statusCode;
-    std::vector<HTTPHeader> m_headers;
+    HTTPHeaders m_headers;
     std::string m_body;
 };
 
