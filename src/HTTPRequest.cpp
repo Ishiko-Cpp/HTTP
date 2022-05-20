@@ -50,6 +50,7 @@ string HTTPRequest::toString() const
     for (const HTTPHeader& header : m_headers)
     {
         result.append(header.toString());
+        result.append("\r\n");
     }
     result.append("\r\n");
 

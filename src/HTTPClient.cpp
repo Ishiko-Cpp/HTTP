@@ -38,6 +38,7 @@ void HTTPClient::Get(const string& address, unsigned short port, const string& u
     }
 
     HTTPRequest request(HTTPMethod::get, uri);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
     std::string requestStr = request.toString();
     socket.write(requestStr.c_str(), requestStr.size(), error);
     if (error)
