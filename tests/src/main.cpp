@@ -5,6 +5,7 @@
 
 #include "HTTPClientTests.hpp"
 #include "HTTPHeaderTests.hpp"
+#include "HTTPHeadersTests.hpp"
 #include "HTTPMessagePushParserTests.hpp"
 #include "HTTPRequestTests.hpp"
 #include "HTTPResponseTests.hpp"
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
 
     TestSequence& theTests = theTestHarness.tests();
     theTests.append<HTTPHeaderTests>();
+    theTests.append<HTTPHeadersTests>();
     theTests.append<HTTPRequestTests>();
     theTests.append<HTTPResponseTests>();
     theTests.append<HTTPMessagePushParserTests>();

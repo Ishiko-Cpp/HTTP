@@ -7,6 +7,7 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPSTATUSCODE_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPSTATUSCODE_HPP_
 
+#include <Ishiko/Errors.hpp>
 #include <string>
 
 namespace Ishiko
@@ -26,6 +27,7 @@ public:
 
     HTTPStatusCode(Value value);
     HTTPStatusCode(unsigned short value);
+    HTTPStatusCode(const std::string& value, Error& error);
 
     // TODO: this doesn't work as status code can be extended (can they?)
     std::string getReasonPhrase() const;
