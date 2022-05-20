@@ -21,6 +21,8 @@ public:
 
     size_t size() const noexcept;
 
+    const HTTPHeader& at(const std::string& name) const;
+
     void push_back(const HTTPHeader& header);
     void push_back(const std::string& name, const std::string& value);
 

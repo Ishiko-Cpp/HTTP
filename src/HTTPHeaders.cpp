@@ -5,12 +5,27 @@
 */
 
 #include "HTTPHeaders.hpp"
+#include "HTTPErrorCategory.hpp"
 
 using namespace Ishiko;
 
 size_t HTTPHeaders::size() const noexcept
 {
     return m_headers.size();
+}
+
+const HTTPHeader& HTTPHeaders::at(const std::string& name) const
+{
+    for (const HTTPHeader& header : m_headers)
+    {
+        if (header.name() == name)
+        {
+            return header;
+        }
+    }
+
+    // TODO: throw appropriate exception
+    throw std::range_error("");
 }
 
 void HTTPHeaders::push_back(const HTTPHeader& header)
