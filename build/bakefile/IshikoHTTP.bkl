@@ -3,7 +3,6 @@ import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
 import $(ishikopath)/networking/include/Ishiko/Networking.bkl;
 import $(ishikopath)/text/include/Ishiko/Text.bkl;
 import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
-import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Botan.bkl;
 import $(ishikopath)/time/include/Ishiko/Time.bkl;
 import $(ishikopath)/types/include/Ishiko/Types.bkl;
 
@@ -15,7 +14,7 @@ vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
 vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
 vs2013.solutionfile = ../vc12/IshikoHTTP.sln;
 
-library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, IshikoErrors, Botan, Boost
+library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, IshikoErrors, Boost
 {
     archs = x86 x86_64;
 
