@@ -7,9 +7,11 @@
 #ifndef _ISHIKO_CPP_HTTP_HTTPREQUEST_HPP_
 #define _ISHIKO_CPP_HTTP_HTTPREQUEST_HPP_
 
+#include "HTTPHeader.hpp"
 #include "HTTPMethod.hpp"
 #include <Ishiko/Types.hpp>
 #include <string>
+#include <vector>
 
 namespace Ishiko
 {
@@ -23,11 +25,14 @@ public:
     HTTPMethod method() const;
     const URL& requestURI() const;
 
+    void setConnectionHeader(HTTPHeader::ConnectionMode mode);
+
     std::string toString() const;
 
 private:
     HTTPMethod m_method;
     URL m_requestURI;
+    std::vector<HTTPHeader> m_headers;
 };
 
 }

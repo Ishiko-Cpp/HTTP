@@ -26,6 +26,12 @@ const URL& HTTPRequest::requestURI() const
     return m_requestURI;
 }
 
+void HTTPRequest::setConnectionHeader(HTTPHeader::ConnectionMode mode)
+{
+    // TODO: check if no previous header
+    m_headers.push_back(HTTPHeader::Connection(mode));
+}
+
 string HTTPRequest::toString() const
 {
     string result;
@@ -40,7 +46,13 @@ string HTTPRequest::toString() const
     result.append(path); // TODO: query
     result.append(" HTTP/1.1\r\nHost: "); // TODO: other versions
     result.append(m_requestURI.host().value()); // TODO: what if no host
-    result.append("\r\n\r\n");
+    result.append("\r\n");
+    for (const HTTPHeader& header : m_headers)
+    {
+        result.append(header.toString());
+        result.append("\r\n");
+    }
+    result.append("\r\n");
 
     return result;
 }

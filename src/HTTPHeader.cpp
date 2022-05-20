@@ -17,6 +17,22 @@ HTTPHeader::HTTPHeader(string name, string value)
 {
 }
 
+HTTPHeader HTTPHeader::Connection(ConnectionMode mode)
+{
+    switch (mode)
+    {
+    case ConnectionMode::close:
+        return HTTPHeader("Connection", "close");
+
+    case ConnectionMode::keepAlive:
+        return HTTPHeader("Connection", "keep-alive");
+
+    default:
+        // TODO
+        return HTTPHeader("Connection", "close");
+    }
+}
+
 HTTPHeader HTTPHeader::Date(const UTCTime& time)
 {
     return HTTPHeader("Date", time.toRFC7231String());

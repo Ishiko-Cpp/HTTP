@@ -29,7 +29,7 @@ void HTTPClientTests::GetTest1(Test& test)
     // TODO: use proper test website
     HTTPClient::Get(address, Port::http, "http://needfulsoftware.com", response, error);
 
-    ISHIKO_TEST_FAIL_IF_NEQ(response.str().substr(0, 24), "HTTP/1.1 400 Bad Request");
+    ISHIKO_TEST_FAIL_IF_NEQ(response.str().substr(0, 30), "HTTP/1.1 301 Moved Permanently");
     ISHIKO_TEST_PASS();
 }
 
@@ -42,6 +42,6 @@ void HTTPClientTests::GetTest2(Test& test)
     // TODO: use proper test website
     HTTPClient::Get("188.114.97.0", 80, "http://needfulsoftware.com", response, error);
 
-    ISHIKO_TEST_FAIL_IF_NEQ(response.str().substr(0, 24), "HTTP/1.1 400 Bad Request");
+    ISHIKO_TEST_FAIL_IF_NEQ(response.str().substr(0, 30), "HTTP/1.1 301 Moved Permanently");
     ISHIKO_TEST_PASS();
 }
