@@ -4,100 +4,94 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
+#include "HTTPRequest.hpp"
+#include "HTTPMessagePushParser.hpp"
 #include "HTTPSClient.hpp"
-#undef min
-#include <botan/auto_rng.h>
-#include <botan/certstor_system.h>
-#include <botan/tls_callbacks.h>
-#include <botan/tls_client.h>
-#include <botan/tls_policy.h>
-#include <botan/tls_session_manager.h>
 
 using namespace Ishiko;
 
 namespace
 {
 
-class Callbacks : public Botan::TLS::Callbacks
+// TODO: this seems generic enough for it to be a public API
+class HTTPClientResponseParserCallbacks : public HTTPMessagePushParser::Callbacks
 {
 public:
-    void tls_emit_data(const uint8_t data[], size_t size) override
-    {
-        // send data to tls server, e.g., using BSD sockets or boost asio
-    }
+    HTTPClientResponseParserCallbacks(HTTPResponse& response);
 
-    void tls_record_received(uint64_t seq_no, const uint8_t data[], size_t size) override
-    {
-        // process full TLS record received by tls server, e.g.,
-        // by passing it to the application
-    }
-
-    void tls_alert(Botan::TLS::Alert alert) override
-    {
-        // handle a tls alert received from the tls server
-    }
-
-    bool tls_session_established(const Botan::TLS::Session& session) override
-    {
-        // the session with the tls server was established
-        // return false to prevent the session from being cached, true to
-        // cache the session in the configured session manager
-        return false;
-    }
-};
-
-class Client_Credentials : public Botan::Credentials_Manager
-{
-public:
-    Client_Credentials()
-    {
-        // Here we base trust on the system managed trusted CA list
-        m_stores.push_back(new Botan::System_Certificate_Store);
-    }
-
-    std::vector<Botan::Certificate_Store*> trusted_certificate_authorities(
-        const std::string& type,
-        const std::string& context) override
-    {
-        // return a list of certificates of CAs we trust for tls server certificates
-        // ownership of the pointers remains with Credentials_Manager
-        return m_stores;
-    }
-
-    std::vector<Botan::X509_Certificate> cert_chain(
-        const std::vector<std::string>& cert_key_types,
-        const std::string& type,
-        const std::string& context) override
-    {
-        // when using tls client authentication (optional), return
-        // a certificate chain being sent to the tls server,
-        // else an empty list
-        return std::vector<Botan::X509_Certificate>();
-    }
-
-    Botan::Private_Key* private_key_for(const Botan::X509_Certificate& cert,
-        const std::string& type,
-        const std::string& context) override
-    {
-        // when returning a chain in cert_chain(), return the private key
-        // associated with the leaf certificate here
-        return nullptr;
-    }
+    void onStatusCode(boost::string_view data) override;
+    void onReasonPhrase(boost::string_view data) override;
+    void onHeader(boost::string_view name, boost::string_view value) override;
 
 private:
-    std::vector<Botan::Certificate_Store*> m_stores;
+    HTTPResponse& m_response;
 };
+
+HTTPClientResponseParserCallbacks::HTTPClientResponseParserCallbacks(HTTPResponse& response)
+    : m_response(response)
+{
+}
+
+void HTTPClientResponseParserCallbacks::onStatusCode(boost::string_view data)
+{
+    // TODO: handle error
+    Error error;
+    HTTPStatusCode statusCode(data.to_string(), error); // TODO: avoid to_string
+    m_response.setStatusCode(statusCode);
+}
+
+void HTTPClientResponseParserCallbacks::onReasonPhrase(boost::string_view data)
+{
+    // TODO: do I store this only if it is different from the default?
+}
+
+void HTTPClientResponseParserCallbacks::onHeader(boost::string_view name, boost::string_view value)
+{
+    m_response.appendHeader(name.to_string(), value.to_string());   // TODO: avoid to_string.
+}
 
 }
 
 void HTTPSClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
-    Callbacks callbacks;
-    Botan::AutoSeeded_RNG rng;
-    Botan::TLS::Session_Manager_In_Memory session_mgr(rng);
-    Client_Credentials creds;
-    Botan::TLS::Strict_Policy policy;
-    Botan::TLS::Client client(callbacks, session_mgr, creds, policy, rng,
-        Botan::TLS::Server_Information("needfulsoftware.com", 443),
-        Botan::TLS::Protocol_Version::TLS_V12);
+    TLSClientSocket socket(error);
+    if (error)
+    {
+        return;
+    }
+
+    socket.connect(address, port, error);
+    if (error)
+    {
+        return;
+    }
+
+    HTTPRequest request(HTTPMethod::get, uri);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+    std::string requestStr = request.toString();
+    socket.write(requestStr.c_str(), requestStr.size(), error);
+    if (error)
+    {
+        return;
+    }
+
+    HTTPClientResponseParserCallbacks callbacks(response);
+    HTTPMessagePushParser parser(callbacks);
+
+    // TODO: buffer size and handle bigger responses
+    // TODO: this only works if the server closes the connection after the response is sent. We do set the close header
+    // but since we are parsing already can we double check stuff and also create APIs that support connection re-use.
+    char buffer[10 * 1024];
+    size_t offset = 0;
+    int n = 0;
+    do
+    {
+        n = socket.read(buffer, sizeof(buffer), error);
+        parser.onData(boost::string_view(buffer, n));
+    } while ((n != 0) && !error);
+
+    // TODO: is this the correct way to shutdown here?
+    // TODO: need to implement these functions in TCPClientSocket
+    //socket.shutdown(error);
+    //socket.close();
 }
