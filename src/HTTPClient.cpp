@@ -27,6 +27,7 @@ public:
     void onStatusCode(boost::string_view data) override;
     void onReasonPhrase(boost::string_view data) override;
     void onHeader(boost::string_view name, boost::string_view value) override;
+    // TODO: we need to  set the body!
 
 private:
     HTTPResponse& m_response;

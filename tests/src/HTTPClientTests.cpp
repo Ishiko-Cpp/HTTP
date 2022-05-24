@@ -8,10 +8,9 @@
 #include <sstream>
 
 using namespace Ishiko;
-using namespace std;
 
 HTTPClientTests::HTTPClientTests(const TestNumber& number, const TestContext& context)
-    : TestSequence(number, "Client tests", context)
+    : TestSequence(number, "HTTPClient tests", context)
 {
     append<HeapAllocationErrorsTest>("Get test 1", GetTest1);
     append<HeapAllocationErrorsTest>("Get test 2", GetTest2);
@@ -61,7 +60,7 @@ void HTTPClientTests::GetTest3(Test& test)
 
     ISHIKO_TEST_FAIL_IF(error);
 
-    stringstream response;
+    std::stringstream response;
     // TODO: use proper test website
     HTTPClient::Get(address, Port::http, "http://needfulsoftware.com", response, error);
 
@@ -73,7 +72,7 @@ void HTTPClientTests::GetTest4(Test& test)
 {
     Error error;
 
-    stringstream response;
+    std::stringstream response;
     // TODO: use proper test website
     HTTPClient::Get("188.114.97.0", 80, "http://needfulsoftware.com", response, error);
 

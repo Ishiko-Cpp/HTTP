@@ -9,6 +9,7 @@
 #include "HTTPMessagePushParserTests.hpp"
 #include "HTTPRequestTests.hpp"
 #include "HTTPResponseTests.hpp"
+#include "HTTPSClientTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/TestFramework.hpp>
 
@@ -29,6 +30,7 @@ int main(int argc, char* argv[])
     theTests.append<HTTPResponseTests>();
     theTests.append<HTTPMessagePushParserTests>();
     theTests.append<HTTPClientTests>();
+    theTests.append<HTTPSClientTests>();
 
     return theTestHarness.run();
 }

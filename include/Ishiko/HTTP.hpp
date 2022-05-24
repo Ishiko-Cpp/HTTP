@@ -16,6 +16,7 @@
 #include "HTTP/HTTPMethod.hpp"
 #include "HTTP/HTTPRequest.hpp"
 #include "HTTP/HTTPResponse.hpp"
+#include "HTTP/HTTPSClient.hpp"
 #include "HTTP/HTTPStatusCode.hpp"
 #include "HTTP/HTTPVersion.hpp"
 
