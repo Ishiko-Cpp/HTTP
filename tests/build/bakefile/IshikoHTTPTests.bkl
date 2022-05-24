@@ -17,7 +17,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
     if ($(toolset) == gnu)
     {
         cxx-compiler-options = "-std=c++11";
-        libs += IshikoHTTP IshikoNetworking IshikoTestFrameworkCore IshikoDiff IshikoFileSystem IshikoProcess IshikoTime IshikoText IshikoTypes IshikoErrors fmt boost_program_options boost_filesystem;
+        libs += IshikoHTTP IshikoNetworking IshikoTestFrameworkCore IshikoDiff IshikoFileSystem IshikoProcess IshikoTime IshikoText IshikoTypes IshikoErrors botan-2 fmt boost_filesystem;
     }
 
     headers
@@ -28,6 +28,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
         ../../src/HTTPMessagePushParserTests.hpp
         ../../src/HTTPRequestTests.hpp
         ../../src/HTTPResponseTests.hpp
+        ../../src/HTTPSClientTests.hpp
         ../../src/helpers/HTTPMessagePushParserTestCallbacks.hpp
     }
 
@@ -39,6 +40,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
         ../../src/HTTPMessagePushParserTests.cpp
         ../../src/HTTPRequestTests.cpp
         ../../src/HTTPResponseTests.cpp
+        ../../src/HTTPSClientTests.cpp
         ../../src/main.cpp
         ../../src/helpers/HTTPMessagePushParserTestCallbacks.cpp
     }
