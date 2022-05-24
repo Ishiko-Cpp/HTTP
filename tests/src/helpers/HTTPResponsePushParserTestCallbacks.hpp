@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-class HTTPMessagePushParserTestCallbacks : public Ishiko::HTTPMessagePushParser::Callbacks
+class HTTPResponsePushParserTestCallbacks : public Ishiko::HTTPResponsePushParser::Callbacks
 {
 public:
     enum class MessageType

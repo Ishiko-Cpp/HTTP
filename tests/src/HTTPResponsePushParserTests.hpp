@@ -9,10 +9,10 @@
 
 #include <Ishiko/TestFramework/Core.hpp>
 
-class HTTPMessagePushParserTests : public Ishiko::TestSequence
+class HTTPResponsePushParserTests : public Ishiko::TestSequence
 {
 public:
-    HTTPMessagePushParserTests(const Ishiko::TestNumber& number, const Ishiko::TestContext& context);
+    HTTPResponsePushParserTests(const Ishiko::TestNumber& number, const Ishiko::TestContext& context);
 
 private:
     static void ConstructorTest1(Ishiko::Test& test);
