@@ -21,15 +21,9 @@ HTTPResponsePushParserTests::HTTPResponsePushParserTests(const TestNumber& numbe
     : TestSequence(number, "HTTPResponsePushParser tests", context)
 {
     append<HeapAllocationErrorsTest>("Constructor test 1", ConstructorTest1);
-    append<HeapAllocationErrorsTest>("onData request test 1", OnDataRequestTest1);
-    append<HeapAllocationErrorsTest>("onData request test 2", OnDataRequestTest2);
-    append<HeapAllocationErrorsTest>("onData request test 3", OnDataRequestTest3);
-    append<HeapAllocationErrorsTest>("onData request test 4", OnDataRequestTest4);
-    append<HeapAllocationErrorsTest>("onData request test 5", OnDataRequestTest5);
-    append<HeapAllocationErrorsTest>("onData request test 6", OnDataRequestTest6);
-    append<HeapAllocationErrorsTest>("onData response test 1", OnDataResponseTest1);
-    append<HeapAllocationErrorsTest>("onData response test 2", OnDataResponseTest2);
-    append<HeapAllocationErrorsTest>("onData response test 3", OnDataResponseTest3);
+    append<HeapAllocationErrorsTest>("onData test 1", OnDataTest1);
+    append<HeapAllocationErrorsTest>("onData test 2", OnDataTest2);
+    append<HeapAllocationErrorsTest>("onData test 3", OnDataTest3);
 }
 
 void HTTPResponsePushParserTests::ConstructorTest1(Test& test)
@@ -40,177 +34,20 @@ void HTTPResponsePushParserTests::ConstructorTest1(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPResponsePushParserTests::OnDataRequestTest1(Test& test)
+void HTTPResponsePushParserTests::OnDataTest1(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest1.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPResponsePushParserTests_OnDataTest1.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
+    HTTPResponsePushParserTestCallbacks callbacks;
+    HTTPResponsePushParser parser(callbacks);
     bool complete = parser.onData(message);
 
     ISHIKO_TEST_FAIL_IF_NOT(complete);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::request);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers().size(), 0);
-    ISHIKO_TEST_PASS();
-}
-
-void HTTPResponsePushParserTests::OnDataRequestTest2(Test& test)
-{
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest2.bin"));
-
-    Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
-
-    ISHIKO_TEST_ABORT_IF(error);
-
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
-    bool complete = parser.onData(message);
-
-    ISHIKO_TEST_FAIL_IF_NOT(complete);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::request);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 1);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_TEST_PASS();
-}
-
-void HTTPResponsePushParserTests::OnDataRequestTest3(Test& test)
-{
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest3.bin"));
-
-    Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
-
-    ISHIKO_TEST_ABORT_IF(error);
-
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
-    bool complete = parser.onData(message);
-
-    ISHIKO_TEST_FAIL_IF_NOT(complete);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::request);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 2);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].first, "Connection");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].second, "keep-alive");
-    ISHIKO_TEST_PASS();
-}
-
-void HTTPResponsePushParserTests::OnDataRequestTest4(Test& test)
-{
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest1.bin"));
-
-    Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
-
-    ISHIKO_TEST_ABORT_IF(error);
-
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
-
-    // Feed the message byte per byte to test correct behaviour when the message is fragmented across multiple packets
-    for (size_t i = 0; i < message.size(); ++i)
-    {
-        parser.onData(string_view(&message[i], 1));
-    }
-
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::request);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers().size(), 0);
-    ISHIKO_TEST_PASS();
-}
-
-void HTTPResponsePushParserTests::OnDataRequestTest5(Test& test)
-{
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest2.bin"));
-
-    Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
-
-    ISHIKO_TEST_ABORT_IF(error);
-
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
-
-    // Feed the message byte per byte to test correct behaviour when the message is fragmented across multiple packets
-    for (size_t i = 0; i < message.size(); ++i)
-    {
-        parser.onData(string_view(&message[i], 1));
-    }
-
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::request);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 1);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_TEST_PASS();
-}
-
-void HTTPResponsePushParserTests::OnDataRequestTest6(Test& test)
-{
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataRequestTest3.bin"));
-
-    Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
-
-    ISHIKO_TEST_ABORT_IF(error);
-
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
-    
-    // Feed the message byte per byte to test correct behaviour when the message is fragmented across multiple packets
-    for (size_t i = 0; i < message.size(); ++i)
-    {
-        parser.onData(string_view(&message[i], 1));
-    }
-
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::request);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.requestURI(), "/");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
-    ISHIKO_TEST_ABORT_IF_NEQ(callbacks.headers().size(), 2);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].first, "Host");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[0].second, "example.org");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].first, "Connection");
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.headers()[1].second, "keep-alive");
-    ISHIKO_TEST_PASS();
-}
-
-void HTTPResponsePushParserTests::OnDataResponseTest1(Test& test)
-{
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataResponseTest1.bin"));
-
-    Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
-
-    ISHIKO_TEST_ABORT_IF(error);
-
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
-    bool complete = parser.onData(message);
-
-    ISHIKO_TEST_FAIL_IF_NOT(complete);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::response);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.statusCode(), "200");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.reasonPhrase(), "OK");
@@ -219,21 +56,20 @@ void HTTPResponsePushParserTests::OnDataResponseTest1(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPResponsePushParserTests::OnDataResponseTest2(Test& test)
+void HTTPResponsePushParserTests::OnDataTest2(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataResponseTest2.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPResponsePushParserTests_OnDataTest2.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
+    HTTPResponsePushParserTestCallbacks callbacks;
+    HTTPResponsePushParser parser(callbacks);
     bool complete = parser.onData(message);
 
     ISHIKO_TEST_FAIL_IF_NOT(complete);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::response);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.statusCode(), "200");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.reasonPhrase(), "OK");
@@ -244,21 +80,20 @@ void HTTPResponsePushParserTests::OnDataResponseTest2(Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPResponsePushParserTests::OnDataResponseTest3(Test& test)
+void HTTPResponsePushParserTests::OnDataTest3(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPMessagePushParserTests_OnDataResponseTest3.bin"));
+    path inputPath(test.context().getTestDataPath("HTTResponsePushParserTests_OnDataTest3.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
-    HTTPMessagePushParserTestCallbacks callbacks;
-    HTTPMessagePushParser parser(callbacks);
+    HTTPResponsePushParserTestCallbacks callbacks;
+    HTTPResponsePushParser parser(callbacks);
     bool complete = parser.onData(message);
 
     ISHIKO_TEST_FAIL_IF_NOT(complete);
-    ISHIKO_TEST_FAIL_IF_NEQ(callbacks.messageType(), HTTPMessagePushParserTestCallbacks::MessageType::response);
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.httpVersion(), "HTTP/1.1");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.statusCode(), "200");
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.reasonPhrase(), "OK");

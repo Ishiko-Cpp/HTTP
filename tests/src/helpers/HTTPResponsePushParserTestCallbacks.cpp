@@ -6,26 +6,6 @@
 
 #include "HTTPResponsePushParserTestCallbacks.hpp"
 
-void HTTPResponsePushParserTestCallbacks::onRequest()
-{
-    m_messageType = MessageType::request;
-}
-
-void HTTPResponsePushParserTestCallbacks::onResponse()
-{
-    m_messageType = MessageType::response;
-}
-
-void HTTPResponsePushParserTestCallbacks::onMethod(boost::string_view data)
-{
-    m_method = data.to_string();
-}
-
-void HTTPResponsePushParserTestCallbacks::onRequestURI(boost::string_view data)
-{
-    m_requestURI = data.to_string();
-}
-
 void HTTPResponsePushParserTestCallbacks::onHTTPVersion(boost::string_view data)
 {
     m_httpVersion = data.to_string();
@@ -49,21 +29,6 @@ void HTTPResponsePushParserTestCallbacks::onHeader(boost::string_view name, boos
 void HTTPResponsePushParserTestCallbacks::onBodyFragment(boost::string_view data)
 {
     m_body.append(data.to_string());
-}
-
-HTTPResponsePushParserTestCallbacks::MessageType HTTPResponsePushParserTestCallbacks::messageType() const
-{
-    return m_messageType;
-}
-
-const std::string& HTTPResponsePushParserTestCallbacks::method() const
-{
-    return m_method;
-}
-
-const std::string& HTTPResponsePushParserTestCallbacks::requestURI() const
-{
-    return m_requestURI;
 }
 
 const std::string& HTTPResponsePushParserTestCallbacks::httpVersion() const
