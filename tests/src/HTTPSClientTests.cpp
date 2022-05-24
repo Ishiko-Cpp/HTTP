@@ -14,6 +14,7 @@ HTTPSClientTests::HTTPSClientTests(const TestNumber& number, const TestContext& 
     append<HeapAllocationErrorsTest>("Get test 1", GetTest1);
 }
 
+// TODO: memory leak detected but is it real or due to Botan?
 void HTTPSClientTests::GetTest1(Test& test)
 {
     Error error;
@@ -27,9 +28,8 @@ void HTTPSClientTests::GetTest1(Test& test)
     // TODO: defeine Port::https
     HTTPSClient::Get(address, 443, "https://needfulsoftware.com", response, error);
 
-    ISHIKO_TEST_FAIL_IF_NEQ(response.statusCode(), 301);
+    ISHIKO_TEST_FAIL_IF_NEQ(response.statusCode(), 200);
     ISHIKO_TEST_FAIL_IF_NEQ(response.headers().size(), 11);
-    //ISHIKO_TEST_FAIL_IF_NEQ(response.headers().at("Connection").value(), "close");
-    //ISHIKO_TEST_FAIL_IF_NEQ(response.headers().at("Location").value(), "https://needfulsoftware.com/");
+    ISHIKO_TEST_FAIL_IF_NEQ(response.headers().at("Connection").value(), "close");
     ISHIKO_TEST_PASS();
 }
