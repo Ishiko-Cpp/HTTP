@@ -4,7 +4,7 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
-#include "HTTPMessagePushParserTestCallbacks.hpp"
+#include "HTTPRequestPushParserTestCallbacks.hpp"
 
 void HTTPMessagePushParserTestCallbacks::onRequest()
 {
