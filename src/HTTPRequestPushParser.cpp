@@ -4,7 +4,7 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
-#include "HTTPMessagePushParser.hpp"
+#include "HTTPRequestPushParser.hpp"
 #include <Ishiko/Text.hpp>
 
 using namespace Ishiko;

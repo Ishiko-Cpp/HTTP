@@ -6,7 +6,7 @@
 
 #include "HTTPClient.hpp"
 #include "HTTPErrorCategory.hpp"
-#include "HTTPMessagePushParser.hpp"
+#include "HTTPResponsePushParser.hpp"
 #include "HTTPRequest.hpp"
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>

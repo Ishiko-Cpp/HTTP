@@ -4,9 +4,9 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
-#include "HTTPMessagePushParserTests.hpp"
-#include "helpers/HTTPMessagePushParserTestCallbacks.hpp"
-#include "Ishiko/HTTP/HTTPMessagePushParser.hpp"
+#include "HTTPRequestPushParserTests.hpp"
+#include "helpers/HTTPRequestPushParserTestCallbacks.hpp"
+#include "Ishiko/HTTP/HTTPRequestPushParser.hpp"
 #include <boost/filesystem.hpp>
 #include <Ishiko/FileSystem.hpp>
 #include <string>

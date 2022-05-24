@@ -4,8 +4,8 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
-#ifndef _ISHIKO_CPP_HTTP_HTTPMESSAGEPUSHPARSER_HPP_
-#define _ISHIKO_CPP_HTTP_HTTPMESSAGEPUSHPARSER_HPP_
+#ifndef _ISHIKO_CPP_HTTP_HTTPRESPONSEPUSHPARSER_HPP_
+#define _ISHIKO_CPP_HTTP_HTTPRESPONSEPUSHPARSER_HPP_
 
 #include <boost/optional.hpp>
 #include <boost/utility/string_view.hpp>
