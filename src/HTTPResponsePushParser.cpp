@@ -9,49 +9,49 @@
 
 using namespace Ishiko;
 
-void HTTPMessagePushParser::Callbacks::onRequest()
+void HTTPResponsePushParser::Callbacks::onRequest()
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onResponse()
+void HTTPResponsePushParser::Callbacks::onResponse()
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onMethod(boost::string_view data)
+void HTTPResponsePushParser::Callbacks::onMethod(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onRequestURI(boost::string_view data)
+void HTTPResponsePushParser::Callbacks::onRequestURI(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onHTTPVersion(boost::string_view data)
+void HTTPResponsePushParser::Callbacks::onHTTPVersion(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onStatusCode(boost::string_view data)
+void HTTPResponsePushParser::Callbacks::onStatusCode(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onReasonPhrase(boost::string_view data)
+void HTTPResponsePushParser::Callbacks::onReasonPhrase(boost::string_view data)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onHeader(boost::string_view name, boost::string_view value)
+void HTTPResponsePushParser::Callbacks::onHeader(boost::string_view name, boost::string_view value)
 {
 }
 
-void HTTPMessagePushParser::Callbacks::onBodyFragment(boost::string_view data)
+void HTTPResponsePushParser::Callbacks::onBodyFragment(boost::string_view data)
 {
 }
 
-HTTPMessagePushParser::HTTPMessagePushParser(Callbacks& callbacks)
+HTTPResponsePushParser::HTTPResponsePushParser(Callbacks& callbacks)
     : m_parsingMode(ParsingMode::methodOrHTTPVersion), m_callbacks(callbacks)
 {
 }
 
 // TODO: if pipelining is used then returning bool is not enough since we may have unused bytes at the end of data
-bool HTTPMessagePushParser::onData(boost::string_view data)
+bool HTTPResponsePushParser::onData(boost::string_view data)
 {
     const char* previous = data.data();
     const char* current = previous;
@@ -442,7 +442,7 @@ bool HTTPMessagePushParser::onData(boost::string_view data)
     return false;
 }
 
-void HTTPMessagePushParser::notifyHeader()
+void HTTPResponsePushParser::notifyHeader()
 {
     /*
     if (strncmp(m_headerName, "Accept", 7) == 0)

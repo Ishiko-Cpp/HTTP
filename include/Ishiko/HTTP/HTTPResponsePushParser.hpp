@@ -13,7 +13,7 @@
 namespace Ishiko
 {
 
-class HTTPMessagePushParser
+class HTTPResponsePushParser
 {
 public:
     class Callbacks
@@ -33,7 +33,7 @@ public:
         virtual void onBodyFragment(boost::string_view data);
     };
 
-    HTTPMessagePushParser(Callbacks& callbacks);
+    HTTPResponsePushParser(Callbacks& callbacks);
 
     bool onData(boost::string_view data);
 
