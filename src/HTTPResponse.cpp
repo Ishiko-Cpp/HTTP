@@ -6,10 +6,30 @@
 
 #include "HTTPResponse.hpp"
 
-using namespace std;
+using namespace Ishiko;
 
-namespace Ishiko
+HTTPResponse::ParserCallbacks::ParserCallbacks(HTTPResponse& response)
+    : m_response(response)
 {
+}
+
+void HTTPResponse::ParserCallbacks::onStatusCode(boost::string_view data)
+{
+    // TODO: handle error
+    Error error;
+    HTTPStatusCode statusCode(data.to_string(), error); // TODO: avoid to_string
+    m_response.setStatusCode(statusCode);
+}
+
+void HTTPResponse::ParserCallbacks::onReasonPhrase(boost::string_view data)
+{
+    // TODO: do I store this only if it is different from the default?
+}
+
+void HTTPResponse::ParserCallbacks::onHeader(boost::string_view name, boost::string_view value)
+{
+    m_response.appendHeader(name.to_string(), value.to_string());   // TODO: avoid to_string.
+}
 
 HTTPResponse::HTTPResponse(HTTPStatusCode statusCode)
     : m_statusCode(statusCode)
@@ -82,14 +102,14 @@ void HTTPResponse::setLocation(const URL& newLocation)
     m_headers.pushBack(HTTPHeader::Location(newLocation));
 }
 
-void HTTPResponse::setBody(const string& body)
+void HTTPResponse::setBody(const std::string& body)
 {
     m_body = body;
 }
 
-string HTTPResponse::toString() const
+std::string HTTPResponse::toString() const
 {
-    string result;
+    std::string result;
 
     result.append(m_version.toString());
     result.append(" ");
@@ -105,11 +125,9 @@ string HTTPResponse::toString() const
     }
 
     result.append("Content-Length: ");
-    result.append(to_string(m_body.size()));
+    result.append(std::to_string(m_body.size()));
     result.append("\r\n\r\n");
     result.append(m_body);
 
     return result;
-}
-
 }
