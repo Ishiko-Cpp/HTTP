@@ -12,29 +12,15 @@
 #include <utility>
 #include <vector>
 
-class HTTPMessagePushParserTestCallbacks : public Ishiko::HTTPMessagePushParser::Callbacks
+class HTTPResponsePushParserTestCallbacks : public Ishiko::HTTPResponsePushParser::Callbacks
 {
 public:
-    enum class MessageType
-    {
-        uninitialized,
-        request,
-        response
-    };
-
-    void onRequest() override;
-    void onResponse() override;
-    void onMethod(boost::string_view data) override;
-    void onRequestURI(boost::string_view data) override;
     void onHTTPVersion(boost::string_view data) override;
     void onStatusCode(boost::string_view data) override;
     void onReasonPhrase(boost::string_view data) override;
     void onHeader(boost::string_view name, boost::string_view value) override;
     void onBodyFragment(boost::string_view data) override;
 
-    MessageType messageType() const;
-    const std::string& method() const;
-    const std::string& requestURI() const;
     const std::string& httpVersion() const;
     const std::string& statusCode() const;
     const std::string& reasonPhrase() const;
@@ -42,9 +28,6 @@ public:
     const std::string& body() const;
 
 private:
-    MessageType m_messageType = MessageType::uninitialized;
-    std::string m_method;
-    std::string m_requestURI;
     std::string m_httpVersion;
     std::string m_statusCode;
     std::string m_reasonPhrase;

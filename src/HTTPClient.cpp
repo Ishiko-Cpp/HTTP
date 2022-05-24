@@ -19,7 +19,7 @@ namespace
 {
 
 // TODO: this seems generic enough for it to be a public API
-class HTTPClientResponseParserCallbacks : public HTTPMessagePushParser::Callbacks
+class HTTPClientResponseParserCallbacks : public HTTPResponsePushParser::Callbacks
 {
 public:
     HTTPClientResponseParserCallbacks(HTTPResponse& response);
@@ -82,7 +82,7 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTT
     }
 
     HTTPClientResponseParserCallbacks callbacks(response);
-    HTTPMessagePushParser parser(callbacks);
+    HTTPResponsePushParser parser(callbacks);
 
     // TODO: buffer size and handle bigger responses
     // TODO: this only works if the server closes the connection after the response is sent. We do set the close header
