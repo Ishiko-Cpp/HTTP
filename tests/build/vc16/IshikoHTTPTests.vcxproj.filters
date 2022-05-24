@@ -26,10 +26,13 @@
     <ClInclude Include="..\..\src\HTTPHeadersTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp">
+    <ClInclude Include="..\..\src\HTTPRequestPushParserTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HTTPRequestTests.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HTTPResponsePushParserTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HTTPResponseTests.hpp">
@@ -38,7 +41,10 @@
     <ClInclude Include="..\..\src\HTTPSClientTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.hpp">
+    <ClInclude Include="..\..\src\helpers\HTTPRequestPushParserTestCallbacks.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\helpers\HTTPResponsePushParserTestCallbacks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -52,10 +58,13 @@
     <ClCompile Include="..\..\src\HTTPHeadersTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp">
+    <ClCompile Include="..\..\src\HTTPRequestPushParserTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HTTPRequestTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HTTPResponsePushParserTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\HTTPResponseTests.cpp">
@@ -67,7 +76,10 @@
     <ClCompile Include="..\..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.cpp">
+    <ClCompile Include="..\..\src\helpers\HTTPRequestPushParserTestCallbacks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\helpers\HTTPResponsePushParserTestCallbacks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
