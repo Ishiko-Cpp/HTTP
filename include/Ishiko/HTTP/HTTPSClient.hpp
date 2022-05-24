@@ -18,6 +18,7 @@ namespace Ishiko
 class HTTPSClient
 {
 public:
+    // TODO: the URI host part will be used to set SNI
     static void Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error);
 };
 
