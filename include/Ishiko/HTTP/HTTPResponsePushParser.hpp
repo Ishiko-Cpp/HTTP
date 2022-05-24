@@ -21,10 +21,6 @@ public:
     public:
         virtual ~Callbacks() = default;
 
-        virtual void onRequest();
-        virtual void onResponse();
-        virtual void onMethod(boost::string_view data);
-        virtual void onRequestURI(boost::string_view data);
         virtual void onHTTPVersion(boost::string_view data);
         virtual void onStatusCode(boost::string_view data);
         virtual void onReasonPhrase(boost::string_view data);
@@ -41,8 +37,6 @@ private:
     enum class ParsingMode
     {
         methodOrHTTPVersion, // We do not know whether we are parsing a request or a response yet
-        requestURI,
-        // The HTTP version can appear in the request or response so we need 2 different states to distinguish them
         requestHTTPVersion,
         responseHTTPVersion,
         statusCode,

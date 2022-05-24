@@ -9,22 +9,6 @@
 
 using namespace Ishiko;
 
-void HTTPResponsePushParser::Callbacks::onRequest()
-{
-}
-
-void HTTPResponsePushParser::Callbacks::onResponse()
-{
-}
-
-void HTTPResponsePushParser::Callbacks::onMethod(boost::string_view data)
-{
-}
-
-void HTTPResponsePushParser::Callbacks::onRequestURI(boost::string_view data)
-{
-}
-
 void HTTPResponsePushParser::Callbacks::onHTTPVersion(boost::string_view data)
 {
 }
@@ -65,60 +49,10 @@ bool HTTPResponsePushParser::onData(boost::string_view data)
         case ParsingMode::methodOrHTTPVersion:
             while (current < end)
             {
-                if (*current == ' ')
-                {
-                    // We have reached the end of the token without encountering a '/' so this a method and we are
-                    // parsing a request
-                    m_callbacks.onRequest();
-                    if (m_fragmentedData1.empty())
-                    {
-                        m_callbacks.onMethod(boost::string_view(previous, (current - previous)));
-                    }
-                    else
-                    {
-                        m_fragmentedData1.append(data.data(), current - data.data());
-                        m_callbacks.onMethod(m_fragmentedData1);
-                        m_fragmentedData1.clear();
-                    }
-                    m_parsingMode = ParsingMode::requestURI;
-                    break;
-                } 
-                else if (*current == '/')
+                if (*current == '/')
                 {
                     // Methods can't have a '/' in them so this is a protocol version and hence we are parsing a response
-                    m_callbacks.onResponse();
                     m_parsingMode = ParsingMode::responseHTTPVersion;
-                    break;
-                }
-                ++current;
-            }
-            if (current == end)
-            {
-                m_fragmentedData1.append(previous, (current - previous));
-            }
-            else
-            {
-                ++current;
-            }
-            break;
-
-        case ParsingMode::requestURI:
-            previous = current;
-            while (current < end)
-            {
-                if (*current == ' ')
-                {
-                    if (m_fragmentedData1.empty())
-                    {
-                        m_callbacks.onRequestURI(boost::string_view(previous, (current - previous)));
-                    }
-                    else
-                    {
-                        m_fragmentedData1.append(data.data(), current - data.data());
-                        m_callbacks.onRequestURI(m_fragmentedData1);
-                        m_fragmentedData1.clear();
-                    }
-                    m_parsingMode = ParsingMode::requestHTTPVersion;
                     break;
                 }
                 ++current;
