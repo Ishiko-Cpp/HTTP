@@ -12,19 +12,25 @@ using namespace Ishiko;
 
 void HTTPSClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
+    HTTPRequest request(HTTPMethod::get, uri);
+
     TLSClientSocket socket(error);
     if (error)
     {
         return;
     }
 
-    socket.connect(address, port, error);
+    std::string hostname;
+    if (request.requestURI().host())
+    {
+        hostname = *request.requestURI().host();
+    }
+    socket.connect(address, port, hostname, error);
     if (error)
     {
         return;
     }
 
-    HTTPRequest request(HTTPMethod::get, uri);
     request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
     std::string requestStr = request.toString();
     socket.write(requestStr.c_str(), requestStr.size(), error);
@@ -46,7 +52,8 @@ void HTTPSClient::Get(IPv4Address address, Port port, const std::string& uri, HT
     {
         n = socket.read(buffer, sizeof(buffer), error);
         parser.onData(boost::string_view(buffer, n));
-    } while ((n != 0) && !error);
+    }
+    while ((n != 0) && !error);
 
     // TODO: is this the correct way to shutdown here?
     // TODO: need to implement these functions in TCPClientSocket
