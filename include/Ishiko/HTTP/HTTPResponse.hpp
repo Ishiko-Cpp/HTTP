@@ -9,6 +9,7 @@
 
 #include "HTTPHeader.hpp"
 #include "HTTPHeaders.hpp"
+#include "HTTPResponsePushParser.hpp"
 #include "HTTPStatusCode.hpp"
 #include "HTTPVersion.hpp"
 #include <Ishiko/Time.hpp>
@@ -22,6 +23,20 @@ namespace Ishiko
 class HTTPResponse
 {
 public:
+    class ParserCallbacks : public HTTPResponsePushParser::Callbacks
+    {
+    public:
+        ParserCallbacks(HTTPResponse& response);
+
+        void onStatusCode(boost::string_view data) override;
+        void onReasonPhrase(boost::string_view data) override;
+        void onHeader(boost::string_view name, boost::string_view value) override;
+        // TODO: we need to  set the body!
+
+    private:
+        HTTPResponse& m_response;
+    };
+
     HTTPResponse(HTTPStatusCode statusCode);
     static HTTPResponse OK();
     static HTTPResponse MovedPermanently(const URL& newLocation);
