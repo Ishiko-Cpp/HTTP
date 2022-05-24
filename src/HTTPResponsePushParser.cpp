@@ -30,7 +30,7 @@ void HTTPResponsePushParser::Callbacks::onBodyFragment(boost::string_view data)
 }
 
 HTTPResponsePushParser::HTTPResponsePushParser(Callbacks& callbacks)
-    : m_parsingMode(ParsingMode::methodOrHTTPVersion), m_callbacks(callbacks)
+    : m_parsingMode(ParsingMode::httpVersion), m_callbacks(callbacks)
 {
 }
 
@@ -46,68 +46,7 @@ bool HTTPResponsePushParser::onData(boost::string_view data)
     {
         switch (m_parsingMode)
         {
-        case ParsingMode::methodOrHTTPVersion:
-            while (current < end)
-            {
-                if (*current == '/')
-                {
-                    // Methods can't have a '/' in them so this is a protocol version and hence we are parsing a response
-                    m_parsingMode = ParsingMode::responseHTTPVersion;
-                    break;
-                }
-                ++current;
-            }
-            if (current == end)
-            {
-                m_fragmentedData1.append(previous, (current - previous));
-            }
-            else
-            {
-                ++current;
-            }
-            break;
-
-        case ParsingMode::requestHTTPVersion:
-            previous = current;
-            while (current < end)
-            {
-                if (*current == '\r')
-                {
-                    if (m_fragmentedData1.empty())
-                    {
-                        m_callbacks.onHTTPVersion(boost::string_view(previous, (current - previous)));
-                    }
-                    else
-                    {
-                        m_fragmentedData1.append(data.data(), current - data.data());
-                        m_callbacks.onHTTPVersion(m_fragmentedData1);
-                        m_fragmentedData1.clear();
-                    }
-                }
-                else if (*current == '\n')
-                {
-                    m_parsingMode = ParsingMode::headerOrSeparator;
-                    break;
-                }
-                ++current;
-            }
-            if (current == end)
-            {
-                // TODO: handle case where data size is 0
-                const char* adjustedCurrent = current;
-                if (*(current - 1) == '\r')
-                {
-                    --adjustedCurrent;
-                }
-                m_fragmentedData1.append(previous, (adjustedCurrent - previous));
-            }
-            else
-            {
-                ++current;
-            }
-            break;
-
-        case ParsingMode::responseHTTPVersion:
+        case ParsingMode::httpVersion:
             // We do not set the previous pointer here as the ParsingMode::methodOrHTTPVersion state handler has
             // partially processed it
             while (current < end)

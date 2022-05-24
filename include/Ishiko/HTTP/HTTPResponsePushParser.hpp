@@ -36,9 +36,7 @@ public:
 private:
     enum class ParsingMode
     {
-        methodOrHTTPVersion, // We do not know whether we are parsing a request or a response yet
-        requestHTTPVersion,
-        responseHTTPVersion,
+        httpVersion,
         statusCode,
         reasonPhrase,
         headerOrSeparator,
