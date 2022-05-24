@@ -5,7 +5,7 @@
 */
 
 #include "HTTPRequest.hpp"
-#include "HTTPMessagePushParser.hpp"
+#include "HTTPResponsePushParser.hpp"
 #include "HTTPSClient.hpp"
 
 using namespace Ishiko;
