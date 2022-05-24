@@ -7,9 +7,10 @@
 #include "HTTPClientTests.hpp"
 #include "HTTPHeaderTests.hpp"
 #include "HTTPHeadersTests.hpp"
-#include "HTTPMessagePushParserTests.hpp"
+#include "HTTPRequestPushParserTests.hpp"
 #include "HTTPRequestTests.hpp"
 #include "HTTPResponseTests.hpp"
+#include "HTTPResponsePushParserTests.hpp"
 #include "HTTPSClientTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/TestFramework.hpp>
@@ -25,11 +26,12 @@ int main(int argc, char* argv[])
     theTestHarness.context().setReferenceDataDirectory("../../reference");
 
     TestSequence& theTests = theTestHarness.tests();
+    theTests.append<HTTPRequestPushParserTests>();
+    theTests.append<HTTPResponsePushParserTests>();
     theTests.append<HTTPHeaderTests>();
     theTests.append<HTTPHeadersTests>();
     theTests.append<HTTPRequestTests>();
     theTests.append<HTTPResponseTests>();
-    theTests.append<HTTPMessagePushParserTests>();
     theTests.append<HTTPClientTests>();
     theTests.append<HTTPSClientTests>();
 
