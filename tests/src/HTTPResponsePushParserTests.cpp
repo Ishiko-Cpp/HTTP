@@ -82,7 +82,7 @@ void HTTPResponsePushParserTests::OnDataTest2(Test& test)
 
 void HTTPResponsePushParserTests::OnDataTest3(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTResponsePushParserTests_OnDataTest3.bin"));
+    path inputPath(test.context().getTestDataPath("HTTPResponsePushParserTests_OnDataTest3.bin"));
 
     Error error;
     string message = FileSystem::ReadFile(inputPath, error);
