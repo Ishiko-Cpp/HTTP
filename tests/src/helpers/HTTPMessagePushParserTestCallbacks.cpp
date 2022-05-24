@@ -1,6 +1,7 @@
 /*
     Copyright (c) 2022 Xavier Leclercq
-    All rights reserved.
+    Released under the MIT License
+    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
 #include "HTTPMessagePushParserTestCallbacks.hpp"
