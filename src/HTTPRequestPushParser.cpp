@@ -300,10 +300,6 @@ bool HTTPRequestPushParser::onData(boost::string_view data)
         case ParsingMode::body:
             if (m_remainingContentLength && (*m_remainingContentLength > 0))
             {
-                // TODO: this is very problematic. The presence of a body may depend on the request the response is
-                // associated with e.g. HEAD. This means there is no point in having this generic parser. I may as well
-                // split into Request and Response parser and the response parser needs to have some info about which
-                // request it is associated with.
                 // TODO: take into account Content-Length
                 m_callbacks.onBodyFragment(boost::string_view(current, (end - current)));
             }

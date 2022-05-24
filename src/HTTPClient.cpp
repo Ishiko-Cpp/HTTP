@@ -15,49 +15,6 @@
 
 using namespace Ishiko;
 
-namespace
-{
-
-// TODO: this seems generic enough for it to be a public API
-class HTTPClientResponseParserCallbacks : public HTTPResponsePushParser::Callbacks
-{
-public:
-    HTTPClientResponseParserCallbacks(HTTPResponse& response);
-
-    void onStatusCode(boost::string_view data) override;
-    void onReasonPhrase(boost::string_view data) override;
-    void onHeader(boost::string_view name, boost::string_view value) override;
-    // TODO: we need to  set the body!
-
-private:
-    HTTPResponse& m_response;
-};
-
-HTTPClientResponseParserCallbacks::HTTPClientResponseParserCallbacks(HTTPResponse& response)
-    : m_response(response)
-{
-}
-
-void HTTPClientResponseParserCallbacks::onStatusCode(boost::string_view data)
-{
-    // TODO: handle error
-    Error error;
-    HTTPStatusCode statusCode(data.to_string(), error); // TODO: avoid to_string
-    m_response.setStatusCode(statusCode);
-}
-
-void HTTPClientResponseParserCallbacks::onReasonPhrase(boost::string_view data)
-{
-    // TODO: do I store this only if it is different from the default?
-}
-
-void HTTPClientResponseParserCallbacks::onHeader(boost::string_view name, boost::string_view value)
-{
-    m_response.appendHeader(name.to_string(), value.to_string());   // TODO: avoid to_string.
-}
-
-}
-
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
     TCPClientSocket socket(error);
@@ -81,7 +38,7 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTT
         return;
     }
 
-    HTTPClientResponseParserCallbacks callbacks(response);
+    HTTPResponse::ParserCallbacks callbacks(response);
     HTTPResponsePushParser parser(callbacks);
 
     // TODO: buffer size and handle bigger responses
