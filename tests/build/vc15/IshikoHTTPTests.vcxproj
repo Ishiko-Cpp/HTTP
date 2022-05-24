@@ -159,22 +159,26 @@
     <ClCompile Include="..\..\src\HTTPClientTests.cpp" />
     <ClCompile Include="..\..\src\HTTPHeaderTests.cpp" />
     <ClCompile Include="..\..\src\HTTPHeadersTests.cpp" />
-    <ClCompile Include="..\..\src\HTTPMessagePushParserTests.cpp" />
+    <ClCompile Include="..\..\src\HTTPRequestPushParserTests.cpp" />
     <ClCompile Include="..\..\src\HTTPRequestTests.cpp" />
+    <ClCompile Include="..\..\src\HTTPResponsePushParserTests.cpp" />
     <ClCompile Include="..\..\src\HTTPResponseTests.cpp" />
     <ClCompile Include="..\..\src\HTTPSClientTests.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.cpp" />
+    <ClCompile Include="..\..\src\helpers\HTTPRequestPushParserTestCallbacks.cpp" />
+    <ClCompile Include="..\..\src\helpers\HTTPResponsePushParserTestCallbacks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\HTTPClientTests.hpp" />
     <ClInclude Include="..\..\src\HTTPHeaderTests.hpp" />
     <ClInclude Include="..\..\src\HTTPHeadersTests.hpp" />
-    <ClInclude Include="..\..\src\HTTPMessagePushParserTests.hpp" />
+    <ClInclude Include="..\..\src\HTTPRequestPushParserTests.hpp" />
     <ClInclude Include="..\..\src\HTTPRequestTests.hpp" />
+    <ClInclude Include="..\..\src\HTTPResponsePushParserTests.hpp" />
     <ClInclude Include="..\..\src\HTTPResponseTests.hpp" />
     <ClInclude Include="..\..\src\HTTPSClientTests.hpp" />
-    <ClInclude Include="..\..\src\helpers\HTTPMessagePushParserTestCallbacks.hpp" />
+    <ClInclude Include="..\..\src\helpers\HTTPRequestPushParserTestCallbacks.hpp" />
+    <ClInclude Include="..\..\src\helpers\HTTPResponsePushParserTestCallbacks.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

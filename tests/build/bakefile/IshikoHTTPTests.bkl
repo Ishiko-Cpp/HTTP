@@ -25,11 +25,13 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
         ../../src/HTTPClientTests.hpp
         ../../src/HTTPHeaderTests.hpp
         ../../src/HTTPHeadersTests.hpp
-        ../../src/HTTPMessagePushParserTests.hpp
+        ../../src/HTTPRequestPushParserTests.hpp
         ../../src/HTTPRequestTests.hpp
+        ../../src/HTTPResponsePushParserTests.hpp
         ../../src/HTTPResponseTests.hpp
         ../../src/HTTPSClientTests.hpp
-        ../../src/helpers/HTTPMessagePushParserTestCallbacks.hpp
+        ../../src/helpers/HTTPRequestPushParserTestCallbacks.hpp
+        ../../src/helpers/HTTPResponsePushParserTestCallbacks.hpp
     }
 
     sources
@@ -37,11 +39,13 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
         ../../src/HTTPClientTests.cpp
         ../../src/HTTPHeaderTests.cpp
         ../../src/HTTPHeadersTests.cpp
-        ../../src/HTTPMessagePushParserTests.cpp
+        ../../src/HTTPRequestPushParserTests.cpp
         ../../src/HTTPRequestTests.cpp
+        ../../src/HTTPResponsePushParserTests.cpp
         ../../src/HTTPResponseTests.cpp
         ../../src/HTTPSClientTests.cpp
         ../../src/main.cpp
-        ../../src/helpers/HTTPMessagePushParserTestCallbacks.cpp
+        ../../src/helpers/HTTPRequestPushParserTestCallbacks.cpp
+        ../../src/helpers/HTTPResponsePushParserTestCallbacks.cpp
     }
 }
