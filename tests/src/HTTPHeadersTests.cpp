@@ -13,9 +13,11 @@ HTTPHeadersTests::HTTPHeadersTests(const TestNumber& number, const TestContext& 
     : TestSequence(number, "HTTPHeaders tests", context)
 {
     append<HeapAllocationErrorsTest>("Constructor test 1", ConstructorTest1);
-    append<HeapAllocationErrorsTest>("push_back test 1", PushBackTest1);
-    append<HeapAllocationErrorsTest>("push_back test 2", PushBackTest2);
-    append<HeapAllocationErrorsTest>("push_back test 3", PushBackTest3);
+    append<HeapAllocationErrorsTest>("set test 1", SetTest1);
+    append<HeapAllocationErrorsTest>("set test 2", SetTest2);
+    append<HeapAllocationErrorsTest>("pushBack test 1", PushBackTest1);
+    append<HeapAllocationErrorsTest>("pushBack test 2", PushBackTest2);
+    append<HeapAllocationErrorsTest>("pushBack test 3", PushBackTest3);
 }
 
 void HTTPHeadersTests::ConstructorTest1(Test& test)
@@ -24,6 +26,35 @@ void HTTPHeadersTests::ConstructorTest1(Test& test)
 
     ISHIKO_TEST_FAIL_IF_NEQ(headers.size(), 0);
     ISHIKO_TEST_FAIL_IF_NEQ(headers.begin(), headers.end());
+    ISHIKO_TEST_PASS();
+}
+
+void HTTPHeadersTests::SetTest1(Test& test)
+{
+    HTTPHeaders headers;
+
+    headers.set(HTTPHeader("name", "value"));
+
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.size(), 1);
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.at("name").value(), "value");
+    ISHIKO_TEST_FAIL_IF_NEQ((headers.begin() + 1), headers.end());
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.begin()->name(), "name");
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.begin()->value(), "value");
+    ISHIKO_TEST_PASS();
+}
+
+void HTTPHeadersTests::SetTest2(Test& test)
+{
+    HTTPHeaders headers;
+
+    headers.set(HTTPHeader("name", "value1"));
+    headers.set(HTTPHeader("name", "value2"));
+
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.size(), 1);
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.at("name").value(), "value2");
+    ISHIKO_TEST_FAIL_IF_NEQ((headers.begin() + 1), headers.end());
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.begin()->name(), "name");
+    ISHIKO_TEST_FAIL_IF_NEQ(headers.begin()->value(), "value2");
     ISHIKO_TEST_PASS();
 }
 

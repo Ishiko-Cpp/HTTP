@@ -19,6 +19,7 @@ private:
     static void GetTest2(Ishiko::Test& test);
     static void GetTest3(Ishiko::Test& test);
     static void GetTest4(Ishiko::Test& test);
+    static void GetTest5(Ishiko::Test& test);
 };
 
 #endif
