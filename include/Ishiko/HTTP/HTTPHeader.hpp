@@ -26,10 +26,12 @@ public:
     HTTPHeader(std::string name, std::string value);
     static HTTPHeader Connection(ConnectionMode mode);
     static HTTPHeader Date(const UTCTime& time);
+    static HTTPHeader Host(const std::string& host);
     static HTTPHeader Location(const URL& locationn);
 
     const std::string& name() const;
     const std::string& value() const;
+    void setValue(const std::string& value);
 
     std::string toString() const;
 

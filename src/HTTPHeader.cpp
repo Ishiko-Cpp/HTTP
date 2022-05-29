@@ -7,13 +7,10 @@
 #include "HTTPHeader.hpp"
 #include <boost/date_time.hpp>
 
-using namespace std;
+using namespace Ishiko;
 
-namespace Ishiko
-{
-
-HTTPHeader::HTTPHeader(string name, string value)
-    : m_name(move(name)), m_value(move(value))
+HTTPHeader::HTTPHeader(std::string name, std::string value)
+    : m_name(std::move(name)), m_value(std::move(value))
 {
 }
 
@@ -38,24 +35,32 @@ HTTPHeader HTTPHeader::Date(const UTCTime& time)
     return HTTPHeader("Date", time.toRFC7231String());
 }
 
+HTTPHeader HTTPHeader::Host(const std::string& host)
+{
+    return HTTPHeader("Host", host);
+}
+
 HTTPHeader HTTPHeader::Location(const URL& locationn)
 {
     return HTTPHeader("Location", locationn.str());
 }
 
-const string& HTTPHeader::name() const
+const std::string& HTTPHeader::name() const
 {
     return m_name;
 }
 
-const string& HTTPHeader::value() const
+const std::string& HTTPHeader::value() const
 {
     return m_value;
 }
 
-string HTTPHeader::toString() const
+void HTTPHeader::setValue(const std::string& value)
 {
-    return (m_name + ": " + m_value);
+    m_value = value;
 }
 
+std::string HTTPHeader::toString() const
+{
+    return (m_name + ": " + m_value);
 }
