@@ -25,8 +25,10 @@ public:
 
     HTTPMethod method() const;
     const URL& requestURI() const;
+    const HTTPHeaders& headers() const;
 
     void setConnectionHeader(HTTPHeader::ConnectionMode mode);
+    void setHostHeader(const std::string& host);
 
     std::string toString() const;
 

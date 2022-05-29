@@ -11,6 +11,10 @@ using namespace Ishiko;
 HTTPRequest::HTTPRequest(HTTPMethod method, URL requestURI)
     : m_method(method), m_requestURI(requestURI)
 {
+    if (m_requestURI.host())
+    {
+        setHostHeader(m_requestURI.host().value());
+    }
 }
 
 HTTPMethod HTTPRequest::method() const
@@ -23,10 +27,19 @@ const URL& HTTPRequest::requestURI() const
     return m_requestURI;
 }
 
+const HTTPHeaders& HTTPRequest::headers() const
+{
+    return m_headers;
+}
+
 void HTTPRequest::setConnectionHeader(HTTPHeader::ConnectionMode mode)
 {
-    // TODO: check if no previous header
-    m_headers.pushBack(HTTPHeader::Connection(mode));
+    m_headers.set(HTTPHeader::Connection(mode));
+}
+
+void HTTPRequest::setHostHeader(const std::string& host)
+{
+    m_headers.set(HTTPHeader::Host(host));
 }
 
 std::string HTTPRequest::toString() const
@@ -41,9 +54,7 @@ std::string HTTPRequest::toString() const
         path.append("/");
     }
     result.append(path); // TODO: query
-    result.append(" HTTP/1.1\r\nHost: "); // TODO: other versions
-    result.append(m_requestURI.host().value()); // TODO: what if no host
-    result.append("\r\n");
+    result.append(" HTTP/1.1\r\n"); // TODO: other versions
     for (const HTTPHeader& header : m_headers)
     {
         result.append(header.toString());

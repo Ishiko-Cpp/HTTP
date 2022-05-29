@@ -23,6 +23,8 @@ public:
 
     const HTTPHeader& at(const std::string& name) const;
 
+    void set(const HTTPHeader& header);
+    void set(const std::string& name, const std::string& value);
     void pushBack(const HTTPHeader& header);
     void pushBack(const std::string& name, const std::string& value);
 

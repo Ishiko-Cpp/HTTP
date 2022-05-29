@@ -15,6 +15,8 @@ HTTPRequestTests::HTTPRequestTests(const TestNumber& number, const TestContext& 
     : TestSequence(number, "HTTPRequest tests", context)
 {
     append<HeapAllocationErrorsTest>("Constructor test 1", ConstructorTest1);
+    append<HeapAllocationErrorsTest>("setConnectionHeader test 1", SetConnectionHeaderTest1);
+    append<HeapAllocationErrorsTest>("setConnectionHeader test 2", SetConnectionHeaderTest2);
     append<FileComparisonTest>("toString test 1", ToStringTest1);
     append<FileComparisonTest>("toString test 2", ToStringTest2);
 }
@@ -25,6 +27,33 @@ void HTTPRequestTests::ConstructorTest1(Test& test)
 
     ISHIKO_TEST_FAIL_IF_NEQ(request.method(), HTTPMethod::get);
     ISHIKO_TEST_FAIL_IF_NEQ(request.requestURI(), "http://example.org");
+    ISHIKO_TEST_ABORT_IF_NEQ(request.headers().size(), 1);
+    ISHIKO_TEST_FAIL_IF_NEQ(request.headers().at("Host").value(), "example.org");
+    ISHIKO_TEST_PASS();
+}
+
+void HTTPRequestTests::SetConnectionHeaderTest1(Ishiko::Test& test)
+{
+    HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
+
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+
+    ISHIKO_TEST_FAIL_IF_NEQ(request.headers().size(), 2);
+    ISHIKO_TEST_FAIL_IF_NEQ(request.headers().at("Host").value(), "example.org");
+    ISHIKO_TEST_FAIL_IF_NEQ(request.headers().at("Connection").value(), "close");
+    ISHIKO_TEST_PASS();
+}
+
+void HTTPRequestTests::SetConnectionHeaderTest2(Ishiko::Test& test)
+{
+    HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
+
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::keepAlive);
+
+    ISHIKO_TEST_ABORT_IF_NEQ(request.headers().size(), 2);
+    ISHIKO_TEST_FAIL_IF_NEQ(request.headers().at("Host").value(), "example.org");
+    ISHIKO_TEST_FAIL_IF_NEQ(request.headers().at("Connection").value(), "keep-alive");
     ISHIKO_TEST_PASS();
 }
 
