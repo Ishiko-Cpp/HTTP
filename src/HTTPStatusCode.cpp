@@ -7,6 +7,7 @@
 #include "HTTPStatusCode.hpp"
 #include "HTTPErrorCategory.hpp"
 #include <Ishiko/Text.hpp>
+#include <ios>
 
 using namespace Ishiko;
 
@@ -22,7 +23,7 @@ HTTPStatusCode::HTTPStatusCode(unsigned short value)
 
 HTTPStatusCode::HTTPStatusCode(const std::string& value, Error& error)
 {
-    ASCII::Convert(value, m_value, error);
+    ASCII::Convert(value, std::ios::dec, m_value, error);
     if (!error)
     {
         // HTTP status code are three-digit integers
