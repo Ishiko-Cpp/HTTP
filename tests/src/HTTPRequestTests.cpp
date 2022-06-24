@@ -17,8 +17,8 @@ HTTPRequestTests::HTTPRequestTests(const TestNumber& number, const TestContext& 
     append<HeapAllocationErrorsTest>("Constructor test 1", ConstructorTest1);
     append<HeapAllocationErrorsTest>("setConnectionHeader test 1", SetConnectionHeaderTest1);
     append<HeapAllocationErrorsTest>("setConnectionHeader test 2", SetConnectionHeaderTest2);
-    append<FileComparisonTest>("toString test 1", ToStringTest1);
-    append<FileComparisonTest>("toString test 2", ToStringTest2);
+    append<HeapAllocationErrorsTest>("toString test 1", ToStringTest1);
+    append<HeapAllocationErrorsTest>("toString test 2", ToStringTest2);
 }
 
 void HTTPRequestTests::ConstructorTest1(Test& test)
@@ -57,9 +57,9 @@ void HTTPRequestTests::SetConnectionHeaderTest2(Ishiko::Test& test)
     ISHIKO_TEST_PASS();
 }
 
-void HTTPRequestTests::ToStringTest1(FileComparisonTest& test)
+void HTTPRequestTests::ToStringTest1(Test& test)
 {
-    boost::filesystem::path outputPath(test.context().getTestOutputPath("HTTPRequestTests_ToStringTest1.bin"));
+    boost::filesystem::path outputPath = test.context().getOutputPath("HTTPRequestTests_ToStringTest1.bin");
 
     HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
     std::string requestString = request.toString();
@@ -71,16 +71,15 @@ void HTTPRequestTests::ToStringTest1(FileComparisonTest& test)
     ISHIKO_TEST_ABORT_IF(error);
 
     file.write(requestString.c_str(), requestString.length());
+    file.close();
 
-    test.setOutputFilePath(outputPath);
-    test.setReferenceFilePath(test.context().getReferenceDataPath("HTTPRequestTests_ToStringTest1.bin"));
-
+    ISHIKO_TEST_FAIL_IF_OUTPUT_AND_REFERENCE_FILES_NEQ("HTTPRequestTests_ToStringTest1.bin");
     ISHIKO_TEST_PASS();
 }
 
-void HTTPRequestTests::ToStringTest2(FileComparisonTest& test)
+void HTTPRequestTests::ToStringTest2(Test& test)
 {
-    boost::filesystem::path outputPath(test.context().getTestOutputPath("HTTPRequestTests_ToStringTest2.bin"));
+    boost::filesystem::path outputPath = test.context().getOutputPath("HTTPRequestTests_ToStringTest2.bin");
 
     HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
     request.setConnectionHeader(HTTPHeader::ConnectionMode::keepAlive);
@@ -93,9 +92,8 @@ void HTTPRequestTests::ToStringTest2(FileComparisonTest& test)
     ISHIKO_TEST_ABORT_IF(error);
 
     file.write(requestString.c_str(), requestString.length());
+    file.close();
 
-    test.setOutputFilePath(outputPath);
-    test.setReferenceFilePath(test.context().getReferenceDataPath("HTTPRequestTests_ToStringTest2.bin"));
-
+    ISHIKO_TEST_FAIL_IF_OUTPUT_AND_REFERENCE_FILES_NEQ("HTTPRequestTests_ToStringTest2.bin");
     ISHIKO_TEST_PASS();
 }
