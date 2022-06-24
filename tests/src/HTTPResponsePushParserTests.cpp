@@ -11,11 +11,7 @@
 #include <Ishiko/FileSystem.hpp>
 #include <string>
 
-using namespace boost;
-using namespace boost::filesystem;
 using namespace Ishiko;
-using namespace Ishiko::Tests;
-using namespace std;
 
 HTTPResponsePushParserTests::HTTPResponsePushParserTests(const TestNumber& number, const TestContext& context)
     : TestSequence(number, "HTTPResponsePushParser tests", context)
@@ -36,10 +32,10 @@ void HTTPResponsePushParserTests::ConstructorTest1(Test& test)
 
 void HTTPResponsePushParserTests::OnDataTest1(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPResponsePushParserTests_OnDataTest1.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPResponsePushParserTests_OnDataTest1.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -58,10 +54,10 @@ void HTTPResponsePushParserTests::OnDataTest1(Test& test)
 
 void HTTPResponsePushParserTests::OnDataTest2(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPResponsePushParserTests_OnDataTest2.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPResponsePushParserTests_OnDataTest2.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -82,10 +78,10 @@ void HTTPResponsePushParserTests::OnDataTest2(Test& test)
 
 void HTTPResponsePushParserTests::OnDataTest3(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPResponsePushParserTests_OnDataTest3.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPResponsePushParserTests_OnDataTest3.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 

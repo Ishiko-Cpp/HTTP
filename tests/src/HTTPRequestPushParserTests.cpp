@@ -11,11 +11,7 @@
 #include <Ishiko/FileSystem.hpp>
 #include <string>
 
-using namespace boost;
-using namespace boost::filesystem;
 using namespace Ishiko;
-using namespace Ishiko::Tests;
-using namespace std;
 
 HTTPRequestPushParserTests::HTTPRequestPushParserTests(const TestNumber& number, const TestContext& context)
     : TestSequence(number, "HTTPRequestPushParser tests", context)
@@ -39,10 +35,10 @@ void HTTPRequestPushParserTests::ConstructorTest1(Test& test)
 
 void HTTPRequestPushParserTests::OnDataTest1(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPRequestPushParserTests_OnDataTest1.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPRequestPushParserTests_OnDataTest1.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -60,10 +56,10 @@ void HTTPRequestPushParserTests::OnDataTest1(Test& test)
 
 void HTTPRequestPushParserTests::OnDataTest2(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPRequestPushParserTests_OnDataTest2.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPRequestPushParserTests_OnDataTest2.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -83,10 +79,10 @@ void HTTPRequestPushParserTests::OnDataTest2(Test& test)
 
 void HTTPRequestPushParserTests::OnDataTest3(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPRequestPushParserTests_OnDataTest3.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPRequestPushParserTests_OnDataTest3.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -108,10 +104,10 @@ void HTTPRequestPushParserTests::OnDataTest3(Test& test)
 
 void HTTPRequestPushParserTests::OnDataTest4(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPRequestPushParserTests_OnDataTest1.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPRequestPushParserTests_OnDataTest1.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -121,7 +117,7 @@ void HTTPRequestPushParserTests::OnDataTest4(Test& test)
     // Feed the message byte per byte to test correct behaviour when the message is fragmented across multiple packets
     for (size_t i = 0; i < message.size(); ++i)
     {
-        parser.onData(string_view(&message[i], 1));
+        parser.onData(boost::string_view(&message[i], 1));
     }
 
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
@@ -133,10 +129,10 @@ void HTTPRequestPushParserTests::OnDataTest4(Test& test)
 
 void HTTPRequestPushParserTests::OnDataTest5(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPRequestPushParserTests_OnDataTest2.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPRequestPushParserTests_OnDataTest2.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -146,7 +142,7 @@ void HTTPRequestPushParserTests::OnDataTest5(Test& test)
     // Feed the message byte per byte to test correct behaviour when the message is fragmented across multiple packets
     for (size_t i = 0; i < message.size(); ++i)
     {
-        parser.onData(string_view(&message[i], 1));
+        parser.onData(boost::string_view(&message[i], 1));
     }
 
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
@@ -160,10 +156,10 @@ void HTTPRequestPushParserTests::OnDataTest5(Test& test)
 
 void HTTPRequestPushParserTests::OnDataTest6(Test& test)
 {
-    path inputPath(test.context().getTestDataPath("HTTPRequestPushParserTests_OnDataTest3.bin"));
+    boost::filesystem::path inputPath = test.context().getDataPath("HTTPRequestPushParserTests_OnDataTest3.bin");
 
     Error error;
-    string message = FileSystem::ReadFile(inputPath, error);
+    std::string message = FileSystem::ReadFile(inputPath, error);
 
     ISHIKO_TEST_ABORT_IF(error);
 
@@ -173,7 +169,7 @@ void HTTPRequestPushParserTests::OnDataTest6(Test& test)
     // Feed the message byte per byte to test correct behaviour when the message is fragmented across multiple packets
     for (size_t i = 0; i < message.size(); ++i)
     {
-        parser.onData(string_view(&message[i], 1));
+        parser.onData(boost::string_view(&message[i], 1));
     }
 
     ISHIKO_TEST_FAIL_IF_NEQ(callbacks.method(), "GET");
