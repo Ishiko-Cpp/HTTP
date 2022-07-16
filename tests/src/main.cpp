@@ -14,26 +14,42 @@
 #include "HTTPSClientTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/TestFramework.hpp>
+#include <exception>
 
 using namespace Ishiko;
 
 int main(int argc, char* argv[])
 {
-    TestHarness theTestHarness("IshikoHTTP");
+    try
+    {
+        TestHarness::CommandLineSpecification commandLineSpec;
+        commandLineSpec.setDefaultValue("context.data", "../../data");
+        commandLineSpec.setDefaultValue("context.output", "../../output");
+        commandLineSpec.setDefaultValue("context.reference", "../../reference");
 
-    theTestHarness.context().setDataDirectory("../../data");
-    theTestHarness.context().setOutputDirectory("../../output");
-    theTestHarness.context().setReferenceDirectory("../../reference");
+        Configuration configuration = commandLineSpec.createDefaultConfiguration();
+        CommandLineParser::parse(commandLineSpec, argc, argv, configuration);
 
-    TestSequence& theTests = theTestHarness.tests();
-    theTests.append<HTTPRequestPushParserTests>();
-    theTests.append<HTTPResponsePushParserTests>();
-    theTests.append<HTTPHeaderTests>();
-    theTests.append<HTTPHeadersTests>();
-    theTests.append<HTTPRequestTests>();
-    theTests.append<HTTPResponseTests>();
-    theTests.append<HTTPClientTests>();
-    theTests.append<HTTPSClientTests>();
+        TestHarness theTestHarness("Ishiko/C++ HTTP Library Tests", configuration);
 
-    return theTestHarness.run();
+        TestSequence& theTests = theTestHarness.tests();
+        theTests.append<HTTPRequestPushParserTests>();
+        theTests.append<HTTPResponsePushParserTests>();
+        theTests.append<HTTPHeaderTests>();
+        theTests.append<HTTPHeadersTests>();
+        theTests.append<HTTPRequestTests>();
+        theTests.append<HTTPResponseTests>();
+        theTests.append<HTTPClientTests>();
+        theTests.append<HTTPSClientTests>();
+
+        return theTestHarness.run();
+    }
+    catch (const std::exception& e)
+    {
+        return TestApplicationReturnCode::exception;
+    }
+    catch (...)
+    {
+        return TestApplicationReturnCode::exception;
+    }
 }
