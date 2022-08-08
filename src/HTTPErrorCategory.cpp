@@ -6,8 +6,7 @@
 
 #include "HTTPErrorCategory.hpp"
 
-namespace Ishiko
-{
+using namespace Ishiko;
 
 const HTTPErrorCategory& HTTPErrorCategory::Get() noexcept
 {
@@ -20,9 +19,8 @@ const char* HTTPErrorCategory::name() const noexcept
     return "Ishiko::HTTPErrorCategory";
 }
 
-void Fail(Error& error, HTTPErrorCategory::Value value, const std::string& message, const char* file, int line) noexcept
+void Ishiko::Fail(HTTPErrorCategory::Value value, const std::string& message, const char* file, int line,
+    Error& error) noexcept
 {
-    error.fail(static_cast<int>(value), HTTPErrorCategory::Get(), message, file, line);
-}
-
+    error.fail(HTTPErrorCategory::Get(), static_cast<int>(value), message, file, line);
 }

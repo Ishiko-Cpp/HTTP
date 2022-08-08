@@ -30,7 +30,7 @@ HTTPStatusCode::HTTPStatusCode(const std::string& value, Error& error)
         if (m_value > 999)
         {
             // TODO : proper error message
-            Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
+            Fail(HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__, error);
         }
     }
 }
