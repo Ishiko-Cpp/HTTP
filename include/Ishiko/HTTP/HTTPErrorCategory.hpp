@@ -4,8 +4,8 @@
     See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
 */
 
-#ifndef _ISHIKO_CPP_HTTP_HTTPERRORCATEGORY_HPP_
-#define _ISHIKO_CPP_HTTP_HTTPERRORCATEGORY_HPP_
+#ifndef GUARD_ISHIKO_CPP_HTTP_HTTPERRORCATEGORY_HPP
+#define GUARD_ISHIKO_CPP_HTTP_HTTPERRORCATEGORY_HPP
 
 #include <Ishiko/Errors.hpp>
 
@@ -28,7 +28,8 @@ private:
     HTTPErrorCategory() noexcept = default;
 };
 
-void Fail(Error& error, HTTPErrorCategory::Value value, const std::string& message, const char* file, int line) noexcept;
+void Fail(HTTPErrorCategory::Value value, const std::string& message, const char* file, int line,
+    Error& error) noexcept;
 
 }
 
