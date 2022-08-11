@@ -17,12 +17,13 @@ class HTTPErrorCategory : public Ishiko::ErrorCategory
 public:
     enum class Value
     {
-        generic = -1
+        generic_error = -1
     };
 
     static const HTTPErrorCategory& Get() noexcept;
 
     const char* name() const noexcept override;
+    std::ostream& streamOut(int value, std::ostream& os) const override;
 
 private:
     HTTPErrorCategory() noexcept = default;
