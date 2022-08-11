@@ -19,6 +19,21 @@ const char* HTTPErrorCategory::name() const noexcept
     return "Ishiko::HTTPErrorCategory";
 }
 
+std::ostream& HTTPErrorCategory::streamOut(int value, std::ostream& os) const
+{
+    switch (static_cast<Value>(value))
+    {
+    case Value::generic_error:
+        os << "generic error";
+        break;
+
+    default:
+        os << "unknown value";
+        break;
+    }
+    return os;
+}
+
 void Ishiko::Fail(HTTPErrorCategory::Value value, const std::string& message, const char* file, int line,
     Error& error) noexcept
 {
