@@ -48,7 +48,10 @@ void HTTPResponseTests::ToStringTest1(Test& test)
 
     ISHIKO_TEST_ABORT_IF(error);
 
-    file.write(responseString.c_str(), responseString.length());
+    file.write(responseString.c_str(), responseString.length(), error);
+
+    ISHIKO_TEST_FAIL_IF(error);
+
     file.close();
 
     ISHIKO_TEST_FAIL_IF_OUTPUT_AND_REFERENCE_FILES_NEQ("HTTPResponseTests_ToStringTest1.bin");
@@ -69,7 +72,10 @@ void HTTPResponseTests::ToStringTest2(Test& test)
 
     ISHIKO_TEST_ABORT_IF(error);
 
-    file.write(responseString.c_str(), responseString.length());
+    file.write(responseString.c_str(), responseString.length(), error);
+
+    ISHIKO_TEST_FAIL_IF(error);
+
     file.close();
 
     ISHIKO_TEST_FAIL_IF_OUTPUT_AND_REFERENCE_FILES_NEQ("HTTPResponseTests_ToStringTest2.bin");
