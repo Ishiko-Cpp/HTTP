@@ -20,17 +20,17 @@ void HTTPSClientTests::GetTest1(Test& test)
 {
     Error error;
 
-    IPv4Address address = IPv4Address("104.21.31.121", error);
+    IPv4Address address = IPv4Address("172.67.223.241", error);
 
     ISHIKO_TEST_FAIL_IF(error);
 
     HTTPResponse response(HTTPStatusCode::ok);
     // TODO: use proper test website
     // TODO: defeine Port::https
-    HTTPSClient::Get(address, 443, "https://needfulsoftware.com", response, error);
+    HTTPSClient::Get(address, 443, "https://www.ishiko.org", response, error);
 
     ISHIKO_TEST_FAIL_IF_NEQ(response.statusCode(), 200);
-    ISHIKO_TEST_FAIL_IF_NEQ(response.headers().size(), 11);
+    ISHIKO_TEST_FAIL_IF_NEQ(response.headers().size(), 9);
     ISHIKO_TEST_FAIL_IF_NEQ(response.headers().at("Connection").value(), "close");
     ISHIKO_TEST_PASS();
 }
