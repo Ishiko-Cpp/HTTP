@@ -1,4 +1,4 @@
-ishikopath = envvar("ISHIKO_CPP");
+ishikopath = envvar("ISHIKO_CPP_ROOT");
 import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
 import $(ishikopath)/networking/include/Ishiko/Networking.bkl;
 import $(ishikopath)/text/include/Ishiko/Text.bkl;
@@ -8,8 +8,8 @@ import $(ishikopath)/types/include/Ishiko/Types.bkl;
 
 setting ISHIKO_CPP_HTTP_ROOT
 {
-    help = "Path to the Ishiko HTTP installation";
-    default = '$(ISHIKO_CPP)/http';
+    help = "Path to the Ishiko/C++ HTTP installation";
+    default = '$(ISHIKO_CPP_ROOT)/http';
 }
 
 template IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, IshikoErrors, Boost
