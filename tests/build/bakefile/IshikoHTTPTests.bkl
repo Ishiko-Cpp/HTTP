@@ -17,7 +17,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
     if ($(toolset) == gnu)
     {
         cxx-compiler-options = "-std=c++11";
-        libs += IshikoHTTP IshikoNetworking IshikoTestFrameworkCore IshikoConfiguration IshikoDiff IshikoXML IshikoFileSystem IshikoIO IshikoProcess IshikoTime IshikoText IshikoTypes IshikoMemory IshikoErrors;
+        libs += IshikoHTTP IshikoNetworking IshikoTestFrameworkCore IshikoConfiguration IshikoDiff IshikoXML IshikoFileSystem IshikoIO IshikoProcess IshikoTime IshikoText IshikoTypes IshikoMemory IshikoErrors IshikoBasePlatform;
         libs += botan-2 fmt boost_filesystem;
     }
 
