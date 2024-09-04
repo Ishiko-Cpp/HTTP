@@ -6,9 +6,10 @@ import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
 import $(ishikopath)/time/include/Ishiko/Time.bkl;
 import $(ishikopath)/types/include/Ishiko/Types.bkl;
 
-toolsets = gnu vs2019 vs2017 vs2015 vs2013;
+toolsets = gnu vs2022 vs2019 vs2017 vs2015 vs2013;
 
 gnu.makefile = ../gnumake/GNUmakefile;
+vs2022.solutionfile = ../vc17/IshikoHTTP.sln;
 vs2019.solutionfile = ../vc16/IshikoHTTP.sln;
 vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
 vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
