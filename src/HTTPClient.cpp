@@ -1,19 +1,28 @@
-/*
-    Copyright (c) 2019-2022 Xavier Leclercq
-    Released under the MIT License
-    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
-*/
+// SPDX-FileCopyrightText: 2019-2024 Xavier Leclercq
+// SPDX-License-Identifier: BSL-1.0
 
 #include "HTTPClient.hpp"
 #include "HTTPErrorCategory.hpp"
 #include "HTTPResponsePushParser.hpp"
-#include "HTTPRequest.hpp"
+// TODO: spurious header files
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
 using namespace Ishiko;
+
+HTTPClient::HTTPClient(NetworkConnectionsManager& connection_manager)
+    : m_connection_manager{connection_manager}
+{
+}
+
+void HTTPClient::get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
+{
+    Request callbacks{uri, response};
+    m_connection_manager.connect(address, port, callbacks, error);
+    m_connection_manager.run();
+}
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
@@ -30,7 +39,7 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTT
     }
 
     HTTPRequest request(HTTPMethod::get, uri);
-    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+    //request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
     std::string requestStr = request.toString();
     socket.write(requestStr.c_str(), requestStr.size(), error);
     if (error)
@@ -162,4 +171,32 @@ void HTTPClient::Get(const std::string& address, unsigned short port, const std:
         Fail(error, HTTPErrorCategory::Value::generic, "", __FILE__, __LINE__);
     }
 #endif
+}
+
+HTTPClient::Request::Request(const std::string& uri, HTTPResponse& response)
+    : m_request{HTTPMethod::get, uri}, m_response{response}
+{
+    // TODO
+    m_request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+}
+
+void HTTPClient::Request::onConnectionEstablished(TCPClientSocket& socket)
+{
+    // TODO:how do we handle errors?
+    Error todo_ignored_error;
+
+    std::string requestStr = m_request.toString();
+    socket.write(requestStr.c_str(), requestStr.size(), todo_ignored_error);
+    if (todo_ignored_error)
+    {
+        return;
+    }
+}
+
+void HTTPClient::Request::onData(boost::string_view data)
+{
+    HTTPResponse::ParserCallbacks callbacks(m_response);
+    HTTPResponsePushParser parser(callbacks);
+
+    parser.onData(boost::string_view(data));
 }

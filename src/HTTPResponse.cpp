@@ -31,6 +31,12 @@ void HTTPResponse::ParserCallbacks::onHeader(boost::string_view name, boost::str
     m_response.appendHeader(name.to_string(), value.to_string());   // TODO: avoid to_string.
 }
 
+void HTTPResponse::ParserCallbacks::onBodyFragment(boost::string_view data)
+{
+    // TODO: need to append to the body
+    m_response.setBody(data.to_string());
+}
+
 HTTPResponse::HTTPResponse(HTTPStatusCode statusCode)
     : m_statusCode(statusCode)
 {
