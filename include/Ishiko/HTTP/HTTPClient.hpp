@@ -36,8 +36,9 @@ namespace Ishiko
         public:
             Request(const std::string& uri, HTTPResponse& response);
 
-            void onConnectionEstablished(TCPClientSocket& socket) override;
+            void onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket) override;
             void onData(boost::string_view data) override;
+            void onWrite() override;
 
             HTTPRequest m_request;
             HTTPResponse& m_response;

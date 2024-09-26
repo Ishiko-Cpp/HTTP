@@ -180,7 +180,7 @@ HTTPClient::Request::Request(const std::string& uri, HTTPResponse& response)
     m_request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
 }
 
-void HTTPClient::Request::onConnectionEstablished(TCPClientSocket& socket)
+void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket)
 {
     // TODO:how do we handle errors?
     Error todo_ignored_error;
@@ -191,12 +191,35 @@ void HTTPClient::Request::onConnectionEstablished(TCPClientSocket& socket)
     {
         return;
     }
+
+    // TODO: these errors need to be reported to the clients somehow
+    Error todo_error;
+
+    HTTPResponse::ParserCallbacks callbacks(m_response);
+    HTTPResponsePushParser parser(callbacks);
+
+    // TODO: buffer size and handle bigger responses
+    // TODO: this only works if the server closes the connection after the response is sent. We do set the close header
+    // but since we are parsing already can we double check stuff and also create APIs that support connection re-use.
+    char buffer[10 * 1024];
+    size_t offset = 0;
+    int n = 0;
+    do
+    {
+        n = socket.read(buffer, sizeof(buffer), todo_error);
+        parser.onData(boost::string_view(buffer, n));
+    } while ((n != 0) && !todo_error);
+
+    // TODO: is this the correct way to shutdown here?
+    // TODO: need to implement these functions in TCPClientSocket
+    socket.shutdown(todo_error);
+    socket.close();
 }
 
 void HTTPClient::Request::onData(boost::string_view data)
 {
-    HTTPResponse::ParserCallbacks callbacks(m_response);
-    HTTPResponsePushParser parser(callbacks);
+}
 
-    parser.onData(boost::string_view(data));
+void HTTPClient::Request::onWrite()
+{
 }
