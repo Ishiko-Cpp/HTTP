@@ -216,10 +216,10 @@ void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::Man
     socket.close();
 }
 
-void HTTPClient::Request::onData(boost::string_view data)
+void HTTPClient::Request::onReadReady()
 {
 }
 
-void HTTPClient::Request::onWrite()
+void HTTPClient::Request::onWriteReady()
 {
 }
