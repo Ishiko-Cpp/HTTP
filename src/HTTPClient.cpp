@@ -26,7 +26,7 @@ void HTTPClient::get(IPv4Address address, Port port, const std::string& uri, HTT
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
-    TCPClientSocket socket(error);
+    TCPClientSocket socket(SocketOption::none, error);
     if (error)
     {
         return;
@@ -70,7 +70,7 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTT
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, std::ostream& response, Error& error)
 {
-    TCPClientSocket socket(error);
+    TCPClientSocket socket(SocketOption::none, error);
     if (error)
     {
         return;
@@ -182,16 +182,32 @@ HTTPClient::Request::Request(const std::string& uri, HTTPResponse& response)
 
 void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket)
 {
+    m_socket = &socket;
+
     // TODO:how do we handle errors?
     Error todo_ignored_error;
 
     std::string requestStr = m_request.toString();
-    socket.write(requestStr.c_str(), requestStr.size(), todo_ignored_error);
+    m_socket->write(requestStr.c_str(), requestStr.size(), todo_ignored_error);
     if (todo_ignored_error)
     {
         return;
     }
 
+    // TODO: these errors need to be reported to the clients somehow
+    Error todo_error;
+
+    // TODO: to trigger error, normally would check error but for test for now we know it will be EAGAIN
+    char buffer[10 * 1024];
+    size_t offset = 0;
+    m_socket->read(buffer, sizeof(buffer), todo_error);
+
+    // TODO: manually rerun the manager, again this is obviously a hack the manager should run run in loop
+    m_socket->m_manager.run();
+}
+
+void HTTPClient::Request::onReadReady()
+{
     // TODO: these errors need to be reported to the clients somehow
     Error todo_error;
 
@@ -206,18 +222,14 @@ void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::Man
     int n = 0;
     do
     {
-        n = socket.read(buffer, sizeof(buffer), todo_error);
+        n = m_socket->read(buffer, sizeof(buffer), todo_error);
         parser.onData(boost::string_view(buffer, n));
     } while ((n != 0) && !todo_error);
 
     // TODO: is this the correct way to shutdown here?
     // TODO: need to implement these functions in TCPClientSocket
-    socket.shutdown(todo_error);
-    socket.close();
-}
-
-void HTTPClient::Request::onReadReady()
-{
+    m_socket->shutdown(todo_error);
+    m_socket->close();
 }
 
 void HTTPClient::Request::onWriteReady()

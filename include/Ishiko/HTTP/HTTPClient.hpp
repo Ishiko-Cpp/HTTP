@@ -42,6 +42,7 @@ namespace Ishiko
 
             HTTPRequest m_request;
             HTTPResponse& m_response;
+            NetworkConnectionsManager::ManagedSocket* m_socket;
         };
 
         NetworkConnectionsManager& m_connection_manager;
