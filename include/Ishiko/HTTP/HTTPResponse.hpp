@@ -32,6 +32,7 @@ public:
         void onReasonPhrase(boost::string_view data) override;
         void onHeader(boost::string_view name, boost::string_view value) override;
         // TODO: we need to  set the body!
+        void onBodyFragment(boost::string_view data) override;
 
     private:
         HTTPResponse& m_response;
