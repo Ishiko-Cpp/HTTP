@@ -201,9 +201,6 @@ void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::Man
     char buffer[10 * 1024];
     size_t offset = 0;
     m_socket->read(buffer, sizeof(buffer), todo_error);
-
-    // TODO: manually rerun the manager, again this is obviously a hack the manager should run run in loop
-    m_socket->m_manager.run();
 }
 
 void HTTPClient::Request::onReadReady()
