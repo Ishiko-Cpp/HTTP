@@ -16,9 +16,11 @@ namespace Ishiko
     class HTTPClient
     {
     public:
-        HTTPClient(NetworkConnectionsManager& connection_manager);
+        HTTPClient(NetworkConnectionsManager& connection_manager, HostnameResolver& hostname_resolver);
 
         // TODO: maybe using a std::future here would be nice? It does look like a good fit.
+        // TODO: At the moment this function is blocking/synchronous though
+        void get(Hostname hostname, Port port, const std::string& uri, HTTPResponse& response, Error& error);
         void get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error);
 
         // TODO: have these static functions become a problem?
@@ -30,22 +32,22 @@ namespace Ishiko
             std::ostream& response, Error& error);
 
     private:
-        // TODO: think about a better name for this class
-        class Request : public NetworkConnectionsManager::ConnectionCallbacks
+        class ConnectionCallbacks : public NetworkConnectionsManager::ConnectionCallbacks
         {
         public:
-            Request(const std::string& uri, HTTPResponse& response);
+            ConnectionCallbacks(HTTPRequest&& http_request, HTTPResponse& http_response);
 
             void onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket) override;
             void onReadReady() override;
             void onWriteReady() override;
 
-            HTTPRequest m_request;
-            HTTPResponse& m_response;
+            HTTPRequest m_http_request;
+            HTTPResponse& m_http_response;
             NetworkConnectionsManager::ManagedSocket* m_socket;
         };
 
         NetworkConnectionsManager& m_connection_manager;
+        HostnameResolver& m_hostname_resolver;
     };
 }
 

@@ -5,21 +5,44 @@
 #include "HTTPErrorCategory.hpp"
 #include "HTTPResponsePushParser.hpp"
 // TODO: spurious header files
+/*
 #include <boost/beast/http.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
+*/
+#include <vector>
 
 using namespace Ishiko;
 
-HTTPClient::HTTPClient(NetworkConnectionsManager& connection_manager)
-    : m_connection_manager{connection_manager}
+HTTPClient::HTTPClient(NetworkConnectionsManager& connection_manager, HostnameResolver& hostname_resolver)
+    : m_connection_manager{connection_manager}, m_hostname_resolver{hostname_resolver}
 {
+}
+
+void HTTPClient::get(Hostname hostname, Port port, const std::string& uri, HTTPResponse& response, Error& error)
+{
+    std::vector<IPv4Address> ip_addresses;
+    m_hostname_resolver.resolve(hostname, ip_addresses, error);
+    if (!error)
+    {
+        HTTPRequest http_request{HTTPMethod::get, uri};
+        http_request.setHostHeader(hostname.asString());
+        http_request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+
+        ConnectionCallbacks callbacks{std::move(http_request), response};
+        // TODO: for now just use first address
+        m_connection_manager.connect(ip_addresses[0], port, callbacks, error);
+        m_connection_manager.run();
+    }
 }
 
 void HTTPClient::get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
-    Request callbacks{uri, response};
+    HTTPRequest http_request{ HTTPMethod::get, uri };
+    http_request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+
+    ConnectionCallbacks callbacks{ std::move(http_request), response};
     m_connection_manager.connect(address, port, callbacks, error);
     m_connection_manager.run();
 }
@@ -39,7 +62,7 @@ void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTT
     }
 
     HTTPRequest request(HTTPMethod::get, uri);
-    //request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
     std::string requestStr = request.toString();
     socket.write(requestStr.c_str(), requestStr.size(), error);
     if (error)
@@ -173,21 +196,19 @@ void HTTPClient::Get(const std::string& address, unsigned short port, const std:
 #endif
 }
 
-HTTPClient::Request::Request(const std::string& uri, HTTPResponse& response)
-    : m_request{HTTPMethod::get, uri}, m_response{response}
+HTTPClient::ConnectionCallbacks::ConnectionCallbacks(HTTPRequest&& http_request, HTTPResponse& http_response)
+    : m_http_request{std::move(http_request)}, m_http_response{http_response}
 {
-    // TODO
-    m_request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
 }
 
-void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket)
+void HTTPClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket)
 {
     m_socket = &socket;
 
     // TODO:how do we handle errors?
     Error todo_ignored_error;
 
-    std::string requestStr = m_request.toString();
+    std::string requestStr = m_http_request.toString();
     m_socket->write(requestStr.c_str(), requestStr.size(), todo_ignored_error);
     if (todo_ignored_error)
     {
@@ -203,12 +224,12 @@ void HTTPClient::Request::onConnectionEstablished(NetworkConnectionsManager::Man
     m_socket->read(buffer, sizeof(buffer), todo_error);
 }
 
-void HTTPClient::Request::onReadReady()
+void HTTPClient::ConnectionCallbacks::onReadReady()
 {
     // TODO: these errors need to be reported to the clients somehow
     Error todo_error;
 
-    HTTPResponse::ParserCallbacks callbacks(m_response);
+    HTTPResponse::ParserCallbacks callbacks(m_http_response);
     HTTPResponsePushParser parser(callbacks);
 
     // TODO: buffer size and handle bigger responses
@@ -229,6 +250,6 @@ void HTTPClient::Request::onReadReady()
     m_socket->close();
 }
 
-void HTTPClient::Request::onWriteReady()
+void HTTPClient::ConnectionCallbacks::onWriteReady()
 {
 }
