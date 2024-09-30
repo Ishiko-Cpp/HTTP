@@ -20,7 +20,7 @@ void HTTPSClientTests::GetTest1(Test& test)
 {
     Error error;
 
-    IPv4Address address = IPv4Address("172.67.223.241", error);
+    IPv4Address address = IPv4Address("188.114.97.0", error);
 
     ISHIKO_TEST_FAIL_IF(error);
 
