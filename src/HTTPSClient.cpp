@@ -4,7 +4,6 @@
 #include "HTTPRequest.hpp"
 #include "HTTPResponsePushParser.hpp"
 #include "HTTPSClient.hpp"
-#include <iostream>
 
 using namespace Ishiko;
 
@@ -97,8 +96,6 @@ void HTTPSClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnection
 
 void HTTPSClient::ConnectionCallbacks::onHandshake()
 {
-    std::cerr << "HTTPSClient::ConnectionCallbacks::onHandshake()" << std::endl;
-   
     // TODO:how do we handle errors?
     Error todo_ignored_error;
 
