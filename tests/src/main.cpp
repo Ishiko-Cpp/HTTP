@@ -13,6 +13,7 @@
 #include "HTTPResponsePushParserTests.hpp"
 #include "HTTPSClientTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
+#include <Ishiko/Networking.hpp>
 #include <Ishiko/TestFramework.hpp>
 #include <exception>
 
@@ -22,6 +23,8 @@ int main(int argc, char* argv[])
 {
     try
     {
+        NetworkingLibraryInitialization network_library_initialization;
+
         TestHarness::CommandLineSpecification commandLineSpec;
         commandLineSpec.setDefaultValue("context.data", "../../data");
         commandLineSpec.setDefaultValue("context.output", "../../output");
