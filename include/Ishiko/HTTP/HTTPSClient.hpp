@@ -4,6 +4,7 @@
 #ifndef GUARD_ISHIKO_CPP_HTTP_HTTPSCLIENT_HPP
 #define GUARD_ISHIKO_CPP_HTTP_HTTPSCLIENT_HPP
 
+#include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
 #include <Ishiko/Errors.hpp>
 #include <Ishiko/Networking.hpp>
