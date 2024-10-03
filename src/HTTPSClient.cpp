@@ -50,6 +50,12 @@ void HTTPSClient::Get(IPv4Address address, Port port, const std::string& uri, HT
         return;
     }
 
+    socket.handshake(error);
+    if (error)
+    {
+        return;
+    }
+
     request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
     std::string requestStr = request.toString();
     socket.write(requestStr.c_str(), requestStr.size(), error);
