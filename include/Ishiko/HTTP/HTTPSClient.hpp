@@ -29,6 +29,7 @@ private:
         ConnectionCallbacks(HTTPRequest&& http_request, HTTPResponse& http_response);
 
         void onConnectionEstablished(NetworkConnectionsManager::ManagedTLSSocket& socket) override;
+        void onHandshake() override;
         void onReadReady() override;
         void onWriteReady() override;
 

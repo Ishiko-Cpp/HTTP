@@ -4,6 +4,7 @@
 #include "HTTPRequest.hpp"
 #include "HTTPResponsePushParser.hpp"
 #include "HTTPSClient.hpp"
+#include <iostream>
 
 using namespace Ishiko;
 
@@ -89,6 +90,15 @@ void HTTPSClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnection
 {
     m_socket = &socket;
 
+    Error error;
+    m_socket->handshake(error);
+    // TODO: always assyme error for now
+}
+
+void HTTPSClient::ConnectionCallbacks::onHandshake()
+{
+    std::cerr << "HTTPSClient::ConnectionCallbacks::onHandshake()" << std::endl;
+   
     // TODO:how do we handle errors?
     Error todo_ignored_error;
 
@@ -105,7 +115,18 @@ void HTTPSClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnection
     // TODO: to trigger error, normally would check error but for test for now we know it will be EAGAIN
     char buffer[10 * 1024];
     size_t offset = 0;
-    m_socket->read(buffer, sizeof(buffer), todo_error);
+    int n = m_socket->read(buffer, sizeof(buffer), todo_error);
+    // TODO
+    if (!todo_error)
+    {
+        HTTPResponse::ParserCallbacks callbacks(m_http_response);
+        HTTPResponsePushParser parser(callbacks);
+        parser.onData(boost::string_view(buffer, n));
+        // TODO: is this the correct way to shutdown here?
+        // TODO: need to implement these functions in TCPClientSocket
+        m_socket->shutdown(todo_error);
+        m_socket->close();
+    }
 }
 
 void HTTPSClient::ConnectionCallbacks::onReadReady()
@@ -124,6 +145,7 @@ void HTTPSClient::ConnectionCallbacks::onReadReady()
     int n = 0;
     do
     {
+        // TODO: assume there is only one read because these could all block again
         n = m_socket->read(buffer, sizeof(buffer), todo_error);
         parser.onData(boost::string_view(buffer, n));
     } while ((n != 0) && !todo_error);
