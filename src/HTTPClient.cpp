@@ -33,7 +33,11 @@ void HTTPClient::get(Hostname hostname, Port port, const std::string& uri, HTTPR
         ConnectionCallbacks callbacks{std::move(http_request), response};
         // TODO: for now just use first address
         m_connection_manager.connect(ip_addresses[0], port, callbacks, error);
-        m_connection_manager.run();
+        m_connection_manager.run(
+            [](NetworkConnectionsManager& connections_manager)
+            {
+                return connections_manager.idle();
+            });
     }
 }
 
@@ -44,7 +48,11 @@ void HTTPClient::get(IPv4Address address, Port port, const std::string& uri, HTT
 
     ConnectionCallbacks callbacks{ std::move(http_request), response};
     m_connection_manager.connect(address, port, callbacks, error);
-    m_connection_manager.run();
+    m_connection_manager.run(
+        [](NetworkConnectionsManager& connections_manager)
+        {
+            return connections_manager.idle();
+        });
 }
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
