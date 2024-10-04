@@ -25,7 +25,11 @@ void HTTPSClient::get(Hostname hostname, Port port, const std::string& uri, HTTP
         ConnectionCallbacks callbacks{std::move(http_request), response};
         // TODO: for now just use first address
         m_connection_manager.connectWithTLS(ip_addresses[0], port, hostname, callbacks, error);
-        m_connection_manager.run();
+        m_connection_manager.run(
+            [](NetworkConnectionsManager& connections_manager)
+            {
+                return connections_manager.idle();
+            });
     }
 }
 
