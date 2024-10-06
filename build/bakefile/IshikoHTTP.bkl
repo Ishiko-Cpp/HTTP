@@ -48,6 +48,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, Ishi
         ../../include/Ishiko/HTTP/HTTPRequest.hpp
         ../../include/Ishiko/HTTP/HTTPRequestPushParser.hpp
         ../../include/Ishiko/HTTP/HTTPResponse.hpp
+        ../../include/Ishiko/HTTP/HTTPResponseBuilder.hpp
         ../../include/Ishiko/HTTP/HTTPResponsePushParser.hpp
         ../../include/Ishiko/HTTP/HTTPSClient.hpp
         ../../include/Ishiko/HTTP/HTTPStatusCode.hpp
@@ -65,6 +66,7 @@ library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, Ishi
         ../../src/HTTPRequest.cpp
         ../../src/HTTPRequestPushParser.cpp
         ../../src/HTTPResponse.cpp
+        ../../src/HTTPResponseBuilder.cpp
         ../../src/HTTPResponsePushParser.cpp
         ../../src/HTTPSClient.cpp
         ../../src/HTTPStatusCode.cpp

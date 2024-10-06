@@ -29,6 +29,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
         ../../src/HTTPHeadersTests.hpp
         ../../src/HTTPRequestPushParserTests.hpp
         ../../src/HTTPRequestTests.hpp
+        ../../src/HTTPResponseBuilderTests.hpp
         ../../src/HTTPResponsePushParserTests.hpp
         ../../src/HTTPResponseTests.hpp
         ../../src/HTTPSClientTests.hpp
@@ -43,6 +44,7 @@ program IshikoHTTPTests : IshikoHTTP, IshikoTestFramework
         ../../src/HTTPHeadersTests.cpp
         ../../src/HTTPRequestPushParserTests.cpp
         ../../src/HTTPRequestTests.cpp
+        ../../src/HTTPResponseBuilderTests.cpp
         ../../src/HTTPResponsePushParserTests.cpp
         ../../src/HTTPResponseTests.cpp
         ../../src/HTTPSClientTests.cpp
