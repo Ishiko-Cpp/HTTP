@@ -1,11 +1,8 @@
-/*
-    Copyright (c) 2022 Xavier Leclercq
-    Released under the MIT License
-    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
-*/
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
+// SPDX-License-Identifier: BSL-1.0
 
-#ifndef _ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP_
-#define _ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP_
+#ifndef GUARD_ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP
+#define GUARD_ISHIKO_CPP_HTTP_HTTPRESPONSE_HPP
 
 #include "HTTPHeader.hpp"
 #include "HTTPHeaders.hpp"
@@ -19,54 +16,52 @@
 
 namespace Ishiko
 {
-
-class HTTPResponse
-{
-public:
-    class ParserCallbacks : public HTTPResponsePushParser::Callbacks
+    class HTTPResponse
     {
     public:
-        ParserCallbacks(HTTPResponse& response);
+        class ParserCallbacks : public HTTPResponsePushParser::Callbacks
+        {
+        public:
+            ParserCallbacks(HTTPResponse& response);
 
-        void onStatusCode(boost::string_view data) override;
-        void onReasonPhrase(boost::string_view data) override;
-        void onHeader(boost::string_view name, boost::string_view value) override;
-        // TODO: we need to  set the body!
-        void onBodyFragment(boost::string_view data) override;
+            void onStatusCode(boost::string_view data) override;
+            void onReasonPhrase(boost::string_view data) override;
+            void onHeader(boost::string_view name, boost::string_view value) override;
+            // TODO: we need to  set the body!
+            void onBodyFragment(boost::string_view data) override;
+
+        private:
+            HTTPResponse& m_response;
+        };
+
+        HTTPResponse(HTTPStatusCode statusCode);
+        static HTTPResponse OK();
+        static HTTPResponse MovedPermanently(const URL& newLocation);
+        static HTTPResponse BadRequest();
+        static HTTPResponse NotFound();
+        static HTTPResponse InternalServerError();
+
+        HTTPStatusCode statusCode() const;
+        const HTTPHeaders& headers() const;
+
+        void setStatusCode(HTTPStatusCode statusCode);
+
+        void setDateHeader(const UTCTime& time);
+        void setLocation(const URL& newLocation);
+        void appendHeader(const std::string& name, const std::string& value);
+
+        void setBody(const std::string& body);
+
+        // TODO: this is a naive way to create a response as it could be very large. Some form of streaming, especially of
+        // the body is required but it'll do for now
+        std::string toString() const;
 
     private:
-        HTTPResponse& m_response;
+        HTTPVersion m_version;
+        HTTPStatusCode m_statusCode;
+        HTTPHeaders m_headers;
+        std::string m_body;
     };
-
-    HTTPResponse(HTTPStatusCode statusCode);
-    static HTTPResponse OK();
-    static HTTPResponse MovedPermanently(const URL& newLocation);
-    static HTTPResponse BadRequest();
-    static HTTPResponse NotFound();
-    static HTTPResponse InternalServerError();
-
-    HTTPStatusCode statusCode() const;
-    const HTTPHeaders& headers() const;
-
-    void setStatusCode(HTTPStatusCode statusCode);
-
-    void setDateHeader(const UTCTime& time);
-    void setLocation(const URL& newLocation);
-    void appendHeader(const std::string& name, const std::string& value);
-
-    void setBody(const std::string& body);
-
-    // TODO: this is a naive way to create a response as it could be very large. Some form of streaming, especially of
-    // the body is required but it'll do for now
-    std::string toString() const;
-
-private:
-    HTTPVersion m_version;
-    HTTPStatusCode m_statusCode;
-    HTTPHeaders m_headers;
-    std::string m_body;
-};
-
 }
 
 #endif

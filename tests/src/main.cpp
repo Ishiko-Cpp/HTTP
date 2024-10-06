@@ -1,16 +1,14 @@
-/*
-    Copyright (c) 2022 Xavier Leclercq
-    Released under the MIT License
-    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
-*/
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
+// SPDX-License-Identifier: BSL-1.0
 
 #include "HTTPClientTests.hpp"
 #include "HTTPHeaderTests.hpp"
 #include "HTTPHeadersTests.hpp"
 #include "HTTPRequestPushParserTests.hpp"
 #include "HTTPRequestTests.hpp"
-#include "HTTPResponseTests.hpp"
+#include "HTTPResponseBuilderTests.hpp"
 #include "HTTPResponsePushParserTests.hpp"
+#include "HTTPResponseTests.hpp"
 #include "HTTPSClientTests.hpp"
 #include "Ishiko/HTTP/linkoptions.hpp"
 #include <Ishiko/Networking.hpp>
@@ -42,6 +40,7 @@ int main(int argc, char* argv[])
         theTests.append<HTTPHeadersTests>();
         theTests.append<HTTPRequestTests>();
         theTests.append<HTTPResponseTests>();
+        theTests.append<HTTPResponseBuilderTests>();
         theTests.append<HTTPClientTests>();
         theTests.append<HTTPSClientTests>();
 
