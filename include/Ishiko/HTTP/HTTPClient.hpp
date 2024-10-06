@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2019-2024 Xavier Leclercq
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
 // SPDX-License-Identifier: BSL-1.0
 
 #ifndef GUARD_ISHIKO_CPP_HTTP_HTTPCLIENT_HPP
@@ -32,18 +32,17 @@ namespace Ishiko
             std::ostream& response, Error& error);
 
     private:
-        class ConnectionCallbacks : public NetworkConnectionsManager::ConnectionCallbacks
+        class ConnectionCallbacks : public AsyncTCPClientSocket::Callbacks
         {
         public:
             ConnectionCallbacks(HTTPRequest&& http_request, HTTPResponse& http_response);
 
-            void onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket) override;
-            void onReadReady() override;
-            void onWriteReady() override;
+            void onConnectionEstablished(const Error& error, AsyncTCPClientSocket& socket) override;
+            void onReadReady(const Error& error, AsyncTCPClientSocket& socket) override;
+            void onWriteReady(const Error& error, AsyncTCPClientSocket& socket) override;
 
             HTTPRequest m_http_request;
             HTTPResponse& m_http_response;
-            NetworkConnectionsManager::ManagedSocket* m_socket;
         };
 
         NetworkConnectionsManager& m_connection_manager;
