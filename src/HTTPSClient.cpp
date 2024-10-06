@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 Xavier Leclercq
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
 // SPDX-License-Identifier: BSL-1.0
 
 #include "HTTPRequest.hpp"
@@ -24,7 +24,8 @@ void HTTPSClient::get(Hostname hostname, Port port, const std::string& uri, HTTP
 
         ConnectionCallbacks callbacks{std::move(http_request), response};
         // TODO: for now just use first address
-        m_connection_manager.connectWithTLS(ip_addresses[0], port, hostname, callbacks, error);
+        AsyncTLSClientSocket socket{m_connection_manager, callbacks, error};
+        socket.connect(ip_addresses[0], port, hostname);
         m_connection_manager.run(
             [](NetworkConnectionsManager& connections_manager)
             {
@@ -95,35 +96,29 @@ HTTPSClient::ConnectionCallbacks::ConnectionCallbacks(HTTPRequest&& http_request
 {
 }
 
-void HTTPSClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnectionsManager::ManagedTLSSocket& socket)
+void HTTPSClient::ConnectionCallbacks::onConnectionEstablished(const Error& error, AsyncTLSClientSocket& socket)
 {
-    m_socket = &socket;
-
-    Error error;
-    m_socket->handshake(error);
+    socket.handshake();
     // TODO: always assyme error for now
 }
 
-void HTTPSClient::ConnectionCallbacks::onHandshake()
+void HTTPSClient::ConnectionCallbacks::onHandshake(const Error& error, AsyncTLSClientSocket& socket)
 {
     // TODO:how do we handle errors?
     Error todo_ignored_error;
 
     std::string requestStr = m_http_request.toString();
-    m_socket->write(requestStr.c_str(), requestStr.size(), todo_ignored_error);
-    if (todo_ignored_error)
-    {
-        return;
-    }
-
+    socket.write(requestStr.c_str(), requestStr.size());
+    
     // TODO: these errors need to be reported to the clients somehow
     Error todo_error;
 
     // TODO: to trigger error, normally would check error but for test for now we know it will be EAGAIN
     char buffer[10 * 1024];
     size_t offset = 0;
-    int n = m_socket->read(buffer, sizeof(buffer), todo_error);
+    int n = socket.read(buffer, sizeof(buffer));
     // TODO
+    /*
     if (!todo_error)
     {
         HTTPResponse::ParserCallbacks callbacks(m_http_response);
@@ -131,12 +126,12 @@ void HTTPSClient::ConnectionCallbacks::onHandshake()
         parser.onData(boost::string_view(buffer, n));
         // TODO: is this the correct way to shutdown here?
         // TODO: need to implement these functions in TCPClientSocket
-        m_socket->shutdown(todo_error);
-        m_socket->close();
-    }
+        //socket.shutdown(todo_error);
+        socket.close();
+    }*/
 }
 
-void HTTPSClient::ConnectionCallbacks::onReadReady()
+void HTTPSClient::ConnectionCallbacks::onReadReady(const Error& error, AsyncTLSClientSocket& socket)
 {
     // TODO: these errors need to be reported to the clients somehow
     Error todo_error;
@@ -153,16 +148,16 @@ void HTTPSClient::ConnectionCallbacks::onReadReady()
     do
     {
         // TODO: assume there is only one read because these could all block again
-        n = m_socket->read(buffer, sizeof(buffer), todo_error);
+        n = socket.read(buffer, sizeof(buffer));
         parser.onData(boost::string_view(buffer, n));
     } while ((n != 0) && !todo_error);
 
     // TODO: is this the correct way to shutdown here?
     // TODO: need to implement these functions in TCPClientSocket
-    m_socket->shutdown(todo_error);
-    m_socket->close();
+    //socket.shutdown(todo_error);
+    socket.close();
 }
 
-void HTTPSClient::ConnectionCallbacks::onWriteReady()
+void HTTPSClient::ConnectionCallbacks::onWriteReady(const Error& error, AsyncTLSClientSocket& socket)
 {
 }

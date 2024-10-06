@@ -32,7 +32,8 @@ void HTTPClient::get(Hostname hostname, Port port, const std::string& uri, HTTPR
 
         ConnectionCallbacks callbacks{std::move(http_request), response};
         // TODO: for now just use first address
-        m_connection_manager.connect(ip_addresses[0], port, callbacks, error);
+        AsyncTCPClientSocket socket{m_connection_manager, callbacks, error};
+        socket.connect(ip_addresses[0], port);
         m_connection_manager.run(
             [](NetworkConnectionsManager& connections_manager)
             {
@@ -43,16 +44,17 @@ void HTTPClient::get(Hostname hostname, Port port, const std::string& uri, HTTPR
 
 void HTTPClient::get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
 {
-    HTTPRequest http_request{ HTTPMethod::get, uri };
+    HTTPRequest http_request{HTTPMethod::get, uri};
     http_request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
 
-    ConnectionCallbacks callbacks{ std::move(http_request), response};
-    m_connection_manager.connect(address, port, callbacks, error);
-    m_connection_manager.run(
-        [](NetworkConnectionsManager& connections_manager)
-        {
-            return connections_manager.idle();
-        });
+    ConnectionCallbacks callbacks{std::move(http_request), response};
+    AsyncTCPClientSocket socket{m_connection_manager, callbacks, error};
+        socket.connect(address, port);
+        m_connection_manager.run(
+            [](NetworkConnectionsManager& connections_manager)
+            {
+                return connections_manager.idle();
+            });
 }
 
 void HTTPClient::Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error)
@@ -209,15 +211,13 @@ HTTPClient::ConnectionCallbacks::ConnectionCallbacks(HTTPRequest&& http_request,
 {
 }
 
-void HTTPClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnectionsManager::ManagedSocket& socket)
+void HTTPClient::ConnectionCallbacks::onConnectionEstablished(const Error& error, AsyncTCPClientSocket& socket)
 {
-    m_socket = &socket;
-
     // TODO:how do we handle errors?
     Error todo_ignored_error;
 
     std::string requestStr = m_http_request.toString();
-    m_socket->write(requestStr.c_str(), requestStr.size(), todo_ignored_error);
+    socket.write(requestStr.c_str(), requestStr.size());
     if (todo_ignored_error)
     {
         return;
@@ -229,10 +229,10 @@ void HTTPClient::ConnectionCallbacks::onConnectionEstablished(NetworkConnections
     // TODO: to trigger error, normally would check error but for test for now we know it will be EAGAIN
     char buffer[10 * 1024];
     size_t offset = 0;
-    m_socket->read(buffer, sizeof(buffer), todo_error);
+    socket.read(buffer, sizeof(buffer));
 }
 
-void HTTPClient::ConnectionCallbacks::onReadReady()
+void HTTPClient::ConnectionCallbacks::onReadReady(const Error& error, AsyncTCPClientSocket& socket)
 {
     // TODO: these errors need to be reported to the clients somehow
     Error todo_error;
@@ -248,16 +248,16 @@ void HTTPClient::ConnectionCallbacks::onReadReady()
     int n = 0;
     do
     {
-        n = m_socket->read(buffer, sizeof(buffer), todo_error);
+        n = socket.read(buffer, sizeof(buffer));
         parser.onData(boost::string_view(buffer, n));
     } while ((n != 0) && !todo_error);
 
     // TODO: is this the correct way to shutdown here?
     // TODO: need to implement these functions in TCPClientSocket
-    m_socket->shutdown(todo_error);
-    m_socket->close();
+    //socket.shutdown(todo_error);
+    socket.close();
 }
 
-void HTTPClient::ConnectionCallbacks::onWriteReady()
+void HTTPClient::ConnectionCallbacks::onWriteReady(const Error& error, AsyncTCPClientSocket& socket)
 {
 }

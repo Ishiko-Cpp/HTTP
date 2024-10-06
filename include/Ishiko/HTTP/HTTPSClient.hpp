@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2019-2024 Xavier Leclercq
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
 // SPDX-License-Identifier: BSL-1.0
 
 #ifndef GUARD_ISHIKO_CPP_HTTP_HTTPSCLIENT_HPP
@@ -24,19 +24,18 @@ public:
     static void Get(IPv4Address address, Port port, const std::string& uri, HTTPResponse& response, Error& error);
 
 private:
-    class ConnectionCallbacks : public NetworkConnectionsManager::TLSConnectionCallbacks
+    class ConnectionCallbacks : public AsyncTLSClientSocket::Callbacks
     {
     public:
         ConnectionCallbacks(HTTPRequest&& http_request, HTTPResponse& http_response);
 
-        void onConnectionEstablished(NetworkConnectionsManager::ManagedTLSSocket& socket) override;
-        void onHandshake() override;
-        void onReadReady() override;
-        void onWriteReady() override;
+        void onConnectionEstablished(const Error& error, AsyncTLSClientSocket& socket) override;
+        void onHandshake(const Error& error, AsyncTLSClientSocket& socket) override;
+        void onReadReady(const Error& error, AsyncTLSClientSocket& socket) override;
+        void onWriteReady(const Error& error, AsyncTLSClientSocket& socket) override;
 
         HTTPRequest m_http_request;
         HTTPResponse& m_http_response;
-        NetworkConnectionsManager::ManagedTLSSocket* m_socket;
     };
 
     NetworkConnectionsManager& m_connection_manager;
