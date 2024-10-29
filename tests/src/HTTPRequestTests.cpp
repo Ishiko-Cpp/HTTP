@@ -1,8 +1,5 @@
-/*
-    Copyright (c) 2022 Xavier Leclercq
-    Released under the MIT License
-    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
-*/
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
+// SPDX-License-Identifier: BSL-1.0
 
 #include "HTTPRequestTests.hpp"
 #include "Ishiko/HTTP/HTTPRequest.hpp"
