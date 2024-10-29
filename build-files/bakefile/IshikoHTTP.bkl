@@ -1,0 +1,74 @@
+ishikopath = envvar("ISHIKO_CPP_ROOT");
+import $(ishikopath)/errors/include/Ishiko/Errors.bkl;
+import $(ishikopath)/networking/include/Ishiko/Networking.bkl;
+import $(ishikopath)/text/include/Ishiko/Text.bkl;
+import $(ishikopath)/third-party-glue/include/Ishiko/ThirdParty/Boost.bkl;
+import $(ishikopath)/time/include/Ishiko/Time.bkl;
+import $(ishikopath)/types/include/Ishiko/Types.bkl;
+
+toolsets = gnu vs2022 vs2019 vs2017 vs2015;
+
+gnu.makefile = ../gnumake/GNUmakefile;
+vs2022.solutionfile = ../vc17/IshikoHTTP.sln;
+vs2019.solutionfile = ../vc16/IshikoHTTP.sln;
+vs2017.solutionfile = ../vc15/IshikoHTTP.sln;
+vs2015.solutionfile = ../vc14/IshikoHTTP.sln;
+
+library IshikoHTTP : IshikoNetworking, IshikoTime, IshikoText, IshikoTypes, IshikoErrors, Boost
+{
+    archs = x86 x86_64;
+
+    includedirs += ../../include/Ishiko/HTTP;
+
+    if ($(toolset) == gnu)
+    {
+        cxx-compiler-options = "-std=c++11";
+        outputdir = ../../lib;
+    }
+
+    if ($(toolset) != gnu)
+    {
+        outputdir = ../../lib/$(arch);
+    }
+
+    if ($(config) == Debug)
+    {
+        basename = IshikoHTTP-d;
+    }
+
+    headers
+    {
+        ../../include/Ishiko/HTTP.hpp
+        ../../include/Ishiko/HTTP/HTTPErrorCategory.hpp
+        ../../include/Ishiko/HTTP/HTTPClient.hpp
+        ../../include/Ishiko/HTTP/HTTPHeader.hpp
+        ../../include/Ishiko/HTTP/HTTPHeaders.hpp
+        ../../include/Ishiko/HTTP/HTTPMethod.hpp
+        ../../include/Ishiko/HTTP/HTTPRequest.hpp
+        ../../include/Ishiko/HTTP/HTTPRequestPushParser.hpp
+        ../../include/Ishiko/HTTP/HTTPResponse.hpp
+        ../../include/Ishiko/HTTP/HTTPResponseBuilder.hpp
+        ../../include/Ishiko/HTTP/HTTPResponsePushParser.hpp
+        ../../include/Ishiko/HTTP/HTTPSClient.hpp
+        ../../include/Ishiko/HTTP/HTTPStatusCode.hpp
+        ../../include/Ishiko/HTTP/HTTPVersion.hpp
+        ../../include/Ishiko/HTTP/linkoptions.hpp
+    }
+
+    sources
+    {
+        ../../src/HTTPErrorCategory.cpp
+        ../../src/HTTPClient.cpp
+        ../../src/HTTPHeader.cpp
+        ../../src/HTTPHeaders.cpp
+        ../../src/HTTPMethod.cpp
+        ../../src/HTTPRequest.cpp
+        ../../src/HTTPRequestPushParser.cpp
+        ../../src/HTTPResponse.cpp
+        ../../src/HTTPResponseBuilder.cpp
+        ../../src/HTTPResponsePushParser.cpp
+        ../../src/HTTPSClient.cpp
+        ../../src/HTTPStatusCode.cpp
+        ../../src/HTTPVersion.cpp
+    }
+}
