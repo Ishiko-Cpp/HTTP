@@ -127,8 +127,6 @@ std::string HTTPResponse::toString() const
         result.append("\r\n");
     }
 
-    //result.append("Content-Length: ");
-    //result.append(std::to_string(m_body.size()));
     result.append("\r\n\r\n");
     result.append(m_body);
 
