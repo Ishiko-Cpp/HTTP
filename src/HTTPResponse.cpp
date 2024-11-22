@@ -50,7 +50,7 @@ HTTPResponse HTTPResponse::MovedPermanently(const URL& newLocation)
 {
     HTTPResponse result(HTTPStatusCode::movedPermanently);
     result.setDateHeader(UTCTime::Now());
-    result.setLocation(newLocation);
+    result.setLocationHeader(newLocation);
     return result;
 }
 
@@ -88,9 +88,9 @@ void HTTPResponse::setStatusCode(HTTPStatusCode statusCode)
     m_statusCode = statusCode;
 }
 
-void HTTPResponse::appendHeader(const std::string& name, const std::string& value)
+void HTTPResponse::setContentLengthHeader(size_t length)
 {
-    m_headers.pushBack(name, value);
+    m_headers.pushBack(HTTPHeader::ContentLength(length));
 }
 
 void HTTPResponse::setDateHeader(const UTCTime& time)
@@ -99,10 +99,15 @@ void HTTPResponse::setDateHeader(const UTCTime& time)
     m_headers.pushBack(HTTPHeader::Date(time));
 }
 
-void HTTPResponse::setLocation(const URL& newLocation)
+void HTTPResponse::setLocationHeader(const URL& newLocation)
 {
     // TODO: check if need to replace an existing header
     m_headers.pushBack(HTTPHeader::Location(newLocation));
+}
+
+void HTTPResponse::appendHeader(const std::string& name, const std::string& value)
+{
+    m_headers.pushBack(name, value);
 }
 
 void HTTPResponse::setBody(const std::string& body)
@@ -127,7 +132,7 @@ std::string HTTPResponse::toString() const
         result.append("\r\n");
     }
 
-    result.append("\r\n\r\n");
+    result.append("\r\n");
     result.append(m_body);
 
     return result;

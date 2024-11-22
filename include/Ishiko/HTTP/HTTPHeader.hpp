@@ -16,11 +16,12 @@ namespace Ishiko
         enum class ConnectionMode
         {
             close,
-            keepAlive
+            keep_alive
         };
 
         HTTPHeader(std::string name, std::string value);
         static HTTPHeader Connection(ConnectionMode mode);
+        static HTTPHeader ContentLength(size_t length);
         static HTTPHeader Date(const UTCTime& time);
         static HTTPHeader Host(const std::string& host);
         static HTTPHeader Location(const URL& locationn);

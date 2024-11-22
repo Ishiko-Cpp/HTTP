@@ -1,8 +1,5 @@
-/*
-    Copyright (c) 2022 Xavier Leclercq
-    Released under the MIT License
-    See https://github.com/ishiko-cpp/http/blob/main/LICENSE.txt
-*/
+// SPDX-FileCopyrightText: 2005-2024 Xavier Leclercq
+// SPDX-License-Identifier: BSL-1.0
 
 #include "HTTPHeader.hpp"
 #include <boost/date_time.hpp>
@@ -21,13 +18,18 @@ HTTPHeader HTTPHeader::Connection(ConnectionMode mode)
     case ConnectionMode::close:
         return HTTPHeader("Connection", "close");
 
-    case ConnectionMode::keepAlive:
+    case ConnectionMode::keep_alive:
         return HTTPHeader("Connection", "keep-alive");
 
     default:
         // TODO
         return HTTPHeader("Connection", "close");
     }
+}
+
+HTTPHeader HTTPHeader::ContentLength(size_t length)
+{
+    return HTTPHeader("Content-Length", std::to_string(length));
 }
 
 HTTPHeader HTTPHeader::Date(const UTCTime& time)
