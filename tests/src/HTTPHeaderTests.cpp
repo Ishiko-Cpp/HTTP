@@ -38,7 +38,7 @@ void HTTPHeaderTests::ConnectionTest1(Test& test)
 
 void HTTPHeaderTests::ConnectionTest2(Test& test)
 {
-    HTTPHeader header = HTTPHeader::Connection(HTTPHeader::ConnectionMode::keepAlive);
+    HTTPHeader header = HTTPHeader::Connection(HTTPHeader::ConnectionMode::keep_alive);
 
     ISHIKO_TEST_FAIL_IF_NEQ(header.name(), "Connection");
     ISHIKO_TEST_FAIL_IF_NEQ(header.value(), "keep-alive");

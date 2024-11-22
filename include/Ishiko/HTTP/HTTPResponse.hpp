@@ -46,8 +46,9 @@ namespace Ishiko
 
         void setStatusCode(HTTPStatusCode statusCode);
 
+        void setContentLengthHeader(size_t length);
         void setDateHeader(const UTCTime& time);
-        void setLocation(const URL& newLocation);
+        void setLocationHeader(const URL& newLocation);
         void appendHeader(const std::string& name, const std::string& value);
 
         void setBody(const std::string& body);
