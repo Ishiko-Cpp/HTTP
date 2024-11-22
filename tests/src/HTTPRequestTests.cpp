@@ -46,7 +46,7 @@ void HTTPRequestTests::SetConnectionHeaderTest2(Ishiko::Test& test)
     HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
 
     request.setConnectionHeader(HTTPHeader::ConnectionMode::close);
-    request.setConnectionHeader(HTTPHeader::ConnectionMode::keepAlive);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::keep_alive);
 
     ISHIKO_TEST_ABORT_IF_NEQ(request.headers().size(), 2);
     ISHIKO_TEST_FAIL_IF_NEQ(request.headers().at("Host").value(), "example.org");
@@ -82,7 +82,7 @@ void HTTPRequestTests::ToStringTest2(Test& test)
     boost::filesystem::path outputPath = test.context().getOutputPath("HTTPRequestTests_ToStringTest2.bin");
 
     HTTPRequest request(HTTPMethod::get, URL("http://example.org"));
-    request.setConnectionHeader(HTTPHeader::ConnectionMode::keepAlive);
+    request.setConnectionHeader(HTTPHeader::ConnectionMode::keep_alive);
     std::string requestString = request.toString();
 
     Error error;
